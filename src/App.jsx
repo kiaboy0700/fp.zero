@@ -592,7 +592,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
           {/* 🌈 4대 미션 외 올 프리패스 초대박 꿀팁 안내 배너 */}
           <div className="bg-gradient-to-r from-emerald-950/30 via-slate-900/60 to-emerald-950/30 border border-emerald-500/25 rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-4 hover:border-emerald-500/40 transition duration-300 relative overflow-hidden shadow-[0_4px_20px_rgba(16,185,129,0.08)]">
             <div className="absolute top-[-50%] right-[-10%] w-[120px] h-[120px] bg-emerald-500/5 rounded-full blur-[20px] pointer-events-none"></div>
-            <span className="text-3xl sm:text-4xl bg-emerald-500/10 p-3 rounded-2xl shrink-0 animate-bounce">🌈</span>
+            <span className="text-3xl sm:text-4xl bg-emerald-500/10 p-3 rounded-2xl shrink-0">🌈</span>
             <div className="text-center sm:text-left space-y-1">
               <strong className="text-xs md:text-sm font-extrabold text-emerald-300 flex items-center justify-center sm:justify-start gap-1.5">
                 4대 대표 미션이 아니어도 왠만하면 무조건 100% 승인!
