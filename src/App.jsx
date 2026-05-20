@@ -453,100 +453,127 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
         </div>
       )}
 
-
-
-      {/* 히어로 섹션 */}
-      <section className="relative px-6 py-28 md:px-16 text-center overflow-hidden bg-radial-gradient">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-emerald-950/25 rounded-full blur-[120px] pointer-events-none"></div>
-        <div className="absolute bottom-[10%] right-[-10%] w-[45%] h-[45%] bg-teal-950/20 rounded-full blur-[100px] pointer-events-none"></div>
+      {/* 🌟 최상단 통합 프리미엄 대시보드 히어로 (초압축 & 고밀도 UI) */}
+      <section className="relative px-6 py-10 md:py-12 md:px-16 overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-b border-slate-800/80">
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-emerald-950/20 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[45%] h-[45%] bg-teal-950/15 rounded-full blur-[100px] pointer-events-none"></div>
         
-        <div className="max-w-4xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 bg-emerald-950/80 border border-emerald-700/50 text-emerald-400 px-5 py-2.5 rounded-full text-xs font-bold tracking-wide uppercase mb-8 shadow-inner animate-pulse">
-            🌍 제 2기 경산시 탄소중립지원센터 퍼스트펭귄 팀
+        <div className="max-w-6xl mx-auto relative z-10 space-y-6">
+          
+          {/* A. 초소형 고밀도 헤더 (브랜드 & 타이틀 & CTA) */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 border-b border-slate-800/60 pb-6">
+            <div className="text-center md:text-left space-y-2">
+              <div className="inline-flex items-center gap-2 bg-emerald-950/60 border border-emerald-800/40 text-emerald-400 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold tracking-wide uppercase shadow-inner">
+                🌍 제 2기 경산시 탄소중립지원센터 퍼스트펭귄 팀
+              </div>
+              <h1 className="text-3xl md:text-4xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-300">
+                탄소 다이어트 챌린지 🌱
+              </h1>
+              <p className="text-xs md:text-sm text-slate-400 max-w-xl">
+                일상 속 작은 인증샷 하나로 지구 온도는 내리고, <span className="text-emerald-400 font-bold">감성 넘치는 친환경 굿즈 100% 무조건 추첨!</span>
+              </p>
+            </div>
+            
+            {/* CTA 버튼 그룹 */}
+            <div className="flex items-center gap-3 w-full md:w-auto shrink-0">
+              <a
+                href="https://www.instagram.com/fp.zero/"
+                target="_blank"
+                rel="noreferrer"
+                className="flex-grow md:flex-grow-0 px-5 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 text-xs md:text-sm font-black tracking-wide shadow-[0_0_20px_rgba(16,185,129,0.2)] transition transform hover:-translate-y-0.5 active:translate-y-0 text-center"
+              >
+                📸 지금 스토리 인증하기
+              </a>
+              <a
+                href="#live-leaderboard"
+                className="flex-grow md:flex-grow-0 px-5 py-3.5 rounded-xl bg-slate-850 border border-slate-700 hover:bg-slate-700 text-slate-200 text-xs md:text-sm font-bold transition text-center"
+              >
+                🏆 실시간 순위 조회
+              </a>
+            </div>
           </div>
 
-          <h1 className="text-5xl md:text-8xl font-extrabold tracking-tight leading-none mb-8 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-green-400 filter drop-shadow-sm">
-            탄소 다이어트
-            <br />
-            챌린지
-          </h1>
-
-          <p className="text-lg md:text-2xl text-slate-400 leading-relaxed max-w-2xl mx-auto mb-12">
-            일상 속 작은 탄소중립 실천 한 장으로
-            <br />
-            지구 열은 내리고, <span className="text-emerald-400 font-bold">감성 넘치는 친환경 상품</span>도 받아가세요!
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-16">
-            <a
-              href="https://www.instagram.com/fp.zero/"
-              target="_blank"
-              rel="noreferrer"
-              className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 text-lg font-black tracking-wide shadow-[0_0_30px_rgba(16,185,129,0.3)] transition transform hover:-translate-y-1 active:translate-y-0 text-center"
-            >
-              📸 지금 참여 인증하러 가기
-            </a>
-
-            <a
-              href="#live-leaderboard"
-              className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-slate-800/80 border border-slate-700 hover:bg-slate-700 text-slate-200 text-lg font-bold transition shadow-md hover:-translate-y-1 active:translate-y-0 text-center"
-            >
-              🏆 내 실시간 확률 & 순위 조회
-            </a>
+          {/* B. 핵심 참여 동기 부여 미니 배지 (세로공간 극소화) */}
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-2 text-[11px] md:text-xs text-slate-400 bg-slate-900/40 border border-slate-850 py-2.5 px-4 rounded-xl shadow-inner">
+            <span className="flex items-center gap-1.5 font-bold"><span className="text-emerald-400 text-sm">🎁</span> 총 7명 무조건 선정</span>
+            <span className="text-slate-850 hidden md:inline">|</span>
+            <span className="flex items-center gap-1.5 font-bold"><span className="text-emerald-400 text-sm">🎲</span> 1장만 올려도 공정한 핀볼 확률</span>
+            <span className="text-slate-850 hidden md:inline">|</span>
+            <span className="flex items-center gap-1.5 font-bold"><span className="text-emerald-400 text-sm">🔥</span> 언제 참여해도 즉시 역전 가능</span>
           </div>
 
-          {/* 🌍 챌린저 공동 목표 실시간 탄소 감량 현황판 */}
-          <div className="max-w-3xl mx-auto my-16 bg-slate-950/50 backdrop-blur-md border border-emerald-500/20 rounded-[32px] p-6 md:p-8 text-center shadow-xl animate-fadeIn">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
-              <div className="text-left">
-                <span className="text-emerald-400 font-black text-xs uppercase tracking-wider block mb-1">
+          {/* C. ⚡ 단 10초 만에 끝나는 참여 프로세스 (최상단 하이라이트 전면 배치) */}
+          <div className="space-y-3 pt-2">
+            <div className="flex items-center justify-between">
+              <h4 className="text-xs md:text-sm font-black text-slate-200 flex items-center gap-2">
+                <span className="text-[10px] text-emerald-400 font-black px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 tracking-wider">PROCESS</span>
+                단 10초 만에 참여 완료! 어떻게 참여하나요? ⚡
+              </h4>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-slate-900/50 border border-slate-800/80 p-4 rounded-2xl flex items-center gap-4 hover:border-emerald-500/30 transition group relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-3 text-4xl font-black text-slate-800/10 pointer-events-none group-hover:text-slate-800/20 transition">01</div>
+                <span className="text-3xl bg-emerald-500/10 p-3 rounded-2xl group-hover:scale-110 transition shrink-0">🌱</span>
+                <div className="min-w-0">
+                  <span className="text-[10px] text-slate-500 font-black block mb-0.5 uppercase tracking-wider">STEP 01. 실천</span>
+                  <span className="text-sm font-bold text-slate-200 block mb-0.5">일상 속 쉬운 탄소중립 실천</span>
+                  <span className="text-slate-400 text-xs truncate block leading-normal">텀블러 사용, 분리배출, 에코백 사용 등</span>
+                </div>
+              </div>
+              <div className="bg-slate-900/50 border border-slate-800/80 p-4 rounded-2xl flex items-center gap-4 hover:border-emerald-500/30 transition group relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-3 text-4xl font-black text-slate-800/10 pointer-events-none group-hover:text-slate-800/20 transition">02</div>
+                <span className="text-3xl bg-emerald-500/10 p-3 rounded-2xl group-hover:scale-110 transition shrink-0">📸</span>
+                <div className="min-w-0">
+                  <span className="text-[10px] text-slate-500 font-black block mb-0.5 uppercase tracking-wider">STEP 02. 촬영</span>
+                  <span className="text-sm font-bold text-slate-200 block mb-0.5">인증 사진 촬영</span>
+                  <span className="text-slate-400 text-xs truncate block leading-normal">실천 내용과 내 정성이 명확히 보이게!</span>
+                </div>
+              </div>
+              <div className="bg-slate-900/50 border border-slate-800/80 p-4 rounded-2xl flex items-center gap-4 hover:border-emerald-500/30 transition group relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-3 text-4xl font-black text-slate-800/10 pointer-events-none group-hover:text-slate-800/20 transition">03</div>
+                <span className="text-3xl bg-emerald-500/10 p-3 rounded-2xl group-hover:scale-110 transition shrink-0">🏷️</span>
+                <div className="min-w-0">
+                  <span className="text-[10px] text-slate-500 font-black block mb-0.5 uppercase tracking-wider">STEP 03. 업로드</span>
+                  <span className="text-sm font-bold text-slate-200 block mb-0.5">스토리 업로드</span>
+                  <span className="text-slate-400 text-xs truncate block leading-normal">인스타 스토리에 @fp.zero 태그하면 끝</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* D. 🌍 챌린저 공동 목표 실시간 탄소 감량 현황판 (초슬림 & 초경량화) */}
+          <div className="bg-slate-950/60 backdrop-blur-md border border-emerald-500/20 rounded-2xl p-4 md:p-5 shadow-xl animate-fadeIn">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-3">
+              <div>
+                <span className="text-emerald-400 font-black text-[9px] uppercase tracking-wider block mb-0.5">
                   GLOBAL ECO GOAL 🌍
                 </span>
-                <h3 className="text-xl md:text-2xl font-black text-slate-100">
+                <h3 className="text-sm md:text-base font-black text-slate-100">
                   우리가 함께 줄여낸 탄소 감량
                 </h3>
               </div>
-              <div className="bg-emerald-950/60 border border-emerald-800 text-emerald-400 px-4 py-2 rounded-full text-xs font-black">
+              <div className="bg-emerald-950/60 border border-emerald-800/60 text-emerald-400 px-3 py-1 rounded-full text-xs font-black shrink-0">
                 🌳 누적 소나무 {(stats.totalActions * 10).toFixed(0)}그루 식재 효과
               </div>
             </div>
 
             {/* 게이지 바 */}
-            <div className="relative w-full bg-slate-800 h-6 rounded-full overflow-hidden mb-4 border border-slate-700/50">
+            <div className="relative w-full bg-slate-800 h-4.5 rounded-full overflow-hidden border border-slate-700/50">
               <div
-                className="absolute top-0 left-0 bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-1000 shadow-[0_0_15px_rgba(16,185,129,0.5)]"
+                className="absolute top-0 left-0 bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(16,185,129,0.4)]"
                 style={{ width: `${Math.min(((stats.totalActions * 100) / 50000) * 100, 100)}%` }}
               ></div>
-              <span className="absolute inset-0 flex items-center justify-center text-xs font-black text-white drop-shadow-md">
+              <span className="absolute inset-0 flex items-center justify-center text-[9px] md:text-[10px] font-black text-white drop-shadow-md">
                 {(stats.totalActions * 100).toLocaleString()}g / 50,000g CO₂ 저감 ({Math.min(((stats.totalActions * 100) / 50000) * 100, 100).toFixed(1)}%)
               </span>
             </div>
             
-            <p className="text-xs text-slate-400 font-medium">
+            <p className="text-[9px] text-slate-500 font-medium mt-2 text-right">
               *참가자들이 구글 시트에 인증 완료한 총 핀볼 갯수 <b>{stats.totalActions}개</b>에 비례하여 실시간 자동 집계됩니다.
             </p>
           </div>
 
-          {/* 핵심 지표 요약 카드 */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto mt-16 text-left">
-            <div className="bg-slate-800/40 backdrop-blur-md rounded-3xl p-8 border border-slate-700/50 shadow-xl hover:border-emerald-500/30 transition group">
-              <div className="text-4xl mb-4 transform group-hover:scale-110 transition">🎁</div>
-              <h3 className="text-xl font-bold mb-2 text-slate-100 group-hover:text-emerald-400 transition">총 7명 무조건 선정</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">핀볼 추첨과 최다 인증 특혜로 전원 친환경 감성 굿즈 증정!</p>
-            </div>
-
-            <div className="bg-slate-800/40 backdrop-blur-md rounded-3xl p-8 border border-slate-700/50 shadow-xl hover:border-emerald-500/30 transition group">
-              <div className="text-4xl mb-4 transform group-hover:scale-110 transition">🎲</div>
-              <h3 className="text-xl font-bold mb-2 text-slate-100 group-hover:text-emerald-400 transition">공정한 핀볼 확률</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">인증 사진 1개당 핀볼 추첨권 +1개 획득! 올리면 올릴수록 확률 업!</p>
-            </div>
-
-            <div className="bg-slate-800/40 backdrop-blur-md rounded-3xl p-8 border border-slate-700/50 shadow-xl hover:border-emerald-500/30 transition group">
-              <div className="text-4xl mb-4 transform group-hover:scale-110 transition">🔥</div>
-              <h3 className="text-xl font-bold mb-2 text-slate-100 group-hover:text-emerald-400 transition">지금 시작해도 역전</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">핀볼 시스템이므로 단 1개의 인증만 올려도 추첨 대상이 됩니다!</p>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -1091,36 +1118,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
         </div>
       </section>
 
-      {/* 참여 방법 섹션 */}
-      <section className="px-6 py-24 md:px-16 bg-slate-950">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-20">
-            <span className="text-emerald-400 font-bold text-xs uppercase tracking-widest block mb-3">HOW TO JOIN</span>
-            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">
-              단 10초 만에 끝나는 참여 프로세스
-            </h2>
-            <p className="text-slate-400 mt-4">
-              별도의 양식이나 가입 없이, 오직 인스타그램 스토리 하나로 참여가 집계됩니다.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-            {steps.map((step, index) => (
-              <div
-                key={index}
-                className="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-xl relative hover:border-emerald-500/20 transition group overflow-hidden"
-              >
-                <div className="absolute top-0 right-0 p-8 text-8xl font-black text-slate-800/10 pointer-events-none group-hover:text-slate-800/25 transition">
-                  {step.number}
-                </div>
-                <div className="text-5xl mb-6">{step.emoji}</div>
-                <h3 className="text-2xl font-bold mb-4 text-slate-100">{step.title}</h3>
-                <p className="text-slate-400 leading-relaxed text-sm md:text-base">{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* 🟢 올바른 인증 VS 🔴 미인정 visual 가이드 섹션 */}
       <section className="px-6 py-24 md:px-16 bg-slate-900 border-y border-slate-800 relative">
