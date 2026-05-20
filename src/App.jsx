@@ -1254,7 +1254,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
               지구를 향한 즐겁고 쉬운 실천! 100% 프리패스 인증 가이드 💚
             </h2>
             <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
-              어려운 심사 기준 때문에 망설이셨나요? 걱정은 전혀 안 하셔도 괜찮아요! 🥰 고의적인 무단 도용이나 허위 인증이 아니라면, 지구를 위한 여러분의 작고 소중한 실천을 <span className="text-emerald-400 font-bold">아주 유연하고 너그러운 시선(유도리 200%!)으로 100% 모두 승인</span>해 드립니다. 가벼운 마음으로 편하게 찰칵 찍어 참여해 주세요!
+              망설이지 말고 편하게 참여하세요! 🥰 고의적인 도용이 아니라면 여러분의 소중한 실천을 아주 너그러운 시선으로 <span className="text-emerald-400 font-bold">100% 기분 좋게 승인</span>해 드립니다.
             </p>
           </div>
 
@@ -1263,8 +1263,8 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
             <div className="bg-emerald-950/25 border border-emerald-500/20 rounded-3xl p-5 text-xs md:text-sm text-emerald-300 leading-relaxed flex items-start gap-3.5 shadow-lg backdrop-blur-sm hover:border-emerald-500/35 transition duration-300">
               <span className="text-2xl shrink-0">🌈</span>
               <div>
-                <strong className="font-extrabold text-emerald-250 block mb-1.5 text-sm md:text-base">지구를 생각하는 모든 탄소중립 행동은 왠만하면 100% 패스!</strong>
-                4대 대표 인증 미션 외에도 대중교통 이용, 장바구니 사용, 미사용 코드 해제, 이메일함 정리 등 **'이거 환경에 좋겠는데?' 싶은 모든 예쁜 행동**을 찍어 올리시면 무조건 다 기분 좋게 통과시켜 드립니다! 💚
+                <strong className="font-extrabold text-emerald-250 block mb-1 text-sm md:text-base">환경에 도움되는 모든 행동은 100% 승인! 🌈</strong>
+                4대 미션 외에도 대중교통, 장바구니, 코드 뽑기 등 **일상 속 작은 실천**이면 무엇이든 무조건 인정해 드립니다! 💚
               </div>
             </div>
           </div>
