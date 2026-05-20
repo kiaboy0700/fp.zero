@@ -1160,7 +1160,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
               올바른 인증 VS 미인정 비주얼 비교
             </h2>
             <p className="text-slate-400 max-w-2xl mx-auto">
-              미인정 처리되어 핀볼권을 잃지 않도록 아래 O/X 예시 기준을 사전에 꼭 확인해 주세요!
+              지구를 위한 여러분의 모든 실천은 소중해요! 💚 미인정 예시는 최소한의 가이드일 뿐, 최대한 많은 분들이 핀볼권을 획득하실 수 있도록 <span className="text-emerald-400 font-bold">아주 유연하고 너그러운 시선(유도리 있게!)으로 심사</span>할 예정이니 너무 걱정 말고 부담 없이 참여해 주세요! 🥰
             </p>
           </div>
 
@@ -1193,10 +1193,18 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
             </div>
 
             {/* X 미인정 사례 */}
-            <div className="bg-red-950/20 border border-red-500/20 rounded-[32px] p-8 shadow-2xl">
-              <h3 className="text-2xl font-black text-red-400 mb-6 flex items-center gap-2">
-                🔴 탈락/미인정 사례 (Rejected)
+            <div className="bg-red-950/10 border border-red-500/10 rounded-[32px] p-8 shadow-2xl">
+              <h3 className="text-2xl font-black text-red-400 mb-4 flex items-center gap-2">
+                🔴 미인정 사례 예시 (Reference Only)
               </h3>
+              
+              <div className="bg-amber-950/30 border border-amber-500/20 rounded-2xl p-4 mb-6 text-xs text-amber-300 leading-relaxed flex items-start gap-2.5">
+                <span className="text-base shrink-0">💡</span>
+                <div>
+                  <strong className="font-extrabold text-amber-200 block mb-0.5">너무 걱정하지 마세요!</strong>
+                  단순한 실수나 상황에 따른 불가피한 부분은 최대한 긍정적으로 참작해 드립니다. 고의적인 무단 도용이나 허위 인증이 아니라면 너그럽게 인정 처리해 드려요!
+                </div>
+              </div>
               
               <div className="space-y-4">
                 <div className="bg-slate-900/80 rounded-2xl p-5 border border-slate-800">
