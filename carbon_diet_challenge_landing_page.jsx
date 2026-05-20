@@ -295,7 +295,7 @@ export default function CarbonChallengeLandingPage() {
     const activeUrl = window.location.href;
     const text = `🌱 [에타 화제의 챌린지] 커피 한 잔만 텀블러에 받아도 상품 쏟아짐!! 🎁
 
-경산시 탄소중립 서포터즈 "퍼스트펭귄"이 진행하는 초간단 '탄소 다이어트 챌린지' 들어봤어??
+제 2기 경산시 탄소중립지원센터 퍼스트펭귄 팀이 진행하는 초간단 '탄소 다이어트 챌린지' 들어봤어??
 귀찮은 절차 하나 없이 인스타 스토리에 인증샷 올리고 태그하면 참여 끝임 ㅋㅋㅋ
 
 🔥 1등 특혜: 리뉴 업사이클링 우산, 머그컵, 홈카페 유리컵, 에코백 중 상품 1순위 우선 선택!
@@ -336,7 +336,7 @@ ${activeUrl}
         
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="inline-flex items-center gap-2 bg-emerald-950/80 border border-emerald-700/50 text-emerald-400 px-5 py-2.5 rounded-full text-xs font-bold tracking-wide uppercase mb-8 shadow-inner">
-            🌍 제2기 경산시 탄소중립 서포터즈 퍼스트펭귄
+            🌍 제 2기 경산시 탄소중립지원센터 퍼스트펭귄 팀
           </div>
 
           <h1 className="text-5xl md:text-8xl font-extrabold tracking-tight leading-none mb-8 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-green-400 filter drop-shadow-sm">
@@ -501,7 +501,7 @@ ${activeUrl}
               가장 탐나는 역대급 친환경 라인업
             </h2>
             <p className="text-slate-400 mt-4 max-w-2xl mx-auto">
-              서포터즈 퍼스트펭귄이 엄선한, 일상의 감성을 더해줄 하이엔드 업사이클링 및 제로웨이스트 상품들입니다.
+              경산시 탄소중립지원센터 퍼스트펭귄 팀이 엄선한, 일상의 감성을 더해줄 하이엔드 업사이클링 및 제로웨이스트 상품들입니다.
             </p>
           </div>
 
@@ -849,7 +849,7 @@ ${activeUrl}
                 <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 text-xs text-slate-400 leading-relaxed font-mono select-none overflow-hidden max-h-[220px] relative">
                   <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-slate-900 to-transparent"></div>
                   <span className="text-emerald-400 font-bold block mb-2">🌱 [에타 화제의 챌린지] 커피 한 잔만 텀블러에 받아도 상품 쏟아짐!! 🎁</span>
-                  경산시 탄소중립 서포터즈 "퍼스트펭귄"이 진행하는 초간단 '탄소 다이어트 챌린지' 들어봤어??
+                  제 2기 경산시 탄소중립지원센터 퍼스트펭귄 팀이 진행하는 초간단 '탄소 다이어트 챌린지' 들어봤어??
                   <br />귀찮은 절차 하나 없이 인스타 스토리에 인증샷 올리고 태그하면 참여 끝임 ㅋㅋㅋ
                   <br /><br />🔥 1등 특혜: 리뉴 업사이클링 우산, 머그컵, 홈카페 유리컵, 에코백 중 상품 1순위 우선 선택!
                   <br />🎲 핀볼 추첨 방식: 인증 개수가 많을수록 핀볼 개수 늘어나서 당첨 확률 떡상함!

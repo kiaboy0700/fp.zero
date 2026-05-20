@@ -303,7 +303,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
       } else {
         setTickerMessages([
           `🎯 인스타 스토리에 @fp.zero를 태그하고 실천 사진을 올리면 즉시 랭킹에 등록됩니다!`,
-          `🌍 제2기 경산시 탄소중립 서포터즈 퍼스트펭귄과 함께 탄소 제로를 실천해 보아요!`,
+          `🌍 제 2기 경산시 탄소중립지원센터 퍼스트펭귄 팀과 함께 탄소 제로를 실천해 보아요!`,
         ]);
       }
 
@@ -462,7 +462,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
         
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="inline-flex items-center gap-2 bg-emerald-950/80 border border-emerald-700/50 text-emerald-400 px-5 py-2.5 rounded-full text-xs font-bold tracking-wide uppercase mb-8 shadow-inner animate-pulse">
-            🌍 제2기 경산시 탄소중립 서포터즈 퍼스트펭귄
+            🌍 제 2기 경산시 탄소중립지원센터 퍼스트펭귄 팀
           </div>
 
           <h1 className="text-5xl md:text-8xl font-extrabold tracking-tight leading-none mb-8 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-green-400 filter drop-shadow-sm">
@@ -885,7 +885,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
               가장 탐나는 역대급 친환경 라인업
             </h2>
             <p className="text-slate-400 mt-4 max-w-2xl mx-auto">
-              서포터즈 퍼스트펭귄이 엄선한, 일상의 감성을 더해줄 하이엔드 업사이클링 및 제로웨이스트 상품들입니다.
+              경산시 탄소중립지원센터 퍼스트펭귄 팀이 엄선한, 일상의 감성을 더해줄 하이엔드 업사이클링 및 제로웨이스트 상품들입니다.
             </p>
           </div>
 
