@@ -32,6 +32,49 @@ export default function CarbonChallengeLandingPage() {
   const [showToast, setShowToast] = useState(false);
   const [activeGuideTab, setActiveGuideTab] = useState('ALL');
 
+  // 📍 사이드 퀵 내비게이션 바 섹션 정보 및 활성 상태
+  const sections = [
+    { id: 'home', label: '🏠 홈/가이드' },
+    { id: 'live-leaderboard', label: '🏆 실시간 랭킹' },
+    { id: 'carbon-test', label: '🧠 탄소 퀴즈' },
+    { id: 'carbon-calculator', label: '🥗 탄소 계산기' },
+    { id: 'challenge-reward', label: '🎁 챌린지 상품' },
+    { id: 'certification-guide', label: '🥤 인증 가이드' }
+  ];
+  const [activeSection, setActiveSection] = useState('home');
+  const [sidebarPosition, setSidebarPosition] = useState('right'); // 'left' | 'right'
+
+  // 📍 스크롤 위치 감지 및 내비게이션 활성화 훅 (IntersectionObserver)
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-35% 0px -45% 0px', // 뷰포트 중간에 위치할 때 반응
+      threshold: 0.05
+    };
+
+    const handleIntersection = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, observerOptions);
+    
+    sections.forEach((sec) => {
+      const el = document.getElementById(sec.id);
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      sections.forEach((sec) => {
+        const el = document.getElementById(sec.id);
+        if (el) observer.unobserve(el);
+      });
+    };
+  }, []);
+
   // ⚡ 실시간 챌린저 롤링 티커 상태
   const [tickerIndex, setTickerIndex] = useState(0);
   const [tickerMessages, setTickerMessages] = useState([]);
@@ -455,7 +498,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
       )}
 
       {/* 🌟 최상단 통합 프리미엄 대시보드 히어로 (초압축 & 고밀도 UI) */}
-      <section className="relative px-6 py-10 md:py-12 md:px-16 overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-b border-slate-800/80">
+      <section id="home" className="relative px-6 py-10 md:py-12 md:px-16 overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-b border-slate-800/80">
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-emerald-950/20 rounded-full blur-[120px] pointer-events-none"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-[45%] h-[45%] bg-teal-950/15 rounded-full blur-[100px] pointer-events-none"></div>
         
@@ -893,7 +936,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
       </section>
 
       {/* 🧠 테스트 1: 탄소 다이어트 등급 테스트 (흥미 유발 퀴즈) */}
-      <section className="px-6 py-24 md:px-16 bg-slate-900 border-y border-slate-800 relative">
+      <section id="carbon-test" className="px-6 py-24 md:px-16 bg-slate-900 border-y border-slate-805 relative">
         <div className="absolute top-[20%] right-[-10%] w-[30%] h-[30%] bg-emerald-950/15 rounded-full blur-[80px] pointer-events-none"></div>
         
         <div className="max-w-3xl mx-auto relative z-10">
@@ -999,7 +1042,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
       </section>
 
       {/* 🍀 오늘 나의 탄소 감량 계산기 (참여 행동 촉진 도구) */}
-      <section className="px-6 py-24 md:px-16 bg-slate-950 relative">
+      <section id="carbon-calculator" className="px-6 py-24 md:px-16 bg-slate-955 relative">
         <div className="absolute top-[30%] left-[-10%] w-[35%] h-[35%] bg-emerald-950/15 rounded-full blur-[90px] pointer-events-none"></div>
         
         <div className="max-w-4xl mx-auto relative z-10">
@@ -1119,7 +1162,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
       </section>
 
       {/* 리워드(상품) 섹션 */}
-      <section className="px-6 py-24 md:px-16 bg-slate-900 border-y border-slate-800">
+      <section id="challenge-reward" className="px-6 py-24 md:px-16 bg-slate-900 border-y border-slate-805">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20">
             <span className="text-emerald-400 font-bold text-xs uppercase tracking-widest block mb-3">CHALLENGE REWARD</span>
@@ -1161,25 +1204,25 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
 
 
 
-      {/* 🟢 올바른 인증 VS 🔴 미인정 visual 가이드 섹션 */}
-      <section className="px-6 py-24 md:px-16 bg-slate-900 border-y border-slate-800 relative">
+      {/* 🟢 초간단 100% 프리패스 인증 가이드 섹션 */}
+      <section id="certification-guide" className="px-6 py-24 md:px-16 bg-slate-900 border-y border-slate-805 relative">
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-12">
             <span className="text-emerald-400 font-bold text-xs uppercase tracking-widest block mb-3">CERTIFICATION GUIDE</span>
             <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500 bg-clip-text text-transparent">
-              올바른 인증 VS 미인정 비주얼 비교
+              지구를 향한 즐겁고 쉬운 실천! 100% 프리패스 인증 가이드 💚
             </h2>
             <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
-              지구를 위한 여러분의 모든 실천은 소중해요! 💚 미인정 예시는 최소한의 가이드일 뿐, 최대한 많은 분들이 핀볼권을 획득하실 수 있도록 <span className="text-emerald-400 font-bold">아주 유연하고 너그러운 시선(유도리 있게!)으로 심사</span>할 예정이니 너무 걱정 말고 부담 없이 참여해 주세요! 🥰
+              어려운 심사 기준 때문에 망설이셨나요? 걱정은 전혀 안 하셔도 괜찮아요! 🥰 고의적인 무단 도용이나 허위 인증이 아니라면, 지구를 위한 여러분의 작고 소중한 실천을 <span className="text-emerald-400 font-bold">아주 유연하고 너그러운 시선(유도리 200%!)으로 100% 모두 승인</span>해 드립니다. 가벼운 마음으로 편하게 찰칵 찍어 참여해 주세요!
             </p>
           </div>
 
           {/* 💡 안심 배너 */}
-          <div className="bg-amber-950/20 border border-amber-500/20 rounded-3xl p-5 mb-10 text-xs md:text-sm text-amber-300 leading-relaxed flex items-start gap-3.5 max-w-3xl mx-auto shadow-lg backdrop-blur-sm">
-            <span className="text-xl shrink-0">💡</span>
+          <div className="bg-emerald-950/20 border border-emerald-500/20 rounded-3xl p-5 mb-10 text-xs md:text-sm text-emerald-300 leading-relaxed flex items-start gap-3.5 max-w-3xl mx-auto shadow-lg backdrop-blur-sm">
+            <span className="text-xl shrink-0">✨</span>
             <div>
-              <strong className="font-extrabold text-amber-200 block mb-1 text-sm md:text-base">너무 걱정하지 마세요!</strong>
-              단순한 실수나 상황에 따른 불가피한 부분은 최대한 긍정적으로 참작해 드립니다. 고의적인 무단 도용이나 허위 인증이 아니라면 너그럽게 인정 처리해 드려요!
+              <strong className="font-extrabold text-emerald-250 block mb-1 text-sm md:text-base">불투명한 텀블러도 무조건 100% 프리패스 인정!</strong>
+              텀블러 속 음료가 보이지 않거나 비어 있어도 전혀 상관없어요. 일회용 컵 대신 개인 텀블러를 곁에 두고 지구를 아껴주는 예쁜 행동 그 자체만으로 무조건 즉시 통과됩니다! 🥤
             </div>
           </div>
 
@@ -1213,45 +1256,36 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                 id: 'TUMBLER',
                 title: '🥤 텀블러 & 다회용 컵 사용',
                 tag: 'TUMBLER',
-                approvedTitle: '정석 인증 (Approved)',
-                approvedDesc: '카페에서 실제로 음료나 커피가 가득 담겨있고 사용 중인 정성 가득 텀블러 사진',
+                approvedTitle: '100% 프리패스 인정! (Approved)',
+                approvedDesc: '불투명한 텀블러, 보온병, 머그컵도 내부 음료 걱정 없이 대환영! 환경을 생각하는 예쁜 마음만 있다면 무조건 인정!',
                 approvedDetails: [
-                  '실제 음료/커피가 가득 담겨있는 모습',
-                  '다회용 개인 텀블러 및 매장용 다회용 컵',
-                  '빨대나 뚜껑이 어우러져 실사용 중임을 증명'
+                  '불투명 텀블러, 보온병, 빨대컵 등 내부가 안 보여도 무조건 인정!',
+                  '강의실, 집, 카페, 책상 위에 텀블러가 놓인 일상 사진',
+                  '다회용 텀블러나 매장 내 머그컵/유리잔을 사용하는 모든 인증'
                 ],
                 approvedSvg: (
                   <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-emerald-400" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <line x1="20" y1="170" x2="180" y2="170" stroke="#334155" strokeWidth="3" strokeLinecap="round" />
-                    <ellipse cx="100" cy="170" rx="40" ry="8" fill="#022c22" opacity="0.6"/>
-                    <path d="M75 50 L85 160 C86 166 90 170 96 170 L104 170 C110 170 114 166 115 160 L125 50 Z" fill="url(#tumbler-grad)" stroke="#10b981" strokeWidth="2.5"/>
-                    <path d="M78 80 L83 145 C84 150 88 154 94 154 L106 154 C112 154 116 150 117 145 L122 80 Z" fill="url(#coffee-grad)"/>
-                    <rect x="88" y="90" width="16" height="16" rx="3" fill="#ffffff" opacity="0.3" transform="rotate(15 96 98)"/>
-                    <rect x="98" y="110" width="14" height="14" rx="3" fill="#ffffff" opacity="0.4" transform="rotate(-10 105 117)"/>
-                    <line x1="110" y1="30" x2="95" y2="95" stroke="#34d399" strokeWidth="5" strokeLinecap="round"/>
-                    <ellipse cx="100" cy="50" rx="26" ry="6" fill="#0f766e" stroke="#10b981" strokeWidth="2"/>
-                    <rect x="94" y="44" width="12" height="6" rx="1" fill="#14b8a6"/>
-                    <path d="M50 60 L52 65 L57 67 L52 69 L50 74 L48 69 L43 67 L48 65 Z" fill="#34d399" opacity="0.8"/>
-                    <path d="M150 90 L151.5 94 L155 95.5 L151.5 97 L150 101 L148.5 97 L145 95.5 L148.5 94 Z" fill="#6ee7b7" opacity="0.8"/>
-                    <path d="M135 45 L136 48 L139 49 L136 50 L135 53 L134 50 L131 49 L134 48 Z" fill="#fbbf24" opacity="0.7"/>
+                    <line x1="20" y1="170" x2="180" y2="170" stroke="#10b981" strokeWidth="3" strokeLinecap="round" />
+                    <ellipse cx="100" cy="165" rx="30" ry="6" fill="#022c22" opacity="0.6"/>
+                    <path d="M85 60 L90 155 C90 160 93 164 98 164 L102 164 C107 164 110 160 115 155 L120 60 Z" fill="url(#tumbler-grad)" stroke="#10b981" strokeWidth="2.5"/>
+                    <rect x="80" y="50" width="40" height="10" rx="3" fill="#34d399"/>
+                    <path d="M92 35 H108 V50 H92 Z" fill="#047857"/>
+                    <circle cx="100" cy="110" r="14" fill="#10b981" fillOpacity="0.1" stroke="#34d399" strokeWidth="1.5" strokeDasharray="3 3"/>
+                    <path d="M94 110 L98 114 L106 106" stroke="#34d399" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                     <defs>
-                      <linearGradient id="tumbler-grad" x1="100%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#0f766e" stopOpacity="0.4" />
-                        <stop offset="100%" stopColor="#115e59" stopOpacity="0.1" />
-                      </linearGradient>
-                      <linearGradient id="coffee-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#b45309" stopOpacity="0.85" />
-                        <stop offset="100%" stopColor="#78350f" stopOpacity="0.95" />
+                      <linearGradient id="tumbler-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#059669" stopOpacity="0.3" />
+                        <stop offset="100%" stopColor="#022c22" stopOpacity="0.05" />
                       </linearGradient>
                     </defs>
                   </svg>
                 ),
-                refTitle: '단순 소지/기타 (Reference)',
-                refDesc: '음료나 물이 없는 텅 빈 텀블러 셀카, 혹은 일회용 컵을 쓰며 컵홀더만 가죽인 경우',
+                refTitle: '요것만 살짝 피해주세요! (Avoid)',
+                refDesc: '탄소 다이어트를 위해 플라스틱 일회용 컵이나 페트병 대신 텀블러를 사용해 주세요!',
                 refDetails: [
-                  '텀블러 내부가 완전히 비어있는 사진',
-                  '일회용 플라스틱 컵 및 일회용 빨대 사용',
-                  '편의점 등에서 산 페트병 음료 그대로 사용'
+                  '일반 편의점/카페 일회용 플라스틱 컵이나 빨대 사용',
+                  '편의점에서 방금 구매한 시판 페트병 음료 그대로 인증',
+                  '본인이 직접 사용하지 않고 타인의 사진을 도용한 경우'
                 ],
                 refSvg: (
                   <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-rose-450" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1261,7 +1295,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                     <ellipse cx="100" cy="55" rx="21" ry="5" fill="#475569" stroke="#64748b" strokeWidth="2"/>
                     <circle cx="100" cy="110" r="22" fill="#ef4444" fillOpacity="0.15" stroke="#ef4444" strokeWidth="1.5" strokeDasharray="3 3"/>
                     <path d="M94 104 L106 116 M106 104 L94 116" stroke="#ef4444" strokeWidth="3" strokeLinecap="round"/>
-                    <text x="100" y="150" textAnchor="middle" fill="#64748b" fontSize="9" fontWeight="bold">텅 빈 상태 (Empty)</text>
+                    <text x="100" y="150" textAnchor="middle" fill="#ef4444" fontSize="9" fontWeight="bold">일회용 컵 (Single-use)</text>
                     <defs>
                       <linearGradient id="empty-grad" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" stopColor="#334155" />
@@ -1270,18 +1304,18 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                     </defs>
                   </svg>
                 ),
-                tip: '텀블러 속 음료가 살짝 보이거나 빨대를 꽂아 마시는 일상 스냅샷 형식으로 촬영하면 100% 한 번에 즉시 통과됩니다!'
+                tip: '불투명한 텀블러도 당연히 100% 인정! 음료 유무나 텀블러 내부 걱정은 전혀 안 하셔도 돼요. 텀블러를 곁에 두고 환경을 생각하는 예쁜 행동 그 자체만으로 무조건 통과입니다!'
               },
               {
                 id: 'RECYCLE',
                 title: '♻️ 압착 라벨 제거 분리배출',
                 tag: 'RECYCLE',
-                approvedTitle: '정석 인증 (Approved)',
-                approvedDesc: '플라스틱 페트병의 라벨을 깔끔하게 제거하고, 발로 밟아 압착하여 올바르게 분리배출함에 버리는 사진',
+                approvedTitle: '100% 프리패스 인정! (Approved)',
+                approvedDesc: '라벨만 떼고 꾹 밟으면 끝! 분리수거함 앞이 아니더라도 책상이나 방 안에서 찍어도 대환영!',
                 approvedDetails: [
-                  '비닐 라벨지가 흔적 없이 분리된 상태',
-                  '부피를 최대한 줄여 납작하게 압착한 모습',
-                  '분리수거함 및 재활용 현장에서의 수거 인증'
+                  '비닐 라벨을 분리하고 손이나 발로 가볍게 찌그러뜨린 상태',
+                  '내 책상, 강의실, 동아리방 등 일상 공간에서의 가벼운 배출 준비 인증',
+                  '페트병 라벨을 떼는 예쁜 순간을 담은 사진'
                 ],
                 approvedSvg: (
                   <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-emerald-400" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1309,8 +1343,8 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                     </defs>
                   </svg>
                 ),
-                refTitle: '불량 배출/기타 (Reference)',
-                refDesc: '페트병의 비닐 라벨을 그대로 붙여두거나, 뚜껑을 안 뗐거나, 택배용 테이프가 가득한 상자 배출 사진',
+                refTitle: '요것만 살짝 피해주세요! (Avoid)',
+                refDesc: '다음 분리수거 하실 분들을 위해 라벨을 떼지 않거나 쓰레기를 그대로 넣어 버리는 행위는 삼가해 주세요!',
                 refDetails: [
                   '브랜드 비닐 라벨이 끈질기게 붙어있는 상태',
                   '찌그러뜨리지 않고 부피가 가득한 물병 배출',
@@ -1342,12 +1376,12 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                 id: 'ECOBAG',
                 title: '👜 장바구니 & 에코백 사용',
                 tag: 'ECO BAG',
-                approvedTitle: '정석 인증 (Approved)',
-                approvedDesc: '대형마트, 다이소, 편의점 등에서 비닐봉지 대신 챙겨간 에코백에 물품을 담는 실제 사용 사진',
+                approvedTitle: '100% 프리패스 인정! (Approved)',
+                approvedDesc: '마트나 편의점에서 비닐봉지 대신 에코백/장바구니를 지참한 모습! 내용물이 비어 있어도 대환영!',
                 approvedDetails: [
-                  '에코백 또는 쇼핑백 내부에 실구매 물품이 가득한 사진',
-                  '마트, 편의점, 상점 등 쇼핑 공간이 함께 식별됨',
-                  '일회용 비닐봉지 구매를 거부하고 장바구니 사용 증명'
+                  '에코백/장바구니 안에 과자 한 봉지, 음료 하나만 있어도 당연히 인정!',
+                  '꼭 물건을 담지 않았더라도 마트/편의점에서 가방을 들고 있는 사진',
+                  '등교길이나 외출 시 에코백을 착용한 다정한 모습'
                 ],
                 approvedSvg: (
                   <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-emerald-400" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1375,12 +1409,12 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                     </defs>
                   </svg>
                 ),
-                refTitle: '단순 착용/기타 (Reference)',
-                refDesc: '장보기 활동과 전혀 무관하게, 일반 의류 패션 코디용으로 매치하여 야외나 집 안에서 에코백을 메고 찍은 사진',
+                refTitle: '요것만 살짝 피해주세요! (Avoid)',
+                refDesc: '탄소 배출을 줄이기 위한 에코백/장바구니 챌린지 취지에 맞지 않는 일회용품 사용은 지양해 주세요!',
                 refDetails: [
-                  '에코백 내부가 완전히 비어있는 일상 착용샷',
-                  '구매 이력이 입증되지 않는 카페/일상 데일리 백',
-                  '비닐봉투에 잔뜩 사고 어깨에 에코백만 멘 모순'
+                  '에코백은 아예 없고 일회용 비닐봉투만 잔뜩 가득한 사진',
+                  '본인의 가방이 아니거나 인터넷 쇼핑몰의 에코백 상세페이지 캡처본',
+                  '타인의 사진을 무단 도용하여 올린 경우'
                 ],
                 refSvg: (
                   <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-rose-450" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1392,7 +1426,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                     <line x1="88" y1="120" x2="112" y2="120" stroke="#475569" strokeWidth="2" strokeOpacity="0.5"/>
                     <circle cx="100" cy="120" r="18" fill="#1e293b" fillOpacity="0.8" stroke="#ef4444" strokeWidth="2"/>
                     <path d="M94 114 L106 126 M106 114 L94 126" stroke="#ef4444" strokeWidth="3" strokeLinecap="round"/>
-                    <text x="100" y="152" textAnchor="middle" fill="#64748b" fontSize="9" fontWeight="bold">내용물 없음 (Empty)</text>
+                    <text x="100" y="152" textAnchor="middle" fill="#ef4444" fontSize="9" fontWeight="bold">비닐봉투 (Plastic Bag)</text>
                     <defs>
                       <linearGradient id="empty-bag-grad" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" stopColor="#334155" />
@@ -1401,18 +1435,18 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                     </defs>
                   </svg>
                 ),
-                tip: '에코백에 구매한 스낵, 식료품 등이 귀엽게 담긴 모습이나 편의점/다이소 계산대를 배경으로 담으면 한 번에 통과!'
+                tip: '장바구니 안에 값비싼 물건이나 무거운 장거리가 들어있지 않아도 돼요! 일회용 비닐봉투를 거부하고 에코백을 지참한 실천 의지만 있다면 언제나 100% 승인입니다!'
               },
               {
                 id: 'CLEANPLATE',
                 title: '🍽️ 깨끗하게 비운 잔반 제로',
                 tag: 'CLEAN PLATE',
-                approvedTitle: '정석 인증 (Approved)',
-                approvedDesc: '음식물 쓰레기 감소를 증명하기 위해 찌꺼기 없이 완벽하게 비워낸 깨끗한 빈 그릇(식사 완료) 사진',
+                approvedTitle: '100% 프리패스 인정! (Approved)',
+                approvedDesc: '남김없이 기분 좋게 다 비워낸 그릇! 약간의 소스나 국물, 과일 씨앗, 뼈다귀 등은 당연히 너그럽게 통과!',
                 approvedDetails: [
-                  '음식을 흔적 없이 싹싹 비워낸 밥그릇/접시 사진',
-                  '식사 완료를 어필하기 위해 나란히 둔 숟가락/젓가락',
-                  '학식, 급식, 일반 가정식 및 배달음식 용기 모두 포함'
+                  '식사를 다 마친 뒤의 깨끗해진 밥그릇, 접시, 혹은 급식 식판',
+                  '다 먹은 그릇 바닥에 소량의 양념, 파, 고추장 소스가 묻어있어도 100% 오케이!',
+                  '학식, 동아리 모임 식사, 배달 용기, 가정식 모두 완전 환영!'
                 ],
                 approvedSvg: (
                   <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-emerald-400" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1445,12 +1479,12 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                     </defs>
                   </svg>
                 ),
-                refTitle: '음식 남김/기타 (Reference)',
-                refDesc: '음식을 많이 남겨 그릇 바닥에 다량의 국물, 음식물 찌꺼기, 반찬 등이 뚜렷하게 남은 엉성한 사진',
+                refTitle: '요것만 살짝 피해주세요! (Avoid)',
+                refDesc: '잔반 제로 캠페인을 통해 음식물 쓰레기를 줄이는 취지에 함께 동참해 주세요!',
                 refDetails: [
-                  '밥이나 핵심 반찬 찌꺼기가 과하게 흩어진 상태',
-                  '식사 전의 풍요로운 사진을 완료인 척 인증함',
-                  '버려질 국물이 너무 많이 남아있는 비주얼'
+                  '밥이나 주메뉴(고기, 면 등)를 그대로 대량 남긴 상태의 사진',
+                  '식사 전의 수북하게 잘 차려진 음식 사진만 올리고 다 먹었다고 주장하는 경우',
+                  '타인의 다 먹은 그릇 사진을 무단 복제하여 제출한 사진'
                 ],
                 refSvg: (
                   <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-rose-400" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1472,7 +1506,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                     <ellipse cx="115" cy="85" rx="3" ry="5" fill="#f8fafc" transform="rotate(15 115 85)"/>
                     <circle cx="100" cy="100" r="22" fill="#1e293b" fillOpacity="0.85" stroke="#ef4444" strokeWidth="2"/>
                     <path d="M94 94 L106 106 M106 94 L94 106" stroke="#ef4444" strokeWidth="3" strokeLinecap="round"/>
-                    <text x="100" y="152" textAnchor="middle" fill="#64748b" fontSize="9" fontWeight="bold">음식물 잔반 다량 (Leftovers)</text>
+                    <text x="100" y="152" textAnchor="middle" fill="#ef4444" fontSize="9" fontWeight="bold">대량의 음식물 잔반 (Leftovers)</text>
                     <defs>
                       <linearGradient id="ref-plate-grad" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" stopColor="#334155" />
@@ -1481,7 +1515,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                     </defs>
                   </svg>
                 ),
-                tip: '약간의 고추장 소스나 국물 정도는 너그럽게 참작해 드립니다! 밥알과 건더기 위주로 깔끔하게 싹 비운 뒤 그릇 바닥이 환하게 찍히도록 사진을 남기면 단번에 패스!'
+                tip: '양념 소스나 깍두기 국물 한 방울, 혹은 발라낸 고기 뼈 때문에 걱정하지 마세요! 남김없이 맛있게 먹으려고 노력한 흔적만 보여도 100% 즉시 승인됩니다!'
               }
             ];
 
@@ -1512,23 +1546,23 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                         </span>
                       </div>
 
-                      {/* 1:1 비교 섹션 */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
+                      {/* 6:4 비중 조절형 안심 비교 섹션 */}
+                      <div className="grid grid-cols-1 sm:grid-cols-5 gap-5 mb-6">
                         
-                        {/* 정석 인증 (Approved) */}
-                        <div className="bg-emerald-950/15 border border-emerald-500/15 rounded-2xl p-5 hover:border-emerald-500/30 transition duration-300 relative overflow-hidden group/item flex flex-col justify-between">
+                        {/* 100% 프리패스 인정 (Approved) - 60% 비중 차지 & 강력 강조 */}
+                        <div className="sm:col-span-3 bg-emerald-950/20 border border-emerald-500/25 rounded-2xl p-5 hover:border-emerald-500/50 hover:shadow-[0_0_20px_rgba(16,185,129,0.15)] transition duration-300 relative overflow-hidden group/item flex flex-col justify-between">
                           <div>
                             {/* SVG mockup box */}
                             <div className="w-full h-36 bg-slate-900/60 rounded-xl mb-4 flex items-center justify-center relative border border-emerald-500/10 group-hover/item:border-emerald-500/20 transition overflow-hidden">
                               <span className="absolute top-2.5 left-2.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[9px] font-black px-2.5 py-0.5 rounded-full tracking-wider shadow-inner">
-                                🟢 APPROVED
+                                🟢 FREE PASS
                               </span>
                               {guide.approvedSvg}
                             </div>
                             <span className="text-xs font-black text-emerald-400 block mb-2 flex items-center gap-1.5 uppercase tracking-wide">
                               {guide.approvedTitle}
                             </span>
-                            <p className="text-[11px] text-slate-400 leading-relaxed mb-4 font-medium">
+                            <p className="text-[11px] text-slate-350 leading-relaxed mb-4 font-semibold">
                               {guide.approvedDesc}
                             </p>
                           </div>
@@ -1536,7 +1570,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                           <div className="border-t border-emerald-500/10 pt-3">
                             <ul className="space-y-1.5">
                               {guide.approvedDetails.map((detail, idx) => (
-                                <li key={idx} className="text-[10px] text-slate-500 group-hover/item:text-slate-400 transition flex items-start gap-1.5 leading-relaxed font-semibold">
+                                <li key={idx} className="text-[10px] text-slate-400 group-hover/item:text-slate-300 transition flex items-start gap-1.5 leading-relaxed font-semibold">
                                   <span className="text-emerald-400 font-bold shrink-0">✓</span>
                                   <span>{detail}</span>
                                 </li>
@@ -1545,29 +1579,29 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                           </div>
                         </div>
 
-                        {/* 미인정/참고 (Reference) */}
-                        <div className="bg-rose-950/5 border border-rose-500/10 rounded-2xl p-5 hover:border-rose-500/20 transition duration-300 relative overflow-hidden group/item flex flex-col justify-between">
+                        {/* 요것만 조심해주세요! (Avoid) - 40% 비중으로 슬림화 및 톤다운 */}
+                        <div className="sm:col-span-2 bg-slate-950/30 border border-slate-850 rounded-2xl p-5 opacity-65 hover:opacity-100 hover:border-slate-800 transition duration-300 relative overflow-hidden group/item flex flex-col justify-between">
                           <div>
                             {/* SVG mockup box */}
-                            <div className="w-full h-36 bg-slate-900/40 rounded-xl mb-4 flex items-center justify-center relative border border-rose-500/5 group-hover/item:border-rose-500/15 transition overflow-hidden">
-                              <span className="absolute top-2.5 left-2.5 bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[9px] font-black px-2.5 py-0.5 rounded-full tracking-wider shadow-inner">
-                                🔴 REFERENCE
+                            <div className="w-full h-36 bg-slate-900/40 rounded-xl mb-4 flex items-center justify-center relative border border-slate-850/5 group-hover/item:border-slate-800/20 transition overflow-hidden">
+                              <span className="absolute top-2.5 left-2.5 bg-slate-800 text-slate-400 border border-slate-700 text-[9px] font-black px-2.5 py-0.5 rounded-full tracking-wider">
+                                ⚠️ AVOID
                               </span>
                               {guide.refSvg}
                             </div>
-                            <span className="text-xs font-black text-rose-450 block mb-2 flex items-center gap-1.5 uppercase tracking-wide">
+                            <span className="text-xs font-black text-slate-400 block mb-2 flex items-center gap-1.5 uppercase tracking-wide">
                               {guide.refTitle}
                             </span>
-                            <p className="text-[11px] text-slate-400 leading-relaxed mb-4 font-medium">
+                            <p className="text-[11px] text-slate-500 leading-relaxed mb-4 font-medium">
                               {guide.refDesc}
                             </p>
                           </div>
 
-                          <div className="border-t border-rose-500/10 pt-3">
+                          <div className="border-t border-slate-850 pt-3">
                             <ul className="space-y-1.5">
                               {guide.refDetails.map((detail, idx) => (
-                                <li key={idx} className="text-[10px] text-slate-500 group-hover/item:text-slate-400 transition flex items-start gap-1.5 leading-relaxed font-semibold">
-                                  <span className="text-rose-400/80 font-bold shrink-0">✗</span>
+                                <li key={idx} className="text-[10px] text-slate-500 group-hover/item:text-slate-450 transition flex items-start gap-1.5 leading-relaxed font-medium">
+                                  <span className="text-rose-500/60 font-bold shrink-0">✗</span>
                                   <span>{detail}</span>
                                 </li>
                               ))}
@@ -1633,6 +1667,98 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
           </div>
         </div>
       </section>
+
+      {/* 📍 사이드 플로팅 퀵 내비게이션 바 (Floating Sidebar Menu) */}
+      <aside 
+        className={`fixed top-1/2 -translate-y-1/2 z-50 hidden sm:flex flex-col gap-4 bg-slate-950/90 border border-slate-800/90 backdrop-blur-lg py-5 px-3 rounded-[32px] shadow-2xl hover:border-emerald-500/30 transition-all duration-500 ease-out group w-14 hover:w-48 overflow-hidden ${
+          sidebarPosition === 'right' ? 'right-3 md:right-6' : 'left-3 md:left-6'
+        }`}
+      >
+        {/* 🔄 좌/우 위치 토글 버튼 */}
+        <div className="flex items-center justify-between border-b border-slate-850/60 pb-2 mb-1 w-full overflow-hidden">
+          <span className="text-[9px] font-black text-slate-500 tracking-wider select-none uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300 pl-2">
+            Quick Nav
+          </span>
+          <button
+            onClick={() => setSidebarPosition(prev => prev === 'right' ? 'left' : 'right')}
+            title={sidebarPosition === 'right' ? "왼쪽으로 이동" : "오른쪽으로 이동"}
+            className="flex items-center justify-center w-7 h-7 rounded-full bg-slate-900/80 hover:bg-emerald-500/20 text-slate-400 hover:text-emerald-450 border border-slate-800/80 transition duration-300 cursor-pointer hover:rotate-180 shrink-0"
+          >
+            <span className="text-xs font-bold">⇄</span>
+          </button>
+        </div>
+
+        {/* 🔗 내비게이션 메뉴 목록 */}
+        <div className="flex flex-col gap-3">
+          {sections.map((sec) => {
+            const icon = sec.label.split(' ')[0];
+            const name = sec.label.split(' ').slice(1).join(' ');
+            const isSelfActive = activeSection === sec.id;
+            
+            return (
+              <button
+                key={sec.id}
+                onClick={() => {
+                  document.getElementById(sec.id)?.scrollIntoView({ behavior: 'smooth' });
+                  setActiveSection(sec.id);
+                }}
+                className={`relative flex items-center gap-3 w-full h-10 px-2 rounded-2xl transition duration-300 cursor-pointer overflow-hidden ${
+                  isSelfActive 
+                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]' 
+                    : 'text-slate-450 hover:text-slate-200 hover:bg-slate-900/60 border border-transparent'
+                }`}
+              >
+                {/* 활성 상태 숨쉬는 네온 도트 */}
+                {isSelfActive && (
+                  <span className="absolute left-0 w-1 h-5 bg-emerald-400 rounded-r-full shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse" />
+                )}
+
+                {/* 이모지 아이콘 영역 */}
+                <span className={`text-base flex items-center justify-center w-6 shrink-0 transition-transform duration-300 ${
+                  isSelfActive ? 'scale-110 filter drop-shadow-[0_0_4px_rgba(52,211,153,0.6)]' : 'opacity-65'
+                }`}>
+                  {icon}
+                </span>
+
+                {/* 슬라이딩 텍스트 라벨 (호버 시 자연스럽게 펼쳐짐) */}
+                <span className={`text-[11px] font-black tracking-tight transition-all duration-300 whitespace-nowrap overflow-hidden select-none opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 ${
+                  isSelfActive ? 'text-emerald-400 font-extrabold' : 'text-slate-400'
+                }`}>
+                  {name}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </aside>
+
+      {/* 📱 모바일 하단 플로팅 미니 내비 바 (Mobile Bottom Quick Bar) */}
+      <nav className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex sm:hidden items-center justify-around gap-1 bg-slate-950/90 border border-slate-850/80 backdrop-blur-md px-3.5 py-2.5 rounded-full shadow-[0_10px_35px_rgba(0,0,0,0.8)] w-[90%] max-w-[360px]">
+        {sections.map((sec) => (
+          <button
+            key={sec.id}
+            onClick={() => {
+              document.getElementById(sec.id)?.scrollIntoView({ behavior: 'smooth' });
+              setActiveSection(sec.id);
+            }}
+            className="relative flex flex-col items-center gap-0.5 px-2 py-0.5 rounded-xl transition duration-300 cursor-pointer"
+          >
+            <span className={`text-base transition duration-300 ${
+              activeSection === sec.id ? 'scale-110 filter drop-shadow-[0_0_5px_rgba(52,211,153,0.6)]' : 'opacity-40'
+            }`}>
+              {sec.label.split(' ')[0]}
+            </span>
+            <span className={`text-[8px] font-extrabold tracking-tight transition duration-300 ${
+              activeSection === sec.id ? 'text-emerald-400 font-black' : 'text-slate-500'
+            }`}>
+              {sec.label.split(' ')[1].split('/')[0]}
+            </span>
+            {activeSection === sec.id && (
+              <span className="absolute bottom-[-2px] w-4 h-0.5 bg-emerald-400 rounded-full" />
+            )}
+          </button>
+        ))}
+      </nav>
 
       {/* 📋 플로팅 Toast 알림 메시지 */}
       {showToast && (
