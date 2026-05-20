@@ -18,10 +18,6 @@ export default function CarbonChallengeLandingPage() {
   const [quizAnswers, setQuizAnswers] = useState([]);
   const [quizResult, setQuizResult] = useState(null);
 
-  // 🎲 모의 추첨기(시뮬레이터) 상태
-  const [mockDrawActive, setMockDrawActive] = useState(false);
-  const [mockWinner, setMockWinner] = useState(null);
-  const [showMockWinnerModal, setShowMockWinnerModal] = useState(false);
 
   // 📝 오늘 나의 탄소 감량 계산기 상태
   const [todayChecks, setTodayChecks] = useState({
@@ -413,47 +409,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
     setQuizResult(null);
   };
 
-  // 🎲 실시간 핀볼 룰렛 모의 추첨기 핸들러
-  const handleMockDraw = () => {
-    if (leaderboard.length === 0 || mockDrawActive) return;
-    
-    setMockDrawActive(true);
-    setShowMockWinnerModal(true);
-    setMockWinner(null);
 
-    // 실제 참여자의 핀볼 개수(인증수)만큼 가중치를 두어 추첨 풀 생성
-    const pool = [];
-    leaderboard.forEach(user => {
-      for (let i = 0; i < user.count; i++) {
-        pool.push(user);
-      }
-    });
-
-    if (pool.length === 0) {
-      setMockDrawActive(false);
-      setShowMockWinnerModal(false);
-      return;
-    }
-
-    let duration = 3000; // 3초 동안 빠르게 회전
-    let intervalTime = 70;
-    let elapsed = 0;
-
-    const interval = setInterval(() => {
-      // 가짜 당첨자 롤링 애니메이션용 무작위 선택
-      const tempWinner = pool[Math.floor(Math.random() * pool.length)];
-      setMockWinner(tempWinner);
-      elapsed += intervalTime;
-
-      if (elapsed >= duration) {
-        clearInterval(interval);
-        // 실제 당첨자 선정
-        const finalWinner = pool[Math.floor(Math.random() * pool.length)];
-        setMockWinner(finalWinner);
-        setMockDrawActive(false);
-      }
-    }, intervalTime);
-  };
 
   // 📝 오늘 탄소 감량 무게 계산 (g CO2)
   // 텀블러: 100g, 올바른분리배출: 50g, 에코백: 30g, 잔반없음: 120g
@@ -497,60 +453,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
         </div>
       )}
 
-      {/* 🎰 모의 추첨 결과 모달 팝업 */}
-      {showMockWinnerModal && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-6 animate-fadeIn">
-          <div className="bg-slate-900 border border-slate-700/60 rounded-[36px] max-w-md w-full p-8 text-center shadow-2xl relative overflow-hidden ring-4 ring-emerald-500/20">
-            <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-emerald-900/20 rounded-full blur-[80px]"></div>
-            
-            <h3 className="text-2xl font-black text-slate-100 mb-2">🎲 모의 핀볼 추첨 시뮬레이터</h3>
-            <p className="text-xs text-slate-400 mb-6 leading-relaxed">
-              *실제 참가자들의 인증 수(가중치)를 반영한 모의 룰렛 결과입니다.
-            </p>
 
-            <div className="bg-slate-950/80 border border-slate-800 rounded-3xl p-10 mb-8 relative min-h-[160px] flex flex-col justify-center items-center">
-              {mockDrawActive ? (
-                <div className="space-y-4">
-                  <div className="text-4xl animate-spin">🌀</div>
-                  <p className="text-lg font-black text-emerald-400 animate-pulse truncate max-w-[200px]">
-                    {mockWinner ? mockWinner.username : '핀볼 룰렛 회전 중...'}
-                  </p>
-                </div>
-              ) : (
-                mockWinner && (
-                  <div className="animate-scaleUp">
-                    <div className="text-5xl mb-4">🏆</div>
-                    <span className="text-xs text-emerald-400 font-bold block mb-1">MOCK WINNER</span>
-                    <h4 className="text-3xl font-black text-white truncate max-w-[240px] mb-2">
-                      {mockWinner.username}
-                    </h4>
-                    <p className="text-xs text-slate-500 font-semibold">
-                      획득한 핀볼 수: <span className="text-emerald-400 font-bold">{mockWinner.count}개</span>
-                    </p>
-                  </div>
-                )
-              )}
-            </div>
-
-            <div className="space-y-3">
-              <button
-                onClick={handleMockDraw}
-                disabled={mockDrawActive}
-                className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-slate-950 font-black rounded-2xl transition shadow-lg shadow-emerald-500/10"
-              >
-                {mockDrawActive ? '추첨 진행 중...' : '🎲 다시 돌리기'}
-              </button>
-              <button
-                onClick={() => setShowMockWinnerModal(false)}
-                disabled={mockDrawActive}
-                className="w-full py-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-2xl border border-slate-800 transition"
-              >
-                닫기
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* 히어로 섹션 */}
       <section className="relative px-6 py-28 md:px-16 text-center overflow-hidden bg-radial-gradient">
@@ -585,7 +488,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
             </a>
 
             <a
-              href="#live-leaderboard"
+              href="#live-search"
               className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-slate-800/80 border border-slate-700 hover:bg-slate-700 text-slate-200 text-lg font-bold transition shadow-md hover:-translate-y-1 active:translate-y-0 text-center"
             >
               🏆 내 실시간 확률 & 순위 조회
@@ -643,6 +546,106 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
               <h3 className="text-xl font-bold mb-2 text-slate-100 group-hover:text-emerald-400 transition">지금 시작해도 역전</h3>
               <p className="text-slate-400 text-sm leading-relaxed">핀볼 시스템이므로 단 1개의 인증만 올려도 추첨 대상이 됩니다!</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 🔍 나의 실시간 순위 & 당첨 확률 검색기 섹션 */}
+      <section id="live-search" className="px-6 py-20 md:px-16 bg-slate-950 relative border-b border-slate-800/80">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-950/15 rounded-full blur-[100px] pointer-events-none"></div>
+        
+        <div className="max-w-3xl mx-auto relative z-10">
+          <div className="text-center mb-10">
+            <span className="text-emerald-400 font-bold text-xs uppercase tracking-widest block mb-3">INSTANT SEARCH</span>
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">
+              내 실시간 순위 & 당첨 확률 확인
+            </h2>
+            <p className="text-slate-400">
+              인스타그램 아이디를 입력하여 내 현재 순위와 실시간 경품 당첨 확률을 바로 확인해보세요.
+            </p>
+          </div>
+
+          {/* 🔍 나의 실시간 확률 & 순위 간편 검색창 */}
+          <div className="max-w-2xl mx-auto bg-slate-900/60 border border-slate-800/80 rounded-[32px] p-6 md:p-8 shadow-2xl backdrop-blur-md animate-fadeIn">
+            <h3 className="text-lg font-black text-slate-200 mb-4 flex items-center justify-center gap-2">
+              🔍 내 랭킹 & 당첨 확률 실시간 검색
+            </h3>
+            <p className="text-xs text-slate-400 text-center mb-6 leading-relaxed">
+              본인의 인스타그램 아이디를 입력하여 내 현재 순위와 실시간 경품 당첨 확률을 바로 확인해보세요.
+            </p>
+
+            <form onSubmit={handleCalcProbability} className="flex flex-col sm:flex-row gap-3 mb-6">
+              <input
+                type="text"
+                placeholder="예: @fp.zero 또는 fp.zero"
+                value={calcInput}
+                onChange={(e) => setCalcInput(e.target.value)}
+                className="flex-grow px-5 py-4 bg-slate-950/80 border border-slate-700/60 rounded-2xl text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm md:text-base font-semibold"
+              />
+              <button
+                type="submit"
+                className="px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-2xl transition shadow-lg shrink-0 text-sm md:text-base cursor-pointer"
+              >
+                검색하기
+              </button>
+            </form>
+
+            {/* 검색 결과 표시 */}
+            {calcResult && (
+              <div className="bg-slate-950/80 border border-emerald-500/20 rounded-2xl p-6 md:p-8 animate-fadeIn text-center relative overflow-hidden">
+                <div className="absolute top-[-20%] left-[-20%] w-[50%] h-[50%] bg-emerald-900/10 rounded-full blur-[60px] pointer-events-none"></div>
+                
+                <span className="text-xs text-emerald-400 font-black tracking-widest block mb-2">MY CHALLENGE REPORT</span>
+                <h4 className="text-2xl font-black text-slate-100 mb-6 truncate">{calcResult.maskedUsername}</h4>
+                
+                <div className="grid grid-cols-3 gap-3 md:gap-4 mb-6">
+                  <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
+                    <span className="text-[10px] text-slate-500 font-bold block mb-1">현재 순위</span>
+                    <span className="text-xl md:text-2xl font-black text-slate-200">{calcResult.rank}위</span>
+                  </div>
+                  <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
+                    <span className="text-[10px] text-slate-500 font-bold block mb-1">획득 핀볼 (인증 수)</span>
+                    <span className="text-xl md:text-2xl font-black text-emerald-400">{calcResult.count}개</span>
+                  </div>
+                  <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
+                    <span className="text-[10px] text-slate-500 font-bold block mb-1">당첨 확률</span>
+                    <span className="text-xl md:text-2xl font-black text-teal-400">{calcResult.probability}%</span>
+                  </div>
+                </div>
+
+                {/* 1장 더 인증 시 시뮬레이션 배지 */}
+                <div className="bg-emerald-950/20 border border-emerald-500/30 rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-3 text-left">
+                  <div>
+                    <span className="text-[10px] text-emerald-400 font-black block tracking-wider mb-0.5">인증 촉진 시뮬레이션 🔥</span>
+                    <p className="text-xs text-slate-300 font-semibold leading-relaxed">
+                      오늘 스토리에 사진 1장을 더 업로드하여 승인되면?
+                    </p>
+                  </div>
+                  <div className="bg-emerald-500 text-slate-950 text-xs font-black px-3.5 py-2.5 rounded-lg text-center shrink-0">
+                    당첨 확률 {calcResult.nextProb}% 돌파! (+{calcResult.diff}%)
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 검색 결과 없음 예외 안내 */}
+            {showCalcError && (
+              <div className="bg-slate-950/80 border border-red-500/20 rounded-2xl p-6 animate-fadeIn text-center">
+                <span className="text-3xl mb-3 block">🚨</span>
+                <h4 className="text-lg font-black text-slate-200 mb-2">아직 인증 내역을 찾을 수 없습니다</h4>
+                <p className="text-xs text-slate-400 leading-relaxed max-w-md mx-auto mb-6">
+                  아이디 오타를 확인해 보시거나, 아직 첫 인증이 구글 시트에 반영되지 않았을 수 있습니다. (시트 업데이트는 실시간 수동 검토 후 진행됩니다.)
+                </p>
+                <a
+                  href="https://www.instagram.com/fp.zero/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-block px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black rounded-xl transition shadow-md"
+                >
+                  📸 지금 인스타에 참여 인증하러 가기
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -1016,32 +1019,10 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
         </div>
       </section>
 
-      {/* 🚀 3단계: 나의 핀볼 당첨 확률 계산기 & 랭킹 조회 (스프레드시트 실시간 연동) */}
+      {/* 🏆 실시간 참여자 순위 현황판 섹션 (스프레드시트 실시간 연동) */}
       <section id="live-leaderboard" className="px-6 py-24 md:px-16 bg-slate-950 relative">
         <div className="max-w-5xl mx-auto relative z-10">
           
-          {/* 실시간 모의 추첨기(시뮬레이터) 바로가기 히어로 배너 */}
-          <div className="bg-gradient-to-r from-emerald-950/60 to-slate-900 border-2 border-emerald-500/30 rounded-[40px] p-8 md:p-14 text-center shadow-2xl relative overflow-hidden mb-24 max-w-4xl mx-auto">
-            <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none -mr-24 -mt-24"></div>
-            <div className="text-6xl mb-6 animate-bounce">🎲</div>
-
-            <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight text-white leading-tight">
-              실시간 핀볼 룰렛 모의 추첨기
-            </h2>
-
-            <p className="text-sm md:text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto mb-10">
-              구글 시트에 등록된 **실제 실시간 전체 참여 데이터와 핀볼 개수(가중치)**를 연동하여 모의 추첨을 진행해 봅니다. 내 이름이 뽑힐 수 있는지 가상의 룰렛을 돌려보세요!
-            </p>
-
-            <button
-              onClick={handleMockDraw}
-              disabled={loading}
-              className="inline-flex px-10 py-5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-lg font-black hover:scale-105 transition shadow-xl shadow-emerald-500/20"
-            >
-              🎲 실시간 모의 추첨 시작하기
-            </button>
-          </div>
-
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold mb-4 uppercase tracking-widest">
               LEADERBOARD
@@ -1052,89 +1033,6 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
             <p className="text-slate-400 max-w-2xl mx-auto">
               현재 참여자분들의 실시간 인증 순위입니다. 아이디의 중간 정보는 개인정보 보호를 위해 마스킹 처리되었습니다.
             </p>
-          </div>
-
-          {/* 🔍 나의 실시간 확률 & 순위 간편 검색창 */}
-          <div className="max-w-2xl mx-auto bg-slate-900/60 border border-slate-800/80 rounded-[32px] p-6 md:p-8 shadow-2xl backdrop-blur-md mb-16 animate-fadeIn">
-            <h3 className="text-lg font-black text-slate-200 mb-4 flex items-center justify-center gap-2">
-              🔍 내 랭킹 & 당첨 확률 실시간 검색
-            </h3>
-            <p className="text-xs text-slate-400 text-center mb-6 leading-relaxed">
-              본인의 인스타그램 아이디를 입력하여 내 현재 순위와 실시간 경품 당첨 확률을 바로 확인해보세요.
-            </p>
-
-            <form onSubmit={handleCalcProbability} className="flex flex-col sm:flex-row gap-3 mb-6">
-              <input
-                type="text"
-                placeholder="예: @fp.zero 또는 fp.zero"
-                value={calcInput}
-                onChange={(e) => setCalcInput(e.target.value)}
-                className="flex-grow px-5 py-4 bg-slate-950/80 border border-slate-700/60 rounded-2xl text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm md:text-base font-semibold"
-              />
-              <button
-                type="submit"
-                className="px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-2xl transition shadow-lg shrink-0 text-sm md:text-base cursor-pointer"
-              >
-                검색하기
-              </button>
-            </form>
-
-            {/* 검색 결과 표시 */}
-            {calcResult && (
-              <div className="bg-slate-950/80 border border-emerald-500/20 rounded-2xl p-6 md:p-8 animate-fadeIn text-center relative overflow-hidden">
-                <div className="absolute top-[-20%] left-[-20%] w-[50%] h-[50%] bg-emerald-900/10 rounded-full blur-[60px] pointer-events-none"></div>
-                
-                <span className="text-xs text-emerald-400 font-black tracking-widest block mb-2">MY CHALLENGE REPORT</span>
-                <h4 className="text-2xl font-black text-slate-100 mb-6 truncate">{calcResult.maskedUsername}</h4>
-                
-                <div className="grid grid-cols-3 gap-3 md:gap-4 mb-6">
-                  <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
-                    <span className="text-[10px] text-slate-500 font-bold block mb-1">현재 순위</span>
-                    <span className="text-xl md:text-2xl font-black text-slate-200">{calcResult.rank}위</span>
-                  </div>
-                  <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
-                    <span className="text-[10px] text-slate-500 font-bold block mb-1">획득 핀볼 (인증 수)</span>
-                    <span className="text-xl md:text-2xl font-black text-emerald-400">{calcResult.count}개</span>
-                  </div>
-                  <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
-                    <span className="text-[10px] text-slate-500 font-bold block mb-1">당첨 확률</span>
-                    <span className="text-xl md:text-2xl font-black text-teal-400">{calcResult.probability}%</span>
-                  </div>
-                </div>
-
-                {/* 1장 더 인증 시 시뮬레이션 배지 */}
-                <div className="bg-emerald-950/20 border border-emerald-500/30 rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-3 text-left">
-                  <div>
-                    <span className="text-[10px] text-emerald-400 font-black block tracking-wider mb-0.5">인증 촉진 시뮬레이션 🔥</span>
-                    <p className="text-xs text-slate-300 font-semibold leading-relaxed">
-                      오늘 스토리에 사진 1장을 더 업로드하여 승인되면?
-                    </p>
-                  </div>
-                  <div className="bg-emerald-500 text-slate-950 text-xs font-black px-3.5 py-2.5 rounded-lg text-center shrink-0">
-                    당첨 확률 {calcResult.nextProb}% 돌파! (+{calcResult.diff}%)
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* 검색 결과 없음 예외 안내 */}
-            {showCalcError && (
-              <div className="bg-slate-950/80 border border-red-500/20 rounded-2xl p-6 animate-fadeIn text-center">
-                <span className="text-3xl mb-3 block">🚨</span>
-                <h4 className="text-lg font-black text-slate-200 mb-2">아직 인증 내역을 찾을 수 없습니다</h4>
-                <p className="text-xs text-slate-400 leading-relaxed max-w-md mx-auto mb-6">
-                  아이디 오타를 확인해 보시거나, 아직 첫 인증이 구글 시트에 반영되지 않았을 수 있습니다. (시트 업데이트는 실시간 수동 검토 후 진행됩니다.)
-                </p>
-                <a
-                  href="https://www.instagram.com/fp.zero/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-block px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black rounded-xl transition shadow-md"
-                >
-                  📸 지금 인스타에 참여 인증하러 가기
-                </a>
-              </div>
-            )}
           </div>
 
           {/* 실시간 포디움 및 랭킹 목록 */}
