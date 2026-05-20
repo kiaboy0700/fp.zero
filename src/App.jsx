@@ -66,7 +66,16 @@ export default function CarbonChallengeLandingPage() {
       if (el) observer.observe(el);
     });
 
+    // 페이지 맨 아래 도달 시 마지막 섹션 활성화 강제 처리
+    const handleScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 10) {
+        setActiveSection(sections[sections.length - 1].id);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+
     return () => {
+      window.removeEventListener('scroll', handleScroll);
       sections.forEach((sec) => {
         const el = document.getElementById(sec.id);
         if (el) observer.unobserve(el);
