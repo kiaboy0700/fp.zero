@@ -1162,75 +1162,121 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
 
       {/* 🟢 올바른 인증 VS 🔴 미인정 visual 가이드 섹션 */}
       <section className="px-6 py-24 md:px-16 bg-slate-900 border-y border-slate-800 relative">
-        <div className="max-w-5xl mx-auto relative z-10">
-          <div className="text-center mb-16">
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="text-center mb-12">
             <span className="text-emerald-400 font-bold text-xs uppercase tracking-widest block mb-3">CERTIFICATION GUIDE</span>
             <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
               올바른 인증 VS 미인정 비주얼 비교
             </h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
+            <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
               지구를 위한 여러분의 모든 실천은 소중해요! 💚 미인정 예시는 최소한의 가이드일 뿐, 최대한 많은 분들이 핀볼권을 획득하실 수 있도록 <span className="text-emerald-400 font-bold">아주 유연하고 너그러운 시선(유도리 있게!)으로 심사</span>할 예정이니 너무 걱정 말고 부담 없이 참여해 주세요! 🥰
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          {/* 💡 안심 배너 */}
+          <div className="bg-amber-950/20 border border-amber-500/20 rounded-3xl p-5 mb-12 text-xs md:text-sm text-amber-300 leading-relaxed flex items-start gap-3.5 max-w-3xl mx-auto shadow-lg backdrop-blur-sm">
+            <span className="text-xl shrink-0">💡</span>
+            <div>
+              <strong className="font-extrabold text-amber-200 block mb-1 text-sm md:text-base">너무 걱정하지 마세요!</strong>
+              단순한 실수나 상황에 따른 불가피한 부분은 최대한 긍정적으로 참작해 드립니다. 고의적인 무단 도용이나 허위 인증이 아니라면 너그럽게 인정 처리해 드려요!
+            </div>
+          </div>
+
+          {/* 카테고리별 1:1 비교 그리드 */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
             
-            {/* O 올바른 인증 */}
-            <div className="bg-emerald-950/20 border border-emerald-500/20 rounded-[32px] p-8 shadow-2xl">
-              <h3 className="text-2xl font-black text-emerald-400 mb-6 flex items-center gap-2">
-                🟢 올바른 인증 사례 (Approved)
-              </h3>
-              
-              <div className="space-y-4">
-                <div className="bg-slate-900/80 rounded-2xl p-5 border border-slate-800">
-                  <h4 className="font-extrabold text-slate-100 text-sm mb-1">🥤 텀블러 사용 인증</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">카페에서 실제로 음료나 커피가 가득 담겨있고 사용 중인 정성 가득 텀블러 사진</p>
+            {/* 카드 1: 텀블러 */}
+            <div className="bg-slate-950/40 border border-slate-800 rounded-[32px] p-6 shadow-xl hover:border-slate-700/50 transition duration-300 flex flex-col justify-between group">
+              <div className="mb-5 flex items-center justify-between border-b border-slate-850 pb-4">
+                <h3 className="text-base md:text-lg font-black text-slate-100 flex items-center gap-2">
+                  🥤 텀블러 & 다회용 컵 사용
+                </h3>
+                <span className="text-[10px] bg-slate-900 text-slate-400 font-black px-2 py-0.5 rounded-full border border-slate-800 uppercase tracking-wider">TUMBLER</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="bg-emerald-950/20 border border-emerald-500/10 p-4 rounded-2xl flex flex-col justify-between hover:border-emerald-500/20 transition">
+                  <div>
+                    <span className="text-xs font-black text-emerald-400 block mb-1.5 flex items-center gap-1">🟢 정석 인증 (Approved)</span>
+                    <p className="text-[11px] text-slate-400 leading-relaxed">카페에서 실제로 음료나 커피가 가득 담겨있고 사용 중인 정성 가득 텀블러 사진</p>
+                  </div>
                 </div>
-                <div className="bg-slate-900/80 rounded-2xl p-5 border border-slate-800">
-                  <h4 className="font-extrabold text-slate-100 text-sm mb-1">♻️ 올바른 분리수거</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">플라스틱 페트병의 라벨을 깔끔하게 제거하고, 발로 밟아 압착하여 올바르게 분리배출함에 버리는 사진</p>
-                </div>
-                <div className="bg-slate-900/80 rounded-2xl p-5 border border-slate-800">
-                  <h4 className="font-extrabold text-slate-100 text-sm mb-1">👜 장바구니/에코백 사용</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">대형마트, 다이소, 편의점 등에서 비닐봉지 대신 챙겨간 에코백에 물품을 담는 실제 사용 사진</p>
-                </div>
-                <div className="bg-slate-900/80 rounded-2xl p-5 border border-slate-800">
-                  <h4 className="font-extrabold text-slate-100 text-sm mb-1">🍽️ 완전히 비워낸 그릇</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">음식물 쓰레기 감소를 증명하기 위해 찌꺼기 없이 완벽하게 비워낸 깨끗한 빈 그릇(잔반 제로) 사진</p>
+                <div className="bg-red-950/10 border border-red-500/5 p-4 rounded-2xl flex flex-col justify-between hover:border-red-500/15 transition">
+                  <div>
+                    <span className="text-xs font-black text-red-400 block mb-1.5 flex items-center gap-1">🔴 단순 소지 (Reference)</span>
+                    <p className="text-[11px] text-slate-400 leading-relaxed">음료나 물이 없는 텅 빈 텀블러 셀카, 혹은 일회용 컵을 쓰며 컵홀더만 가죽인 경우</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* X 미인정 사례 */}
-            <div className="bg-red-950/10 border border-red-500/10 rounded-[32px] p-8 shadow-2xl">
-              <h3 className="text-2xl font-black text-red-400 mb-4 flex items-center gap-2">
-                🔴 미인정 사례 예시 (Reference Only)
-              </h3>
-              
-              <div className="bg-amber-950/30 border border-amber-500/20 rounded-2xl p-4 mb-6 text-xs text-amber-300 leading-relaxed flex items-start gap-2.5">
-                <span className="text-base shrink-0">💡</span>
-                <div>
-                  <strong className="font-extrabold text-amber-200 block mb-0.5">너무 걱정하지 마세요!</strong>
-                  단순한 실수나 상황에 따른 불가피한 부분은 최대한 긍정적으로 참작해 드립니다. 고의적인 무단 도용이나 허위 인증이 아니라면 너그럽게 인정 처리해 드려요!
+            {/* 카드 2: 분리배출 */}
+            <div className="bg-slate-950/40 border border-slate-800 rounded-[32px] p-6 shadow-xl hover:border-slate-700/50 transition duration-300 flex flex-col justify-between group">
+              <div className="mb-5 flex items-center justify-between border-b border-slate-850 pb-4">
+                <h3 className="text-base md:text-lg font-black text-slate-100 flex items-center gap-2">
+                  ♻️ 압착 라벨 제거 분리배출
+                </h3>
+                <span className="text-[10px] bg-slate-900 text-slate-400 font-black px-2 py-0.5 rounded-full border border-slate-800 uppercase tracking-wider">RECYCLE</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="bg-emerald-950/20 border border-emerald-500/10 p-4 rounded-2xl flex flex-col justify-between hover:border-emerald-500/20 transition">
+                  <div>
+                    <span className="text-xs font-black text-emerald-400 block mb-1.5 flex items-center gap-1">🟢 정석 인증 (Approved)</span>
+                    <p className="text-[11px] text-slate-400 leading-relaxed">플라스틱 페트병의 라벨을 깔끔하게 제거하고, 발로 밟아 압착하여 올바르게 분리배출함에 버리는 사진</p>
+                  </div>
+                </div>
+                <div className="bg-red-950/10 border border-red-500/5 p-4 rounded-2xl flex flex-col justify-between hover:border-red-500/15 transition">
+                  <div>
+                    <span className="text-xs font-black text-red-400 block mb-1.5 flex items-center gap-1">🔴 불량 배출 (Reference)</span>
+                    <p className="text-[11px] text-slate-400 leading-relaxed">페트병의 비닐 라벨을 그대로 붙여두거나, 뚜껑을 안 뗐거나, 택배용 테이프가 가득한 상자 배출 사진</p>
+                  </div>
                 </div>
               </div>
-              
-              <div className="space-y-4">
-                <div className="bg-slate-900/80 rounded-2xl p-5 border border-slate-800">
-                  <h4 className="font-extrabold text-slate-100 text-sm mb-1">❌ 무늬만 다회용기</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">음료나 물이 없는 텅 빈 텀블러 셀카, 혹은 일회용 컵을 쓰면서 컵홀더만 다회용 가죽 홀더를 사용한 사진</p>
+            </div>
+
+            {/* 카드 3: 장바구니/에코백 */}
+            <div className="bg-slate-950/40 border border-slate-800 rounded-[32px] p-6 shadow-xl hover:border-slate-700/50 transition duration-300 flex flex-col justify-between group">
+              <div className="mb-5 flex items-center justify-between border-b border-slate-850 pb-4">
+                <h3 className="text-base md:text-lg font-black text-slate-100 flex items-center gap-2">
+                  👜 장바구니 & 에코백 사용
+                </h3>
+                <span className="text-[10px] bg-slate-900 text-slate-400 font-black px-2 py-0.5 rounded-full border border-slate-800 uppercase tracking-wider">ECO BAG</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="bg-emerald-950/20 border border-emerald-500/10 p-4 rounded-2xl flex flex-col justify-between hover:border-emerald-500/20 transition">
+                  <div>
+                    <span className="text-xs font-black text-emerald-400 block mb-1.5 flex items-center gap-1">🟢 정석 인증 (Approved)</span>
+                    <p className="text-[11px] text-slate-400 leading-relaxed">대형마트, 다이소, 편의점 등에서 비닐봉지 대신 챙겨간 에코백에 물품을 담는 실제 사용 사진</p>
+                  </div>
                 </div>
-                <div className="bg-slate-900/80 rounded-2xl p-5 border border-slate-800">
-                  <h4 className="font-extrabold text-slate-100 text-sm mb-1">❌ 불량 분리배출 사진</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">페트병의 비닐 라벨을 그대로 붙여두거나, 뚜껑을 제거하지 않은 경우, 택배용 테이프나 스티커가 덕지덕지 붙은 상자 배출 사진</p>
+                <div className="bg-red-950/10 border border-red-500/5 p-4 rounded-2xl flex flex-col justify-between hover:border-red-500/15 transition">
+                  <div>
+                    <span className="text-xs font-black text-red-400 block mb-1.5 flex items-center gap-1">🔴 단순 착용 (Reference)</span>
+                    <p className="text-[11px] text-slate-400 leading-relaxed">장보기 활동과 전혀 무관하게, 일반 의류 패션 코디용으로 매치하여 야외나 집 안에서 에코백을 메고 찍은 사진</p>
+                  </div>
                 </div>
-                <div className="bg-slate-900/80 rounded-2xl p-5 border border-slate-800">
-                  <h4 className="font-extrabold text-slate-100 text-sm mb-1">❌ 단순 패션용 장바구니</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">장보기 활동과 전혀 무관하게, 일반 의류 패션 코디용으로 매치하여 야외나 집 안에서 에코백을 착용한 사진</p>
+              </div>
+            </div>
+
+            {/* 카드 4: 잔반 제로 */}
+            <div className="bg-slate-950/40 border border-slate-800 rounded-[32px] p-6 shadow-xl hover:border-slate-700/50 transition duration-300 flex flex-col justify-between group">
+              <div className="mb-5 flex items-center justify-between border-b border-slate-850 pb-4">
+                <h3 className="text-base md:text-lg font-black text-slate-100 flex items-center gap-2">
+                  🍽️ 깨끗하게 비운 잔반 제로
+                </h3>
+                <span className="text-[10px] bg-slate-900 text-slate-400 font-black px-2 py-0.5 rounded-full border border-slate-800 uppercase tracking-wider">CLEAN PLATE</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="bg-emerald-950/20 border border-emerald-500/10 p-4 rounded-2xl flex flex-col justify-between hover:border-emerald-500/20 transition">
+                  <div>
+                    <span className="text-xs font-black text-emerald-400 block mb-1.5 flex items-center gap-1">🟢 정석 인증 (Approved)</span>
+                    <p className="text-[11px] text-slate-400 leading-relaxed">음식물 쓰레기 감소를 증명하기 위해 찌꺼기 없이 완벽하게 비워낸 깨끗한 빈 그릇(식사 완료) 사진</p>
+                  </div>
                 </div>
-                <div className="bg-slate-900/80 rounded-2xl p-5 border border-slate-800">
-                  <h4 className="font-extrabold text-slate-100 text-sm mb-1">❌ 잔반 가득한 빈 그릇</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">음식을 많이 남겨 그릇 바닥에 다량의 국물, 음식물 찌꺼기, 반찬 등이 뚜렷하게 잔류하고 있는 엉성한 잔반 사진</p>
+                <div className="bg-red-950/10 border border-red-500/5 p-4 rounded-2xl flex flex-col justify-between hover:border-red-500/15 transition">
+                  <div>
+                    <span className="text-xs font-black text-red-400 block mb-1.5 flex items-center gap-1">🔴 음식 남김 (Reference)</span>
+                    <p className="text-[11px] text-slate-400 leading-relaxed">음식을 많이 남겨 그릇 바닥에 다량의 국물, 음식물 찌꺼기, 반찬 등이 뚜렷하게 남은 엉성한 사진</p>
+                  </div>
                 </div>
               </div>
             </div>
