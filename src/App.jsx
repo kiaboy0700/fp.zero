@@ -144,7 +144,7 @@ export default function CarbonChallengeLandingPage() {
 🏆 등급: ${quizResult.grade}등급 (${quizResult.emoji})
 💬 "${quizResult.desc.slice(0, 70)}..."
 
-🌿 일상 속 작은 인증샷 하나로 예쁜 에코백/우산/유리컵 100% 무조건 추첨!
+🌿 인증사진 업로드하고 친환경 에코백/우산/유리컵 경품 추첨 참여하기!
 👉 지금 바로 도전하기: https://fp-zero.vercel.app/
 
 #탄소다이어트챌린지 #퍼스트펭귄 #탄소제로 #친환경 #제로웨이스트`;
@@ -204,13 +204,13 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
   const steps = [
     {
       title: '탄소중립 실천',
-      desc: '텀블러 사용, 분리배출, 에코백 사용 등 일상 속 쉬운 행동하기',
+      desc: '텀블러 사용, 분리배출, 에코백 사용 등 환경을 지키는 실천하기',
       number: '01',
       emoji: '🌱'
     },
     {
       title: '인증 사진 촬영',
-      desc: '실천 내용과 내 정성이 명확히 보이게 사진 찰칵!',
+      desc: '실천한 행동이 잘 드러나도록 사진 촬영하기',
       number: '02',
       emoji: '📸'
     },
@@ -337,7 +337,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
         const shuffled = [...parsedData].sort(() => 0.5 - Math.random());
         const randomUsers = shuffled.slice(0, 2);
         randomUsers.forEach(u => {
-          messages.push(`🌱 ${u.username}님이 소중한 탄소 다이어트 실천으로 지구 온도를 낮추고 있습니다! (누적 인증 ${u.count}회)`);
+          messages.push(`🌱 ${u.username}님이 탄소 다이어트에 참여해 지구 온도를 낮추고 있습니다! (누적 인증 ${u.count}회)`);
         });
 
         messages.push(`🎯 인스타 스토리에 @fp.zero를 태그하고 실천 사진을 올리면 즉시 랭킹에 등록됩니다!`);
@@ -513,7 +513,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                 탄소 다이어트 챌린지 🌱
               </h1>
               <p className="text-xs md:text-sm text-slate-400 max-w-xl">
-                일상 속 작은 인증샷 하나로 지구 온도는 내리고, <span className="text-emerald-400 font-bold">감성 넘치는 친환경 굿즈 100% 무조건 추첨!</span>
+                인증샷 업로드로 실천을 기록하고, <span className="text-emerald-400 font-bold">친환경 굿즈 추첨의 기회를 획득해 보세요!</span>
               </p>
             </div>
             
@@ -539,7 +539,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
           {/* B. 핵심 참여 동기 부여 미니 배지 (완벽한 중앙 정렬 및 프리미엄 글래스모피즘 캡슐형 디자인) */}
           <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
             <div className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-slate-900/60 border border-emerald-500/20 text-slate-200 text-xs md:text-sm font-extrabold shadow-lg hover:border-emerald-500/40 transition duration-300 backdrop-blur-md">
-              <span className="text-emerald-400 text-base">🎁</span> 총 7명 무조건 선정
+              <span className="text-emerald-400 text-base">🎁</span> 총 7명 리워드 선정
             </div>
             <div className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-slate-900/60 border border-teal-500/20 text-slate-200 text-xs md:text-sm font-extrabold shadow-lg hover:border-teal-500/40 transition duration-300 backdrop-blur-md">
               <span className="text-teal-400 text-base">🎲</span> 1장만 올려도 공정한 핀볼 확률
@@ -564,7 +564,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                 <span className="text-3xl bg-emerald-500/10 p-3 rounded-2xl group-hover:scale-110 transition shrink-0">🌱</span>
                 <div className="min-w-0">
                   <span className="text-[10px] text-slate-500 font-black block mb-0.5 uppercase tracking-wider">STEP 01. 실천</span>
-                  <span className="text-sm font-bold text-slate-200 block mb-0.5">일상 속 쉬운 탄소중립 실천</span>
+                  <span className="text-sm font-bold text-slate-200 block mb-0.5">탄소 감축 행동 실천</span>
                   <span className="text-slate-400 text-xs truncate block leading-normal">텀블러 사용, 분리배출, 에코백 사용 등</span>
                 </div>
               </div>
@@ -574,7 +574,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                 <div className="min-w-0">
                   <span className="text-[10px] text-slate-500 font-black block mb-0.5 uppercase tracking-wider">STEP 02. 촬영</span>
                   <span className="text-sm font-bold text-slate-200 block mb-0.5">인증 사진 촬영</span>
-                  <span className="text-slate-400 text-xs truncate block leading-normal">실천 내용과 내 정성이 명확히 보이게!</span>
+                  <span className="text-slate-400 text-xs truncate block leading-normal">실천한 행동이 잘 드러나도록 촬영</span>
                 </div>
               </div>
               <div className="bg-slate-900/50 border border-slate-800/80 p-4 rounded-2xl flex items-center gap-4 hover:border-emerald-500/30 transition group relative overflow-hidden">
@@ -596,7 +596,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
             <div className="text-center sm:text-left space-y-2 flex-1">
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 justify-center sm:justify-start">
                 <strong className="text-sm sm:text-base font-black text-emerald-300">
-                  4대 대표 미션이 아니어도 왠만하면 무조건 100% 승인!
+                  4대 대표 미션이 아니어도 환경을 위한 행동이면 최대한 승인!
                 </strong>
                 <span className="self-center bg-emerald-500/20 text-emerald-400 text-[9px] font-black px-2 py-0.5 rounded-full border border-emerald-500/30 whitespace-nowrap">
                   안심 프리패스 꿀팁
@@ -604,7 +604,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
               </div>
               
               <p className="text-slate-350 text-[11px] md:text-xs font-semibold leading-relaxed">
-                탄소중립과 조금이라도 연관된 사소한 행동은 <span className="text-emerald-400 font-extrabold underline decoration-emerald-500/40 decoration-2 underline-offset-2">전부 인정</span>해 드립니다! 지구를 생각하는 마음만 있다면 무엇이든 가볍게 올려주세요 💚
+                탄소중립과 조금이라도 연관된 행동은 <span className="text-emerald-400 font-extrabold underline decoration-emerald-500/40 decoration-2 underline-offset-2">전부 인정</span>해 드립니다! 환경에 보탬이 되는 행동이라면 무엇이든 편하게 올려주세요 💚
               </p>
 
               {/* 사소한 행동 예시 칩 */}
@@ -984,7 +984,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
           <div className="text-center mb-12">
             <span className="text-emerald-400 font-bold text-xs uppercase tracking-widest block mb-3">Eco Carbon Test</span>
             <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">
-              내 일상 속 탄소 등급은?
+              나의 탄소 배출 등급은?
             </h2>
             <p className="text-slate-400">
               초간단 3개 질문으로 지구 온도를 올리는 내 탄소 등급을 확인해 보세요!
@@ -1251,10 +1251,10 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
           <div className="text-center mb-12">
             <span className="text-emerald-400 font-bold text-xs uppercase tracking-widest block mb-3">CERTIFICATION GUIDE</span>
             <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500 bg-clip-text text-transparent">
-              지구를 향한 즐겁고 쉬운 실천! 100% 프리패스 인증 가이드 💚
+              탄소 다이어트 인증 가이드 💚
             </h2>
             <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
-              망설이지 말고 편하게 참여하세요! 🥰 고의적인 도용이 아니라면 여러분의 소중한 실천을 아주 너그러운 시선으로 <span className="text-emerald-400 font-bold">100% 기분 좋게 승인</span>해 드립니다.
+              망설이지 말고 편하게 참여해 주세요! 🥰 도용이나 허위 인증이 아니라면 성실한 참여 사진은 모두 너그럽게 승인해 드립니다.
             </p>
           </div>
 
@@ -1263,8 +1263,8 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
             <div className="bg-emerald-950/25 border border-emerald-500/20 rounded-3xl p-5 text-xs md:text-sm text-emerald-300 leading-relaxed flex items-start gap-3.5 shadow-lg backdrop-blur-sm hover:border-emerald-500/35 transition duration-300">
               <span className="text-2xl shrink-0">🌈</span>
               <div>
-                <strong className="font-extrabold text-emerald-250 block mb-1 text-sm md:text-base">환경에 도움되는 모든 행동은 100% 승인! 🌈</strong>
-                4대 미션 외에도 대중교통, 장바구니, 코드 뽑기 등 **일상 속 작은 실천**이면 무엇이든 무조건 인정해 드립니다! 💚
+                <strong className="font-extrabold text-emerald-250 block mb-1 text-sm md:text-base">환경에 도움되는 행동은 최대한 인정해 드립니다! 🌈</strong>
+                4대 미션 외에도 대중교통 이용, 장바구니 사용, 미사용 코드 뽑기 등 환경을 생각한 행동이면 무엇이든 기분 좋게 통과시켜 드립니다! 💚
               </div>
             </div>
           </div>
@@ -1299,7 +1299,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                 id: 'TUMBLER',
                 title: '🥤 텀블러 & 다회용 컵 사용',
                 tag: 'TUMBLER',
-                approvedTitle: '100% 승인 (Approved)',
+                approvedTitle: '승인 (Approved)',
                 approvedDesc: '보온병, 머그컵, 빨대컵 등 다양한 개인 다회용 컵 실천을 환영합니다.',
                 approvedDetails: [
                   '개인 보온병, 머그컵, 텀블러 등의 다회용 컵 실천',
@@ -1352,7 +1352,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                 id: 'RECYCLE',
                 title: '♻️ 압착 라벨 제거 분리배출',
                 tag: 'RECYCLE',
-                approvedTitle: '100% 승인 (Approved)',
+                approvedTitle: '승인 (Approved)',
                 approvedDesc: '라벨을 떼고 꾹 눌러 배출하면 끝! 방이나 책상 위 등 어디서나 인증 가능합니다.',
                 approvedDetails: [
                   '비닐 라벨을 분리하고 납작하게 압착한 페트병',
@@ -1417,7 +1417,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                 id: 'ECOBAG',
                 title: '👜 장바구니 & 에코백 사용',
                 tag: 'ECO BAG',
-                approvedTitle: '100% 승인 (Approved)',
+                approvedTitle: '승인 (Approved)',
                 approvedDesc: '마트나 편의점에서 일회용 비닐 대신 에코백/장바구니를 사용해 주세요. 가방이 비어 있어도 통과!',
                 approvedDetails: [
                   '에코백/장바구니 속에 소량의 물건을 담은 모습',
@@ -1480,7 +1480,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                 id: 'CLEANPLATE',
                 title: '🍽️ 깨끗하게 비운 잔반 제로',
                 tag: 'CLEAN PLATE',
-                approvedTitle: '100% 승인 (Approved)',
+                approvedTitle: '승인 (Approved)',
                 approvedDesc: '기분 좋게 다 비워낸 그릇! 약간의 소스나 국물, 과일 씨앗, 뼈 등은 당연히 참작됩니다.',
                 approvedDetails: [
                   '식사 후 깨끗하게 비운 접시, 밥그릇, 급식 식판',
@@ -1594,7 +1594,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                             {/* SVG mockup box */}
                             <div className="w-full h-36 bg-slate-900/60 rounded-xl mb-4 flex items-center justify-center relative border border-emerald-500/10 group-hover/item:border-emerald-500/20 transition overflow-hidden">
                               <span className="absolute top-2.5 left-2.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[9px] font-black px-2.5 py-0.5 rounded-full tracking-wider shadow-inner">
-                                🟢 FREE PASS
+                                🟢 승인 대상
                               </span>
                               {guide.approvedSvg}
                             </div>
