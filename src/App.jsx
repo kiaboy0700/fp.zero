@@ -667,7 +667,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                         {/* 현재 확률 바 */}
                         <div
                           className="absolute top-0 left-0 bg-gradient-to-r from-teal-500 to-emerald-400 h-full rounded-full transition-all duration-1000 shadow-[0_0_8px_rgba(20,184,166,0.4)]"
-                          style={{ width: `${Math.min(parseFloat(calcResult.probability) * 5, 100)}%` }} // 저인증 참가자를 위해 살짝 스케일링하여 visual 차이 제공
+                          style={{ width: `${Math.min(parseFloat(calcResult.probability), 100)}%` }}
                         ></div>
                       </div>
                     </div>
