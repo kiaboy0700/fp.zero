@@ -37,7 +37,7 @@ export default function CarbonChallengeLandingPage() {
     { id: 'home', label: '🏠 홈', mobileLabel: '홈' },
     { id: 'live-leaderboard', label: '🏆 실시간 랭킹', mobileLabel: '랭킹' },
     { id: 'carbon-test', label: '🧠 탄소 테스트', mobileLabel: '테스트' },
-    { id: 'carbon-calculator', label: '🥗 체크리스트', mobileLabel: '체크' },
+    { id: 'carbon-calculator', label: '🥗 체크리스트', mobileLabel: '감량' },
     { id: 'challenge-reward', label: '🎁 상품', mobileLabel: '상품' },
     { id: 'certification-guide', label: '🥤 인증 가이드', mobileLabel: '인증' }
   ];
