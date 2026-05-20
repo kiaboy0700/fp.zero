@@ -18,8 +18,116 @@ export default function CarbonChallengeLandingPage() {
   const [quizAnswers, setQuizAnswers] = useState([]);
   const [quizResult, setQuizResult] = useState(null);
 
-  // 홍보글 복사 알림 토스트 상태
+  // 🎲 모의 추첨기(시뮬레이터) 상태
+  const [mockDrawActive, setMockDrawActive] = useState(false);
+  const [mockWinner, setMockWinner] = useState(null);
+  const [showMockWinnerModal, setShowMockWinnerModal] = useState(false);
+
+  // 📝 오늘 나의 탄소 감량 계산기 상태
+  const [todayChecks, setTodayChecks] = useState({
+    tumbler: false,
+    recycle: false,
+    ecoback: false,
+    cleanPlate: false,
+  });
+
+  // 📋 플로팅 Toast 알림 상태
+  const [toastMessage, setToastMessage] = useState('');
   const [showToast, setShowToast] = useState(false);
+
+  // ⚡ 실시간 챌린저 롤링 티커 상태
+  const [tickerIndex, setTickerIndex] = useState(0);
+  const [tickerMessages, setTickerMessages] = useState([]);
+
+  // Toast 트리거 함수
+  const triggerToast = (message) => {
+    setToastMessage(message);
+    setShowToast(true);
+  };
+
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
+
+  // 롤링 티커 타이머
+  useEffect(() => {
+    if (tickerMessages.length === 0) return;
+    const interval = setInterval(() => {
+      setTickerIndex((prevIndex) => (prevIndex + 1) % tickerMessages.length);
+    }, 4500);
+    return () => clearInterval(interval);
+  }, [tickerMessages]);
+
+  // 클립보드 복사 헬퍼 함수
+  const handleCopyText = (text, type) => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          triggerToast(`📋 ${type} 공유 문구가 복사되었습니다! 인스타/에타에 소문을 내보세요!`);
+        })
+        .catch((err) => {
+          console.error('Failed to copy: ', err);
+          fallbackCopyText(text, type);
+        });
+    } else {
+      fallbackCopyText(text, type);
+    }
+  };
+
+  const fallbackCopyText = (text, type) => {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed'; // 화면 스크롤 방지
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      triggerToast(`📋 ${type} 공유 문구가 복사되었습니다! 인스타/에타에 소문을 내보세요!`);
+    } catch (err) {
+      console.error('Fallback copy failed: ', err);
+      triggerToast(`❌ 복사에 실패했습니다. 직접 복사해 주세요.`);
+    }
+    document.body.removeChild(textArea);
+  };
+
+  // 퀴즈 결과 바이럴 문구 템플릿
+  const getQuizShareText = () => {
+    if (!quizResult) return '';
+    return `🥑 [탄소 다이어트 챌린지 등급 테스트 결과] 🥑
+지구 온도를 낮추는 나의 탄소 지수 등급은 과연?
+
+🏆 등급: ${quizResult.grade}등급 (${quizResult.emoji})
+💬 "${quizResult.desc.slice(0, 70)}..."
+
+🌿 일상 속 작은 인증샷 하나로 예쁜 에코백/우산/유리컵 100% 무조건 추첨!
+👉 지금 바로 도전하기: https://fp-zero.vercel.app/
+
+#탄소다이어트챌린지 #퍼스트펭귄 #탄소제로 #친환경 #제로웨이스트`;
+  };
+
+  // 탄소 계산기 바이럴 문구 템플릿
+  const getCarbonCalculatorShareText = () => {
+    const saved = calculateSavedCarbon();
+    return `🌳 [탄소 다이어트 계산기] 🌳
+오늘 하루 나의 실천으로 줄여낸 탄소 감량 스코어!
+
+✨ 오늘 줄인 이산화탄소: ${saved}g CO₂
+🌲 소나무 약 ${(saved * 0.1).toFixed(1)}그루를 심은 효과!
+
+[나의 실천 항목]
+${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${todayChecks.recycle ? '♻️ 압착 라벨 제거 분리배출 (+50g)\n' : ''}${todayChecks.ecoback ? '👜 장볼 때 에코백 사용 (+30g)\n' : ''}${todayChecks.cleanPlate ? '🍽️ 음식 남기지 않고 잔반 제로 (+120g)\n' : ''}
+👉 여러분도 오늘 하루 탄소 지수를 측정하고 선물 받아가세요!
+🔗 참여 링크: https://fp-zero.vercel.app/
+
+#탄소다이어트챌린지 #탄소계산기 #경산시 #탄소중립 #퍼스트펭귄`;
+  };
+
 
   const products = [
     {
@@ -180,6 +288,29 @@ export default function CarbonChallengeLandingPage() {
         totalActions: totalApprovedActions,
       });
 
+      // ⚡ 실시간 롤링 티커 메시지 동적 구성
+      if (parsedData.length > 0) {
+        const messages = [];
+        if (parsedData[0]) messages.push(`👑 현재 1위는 ${parsedData[0].username}님! 총 ${parsedData[0].count}회 인증으로 챌린지를 선도 중입니다.`);
+        if (parsedData[1]) messages.push(`🥈 ${parsedData[1].username}님이 ${parsedData[1].count}회 인증으로 1위를 바짝 추격하고 있습니다!`);
+        
+        // 무작위 참여자 2명 선정하여 격려 메시지
+        const shuffled = [...parsedData].sort(() => 0.5 - Math.random());
+        const randomUsers = shuffled.slice(0, 2);
+        randomUsers.forEach(u => {
+          messages.push(`🌱 ${u.username}님이 소중한 탄소 다이어트 실천으로 지구 온도를 낮추고 있습니다! (누적 인증 ${u.count}회)`);
+        });
+
+        messages.push(`🎯 인스타 스토리에 @fp.zero를 태그하고 실천 사진을 올리면 즉시 랭킹에 등록됩니다!`);
+        messages.push(`🎲 현재 실시간 핀볼 총 수량은 ${totalApprovedActions}개! 단 1개의 인증으로도 경품 당첨 기회가 열려있습니다.`);
+        setTickerMessages(messages);
+      } else {
+        setTickerMessages([
+          `🎯 인스타 스토리에 @fp.zero를 태그하고 실천 사진을 올리면 즉시 랭킹에 등록됩니다!`,
+          `🌍 제2기 경산시 탄소중립 서포터즈 퍼스트펭귄과 함께 탄소 제로를 실천해 보아요!`,
+        ]);
+      }
+
       const now = new Date();
       setLastUpdated(
         `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(
@@ -208,13 +339,11 @@ export default function CarbonChallengeLandingPage() {
 
     if (!calcInput.trim()) return;
 
-    // 입력값 포맷팅 (앞에 @가 없으면 추가)
     let searchId = calcInput.trim();
     if (!searchId.startsWith('@')) {
       searchId = `@${searchId}`;
     }
 
-    // 참가자 목록에서 아이디 검색
     const foundUser = leaderboard.find(
       (user) => user.rawUsername.toLowerCase() === searchId.toLowerCase()
     );
@@ -224,13 +353,9 @@ export default function CarbonChallengeLandingPage() {
       return;
     }
 
-    // 당첨 확률 계산 (사용자 핀볼 수 / 전체 핀볼 수)
-    // 핀볼 수 = 누적 인정 개수
     const userPinballs = foundUser.count;
     const totalPinballs = stats.totalActions;
     const probability = totalPinballs > 0 ? (userPinballs / totalPinballs) * 100 : 0;
-
-    // 추가 1회 인증 시 예상 확률 계산
     const nextProb = totalPinballs > 0 ? ((userPinballs + 1) / (totalPinballs + 1)) * 100 : 0;
 
     setCalcResult({
@@ -253,7 +378,6 @@ export default function CarbonChallengeLandingPage() {
       setQuizStep(quizStep + 1);
     }
 
-    // 모든 질문 완료 시 결과 계산
     if (quizStep + 1 > quizQuestions.length) {
       const totalScore = updatedAnswers.reduce((a, b) => a + b, 0);
       let grade = '';
@@ -283,36 +407,63 @@ export default function CarbonChallengeLandingPage() {
     }
   };
 
-  // 퀴즈 초기화
   const resetQuiz = () => {
     setQuizStep(0);
     setQuizAnswers([]);
     setQuizResult(null);
   };
 
-  // 에브리타임 홍보 글 텍스트 생성 및 복사
-  const copyPromoText = () => {
-    const activeUrl = window.location.href;
-    const text = `🌱 [에타 화제의 챌린지] 커피 한 잔만 텀블러에 받아도 상품 쏟아짐!! 🎁
+  // 🎲 실시간 핀볼 룰렛 모의 추첨기 핸들러
+  const handleMockDraw = () => {
+    if (leaderboard.length === 0 || mockDrawActive) return;
+    
+    setMockDrawActive(true);
+    setShowMockWinnerModal(true);
+    setMockWinner(null);
 
-경산시 탄소중립 서포터즈 "퍼스트펭귄"이 진행하는 초간단 '탄소 다이어트 챌린지' 들어봤어??
-귀찮은 절차 하나 없이 인스타 스토리에 인증샷 올리고 태그하면 참여 끝임 ㅋㅋㅋ
-
-🔥 1등 특혜: 리뉴 업사이클링 우산, 머그컵, 홈카페 유리컵, 에코백 중 상품 1순위 우선 선택!
-🎲 핀볼 추첨 방식: 인증 개수가 많을수록 핀볼 개수 늘어나서 당첨 확률 떡상함!
-📊 실시간 내 순위랑 당첨 확률 계산해주는 댕꿀잼 계산기도 사이트에 있음!
-
-👉 지금 내 등급 테스트해보고 순위 확인하기:
-${activeUrl}
-
-#퍼스트펭귄 #탄소다이어트챌린지 #에코캠퍼스`;
-
-    navigator.clipboard.writeText(text).then(() => {
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 3000);
-    }).catch(err => {
-      console.error('클립보드 복사 실패:', err);
+    // 실제 참여자의 핀볼 개수(인증수)만큼 가중치를 두어 추첨 풀 생성
+    const pool = [];
+    leaderboard.forEach(user => {
+      for (let i = 0; i < user.count; i++) {
+        pool.push(user);
+      }
     });
+
+    if (pool.length === 0) {
+      setMockDrawActive(false);
+      setShowMockWinnerModal(false);
+      return;
+    }
+
+    let duration = 3000; // 3초 동안 빠르게 회전
+    let intervalTime = 70;
+    let elapsed = 0;
+
+    const interval = setInterval(() => {
+      // 가짜 당첨자 롤링 애니메이션용 무작위 선택
+      const tempWinner = pool[Math.floor(Math.random() * pool.length)];
+      setMockWinner(tempWinner);
+      elapsed += intervalTime;
+
+      if (elapsed >= duration) {
+        clearInterval(interval);
+        // 실제 당첨자 선정
+        const finalWinner = pool[Math.floor(Math.random() * pool.length)];
+        setMockWinner(finalWinner);
+        setMockDrawActive(false);
+      }
+    }, intervalTime);
+  };
+
+  // 📝 오늘 탄소 감량 무게 계산 (g CO2)
+  // 텀블러: 100g, 올바른분리배출: 50g, 에코백: 30g, 잔반없음: 120g
+  const calculateSavedCarbon = () => {
+    return (
+      (todayChecks.tumbler ? 100 : 0) +
+      (todayChecks.recycle ? 50 : 0) +
+      (todayChecks.ecoback ? 30 : 0) +
+      (todayChecks.cleanPlate ? 120 : 0)
+    );
   };
 
   const topThree = leaderboard.slice(0, 3);
@@ -321,21 +472,93 @@ ${activeUrl}
   return (
     <div className="min-h-screen bg-slate-900 text-slate-100 font-sans selection:bg-emerald-500 selection:text-white antialiased">
       
-      {/* 클립보드 복사 토스트 팝업 */}
-      {showToast && (
-        <div className="fixed bottom-8 right-8 z-50 bg-emerald-500 text-white px-6 py-4 rounded-2xl shadow-2xl font-bold flex items-center gap-3 animate-bounce border border-emerald-400">
-          <span>✨ 홍보 문구가 클립보드에 복사되었습니다! 에타나 에브리타임에 붙여넣어 홍보해 보세요!</span>
+      {/* ⚡ 실시간 챌린저 알림 롤링 티커 */}
+      {tickerMessages.length > 0 && (
+        <div className="bg-slate-950/90 border-b border-emerald-500/20 backdrop-blur-md sticky top-0 z-40 overflow-hidden py-3 px-4 flex items-center justify-center">
+          <div className="max-w-4xl w-full flex items-center gap-3">
+            <span className="flex-shrink-0 px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-black uppercase tracking-wider animate-pulse">
+              LIVE FEED
+            </span>
+            <div className="flex-grow h-5 overflow-hidden relative">
+              {tickerMessages.map((msg, idx) => (
+                <p
+                  key={idx}
+                  className={`text-xs md:text-sm font-semibold text-slate-300 truncate w-full absolute transition-all duration-500 ease-in-out ${
+                    idx === tickerIndex
+                      ? 'opacity-100 translate-y-0'
+                      : 'opacity-0 translate-y-4 pointer-events-none'
+                  }`}
+                >
+                  {msg}
+                </p>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 🎰 모의 추첨 결과 모달 팝업 */}
+      {showMockWinnerModal && (
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-6 animate-fadeIn">
+          <div className="bg-slate-900 border border-slate-700/60 rounded-[36px] max-w-md w-full p-8 text-center shadow-2xl relative overflow-hidden ring-4 ring-emerald-500/20">
+            <div className="absolute top-[-20%] left-[-20%] w-[60%] h-[60%] bg-emerald-900/20 rounded-full blur-[80px]"></div>
+            
+            <h3 className="text-2xl font-black text-slate-100 mb-2">🎲 모의 핀볼 추첨 시뮬레이터</h3>
+            <p className="text-xs text-slate-400 mb-6 leading-relaxed">
+              *실제 참가자들의 인증 수(가중치)를 반영한 모의 룰렛 결과입니다.
+            </p>
+
+            <div className="bg-slate-950/80 border border-slate-800 rounded-3xl p-10 mb-8 relative min-h-[160px] flex flex-col justify-center items-center">
+              {mockDrawActive ? (
+                <div className="space-y-4">
+                  <div className="text-4xl animate-spin">🌀</div>
+                  <p className="text-lg font-black text-emerald-400 animate-pulse truncate max-w-[200px]">
+                    {mockWinner ? mockWinner.username : '핀볼 룰렛 회전 중...'}
+                  </p>
+                </div>
+              ) : (
+                mockWinner && (
+                  <div className="animate-scaleUp">
+                    <div className="text-5xl mb-4">🏆</div>
+                    <span className="text-xs text-emerald-400 font-bold block mb-1">MOCK WINNER</span>
+                    <h4 className="text-3xl font-black text-white truncate max-w-[240px] mb-2">
+                      {mockWinner.username}
+                    </h4>
+                    <p className="text-xs text-slate-500 font-semibold">
+                      획득한 핀볼 수: <span className="text-emerald-400 font-bold">{mockWinner.count}개</span>
+                    </p>
+                  </div>
+                )
+              )}
+            </div>
+
+            <div className="space-y-3">
+              <button
+                onClick={handleMockDraw}
+                disabled={mockDrawActive}
+                className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-slate-950 font-black rounded-2xl transition shadow-lg shadow-emerald-500/10"
+              >
+                {mockDrawActive ? '추첨 진행 중...' : '🎲 다시 돌리기'}
+              </button>
+              <button
+                onClick={() => setShowMockWinnerModal(false)}
+                disabled={mockDrawActive}
+                className="w-full py-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-2xl border border-slate-800 transition"
+              >
+                닫기
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
       {/* 히어로 섹션 */}
       <section className="relative px-6 py-28 md:px-16 text-center overflow-hidden bg-radial-gradient">
-        {/* 네온 조명 배경 효과 */}
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-emerald-900/25 rounded-full blur-[120px] pointer-events-none"></div>
-        <div className="absolute bottom-[10%] right-[-10%] w-[45%] h-[45%] bg-teal-900/20 rounded-full blur-[100px] pointer-events-none"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-emerald-950/25 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute bottom-[10%] right-[-10%] w-[45%] h-[45%] bg-teal-950/20 rounded-full blur-[100px] pointer-events-none"></div>
         
         <div className="max-w-4xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 bg-emerald-950/80 border border-emerald-700/50 text-emerald-400 px-5 py-2.5 rounded-full text-xs font-bold tracking-wide uppercase mb-8 shadow-inner">
+          <div className="inline-flex items-center gap-2 bg-emerald-950/80 border border-emerald-700/50 text-emerald-400 px-5 py-2.5 rounded-full text-xs font-bold tracking-wide uppercase mb-8 shadow-inner animate-pulse">
             🌍 제2기 경산시 탄소중립 서포터즈 퍼스트펭귄
           </div>
 
@@ -358,15 +581,47 @@ ${activeUrl}
               rel="noreferrer"
               className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 text-lg font-black tracking-wide shadow-[0_0_30px_rgba(16,185,129,0.3)] transition transform hover:-translate-y-1 active:translate-y-0 text-center"
             >
-              📸 1초만에 인증하고 시작하기
+              📸 지금 참여 인증하러 가기
             </a>
 
             <a
               href="#live-leaderboard"
               className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-slate-800/80 border border-slate-700 hover:bg-slate-700 text-slate-200 text-lg font-bold transition shadow-md hover:-translate-y-1 active:translate-y-0 text-center"
             >
-              🏆 내 당첨확률 & 순위 조회
+              🏆 내 실시간 확률 & 순위 조회
             </a>
+          </div>
+
+          {/* 🌍 챌린저 공동 목표 실시간 탄소 감량 현황판 */}
+          <div className="max-w-3xl mx-auto my-16 bg-slate-950/50 backdrop-blur-md border border-emerald-500/20 rounded-[32px] p-6 md:p-8 text-center shadow-xl animate-fadeIn">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+              <div className="text-left">
+                <span className="text-emerald-400 font-black text-xs uppercase tracking-wider block mb-1">
+                  GLOBAL ECO GOAL 🌍
+                </span>
+                <h3 className="text-xl md:text-2xl font-black text-slate-100">
+                  우리가 함께 줄여낸 탄소 감량
+                </h3>
+              </div>
+              <div className="bg-emerald-950/60 border border-emerald-800 text-emerald-400 px-4 py-2 rounded-full text-xs font-black">
+                🌳 누적 소나무 {(stats.totalActions * 10).toFixed(0)}그루 식재 효과
+              </div>
+            </div>
+
+            {/* 게이지 바 */}
+            <div className="relative w-full bg-slate-800 h-6 rounded-full overflow-hidden mb-4 border border-slate-700/50">
+              <div
+                className="absolute top-0 left-0 bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-1000 shadow-[0_0_15px_rgba(16,185,129,0.5)]"
+                style={{ width: `${Math.min(((stats.totalActions * 100) / 50000) * 100, 100)}%` }}
+              ></div>
+              <span className="absolute inset-0 flex items-center justify-center text-xs font-black text-white drop-shadow-md">
+                {(stats.totalActions * 100).toLocaleString()}g / 50,000g CO₂ 저감 ({Math.min(((stats.totalActions * 100) / 50000) * 100, 100).toFixed(1)}%)
+              </span>
+            </div>
+            
+            <p className="text-xs text-slate-400 font-medium">
+              *참가자들이 구글 시트에 인증 완료한 총 핀볼 갯수 <b>{stats.totalActions}개</b>에 비례하여 실시간 자동 집계됩니다.
+            </p>
           </div>
 
           {/* 핵심 지표 요약 카드 */}
@@ -392,7 +647,7 @@ ${activeUrl}
         </div>
       </section>
 
-      {/* 🧠 1단계: 탄소 다이어트 등급 테스트 (방문자 흥미 유발 퀴즈) */}
+      {/* 🧠 테스트 1: 탄소 다이어트 등급 테스트 (흥미 유발 퀴즈) */}
       <section className="px-6 py-24 md:px-16 bg-slate-900 border-y border-slate-800 relative">
         <div className="absolute top-[20%] right-[-10%] w-[30%] h-[30%] bg-emerald-950/15 rounded-full blur-[80px] pointer-events-none"></div>
         
@@ -475,10 +730,16 @@ ${activeUrl}
                     href="https://www.instagram.com/fp.zero/"
                     target="_blank"
                     rel="noreferrer"
-                    className="px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-2xl transition shadow-lg text-center"
+                    className="px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-2xl transition shadow-lg text-center shrink-0"
                   >
                     🌱 즉시 챌린지 신청하고 등급 올리기
                   </a>
+                  <button
+                    onClick={() => handleCopyText(getQuizShareText(), '테스트 결과')}
+                    className="px-8 py-4 bg-slate-800/80 hover:bg-slate-700 text-emerald-400 font-black rounded-2xl border border-emerald-500/30 transition text-center shadow-md flex items-center justify-center gap-2"
+                  >
+                    🔗 결과 문구 복사 (인스타 소문내기)
+                  </button>
                   <button
                     onClick={resetQuiz}
                     className="px-8 py-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-2xl border border-slate-700 transition"
@@ -492,8 +753,128 @@ ${activeUrl}
         </div>
       </section>
 
+      {/* 🍀 오늘 나의 탄소 감량 계산기 (참여 행동 촉진 도구) */}
+      <section className="px-6 py-24 md:px-16 bg-slate-950 relative">
+        <div className="absolute top-[30%] left-[-10%] w-[35%] h-[35%] bg-emerald-950/15 rounded-full blur-[90px] pointer-events-none"></div>
+        
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <span className="text-emerald-400 font-bold text-xs uppercase tracking-widest block mb-3">DAILY ECO TRACKER</span>
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">
+              오늘 나는 탄소를 얼마나 감량했을까?
+            </h2>
+            <p className="text-slate-400">
+              오늘 하루 실천한 행동들을 체크하면 바로 줄인 탄소의 양(CO2)을 계산해 줍니다!
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            
+            {/* 체크리스트 */}
+            <div className="lg:col-span-7 bg-slate-900/60 border border-slate-800 rounded-[32px] p-8 md:p-10 shadow-2xl backdrop-blur-md">
+              <h3 className="text-xl font-bold mb-6 text-slate-200">🥗 오늘 실천한 행동 체크리스트</h3>
+              
+              <div className="space-y-4">
+                <label className="flex items-center gap-4 p-5 rounded-2xl bg-slate-950/60 border border-slate-800 hover:border-emerald-500/30 transition cursor-pointer select-none group">
+                  <input
+                    type="checkbox"
+                    checked={todayChecks.tumbler}
+                    onChange={(e) => setTodayChecks({ ...todayChecks, tumbler: e.target.checked })}
+                    className="w-6 h-6 rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-emerald-500 cursor-pointer"
+                  />
+                  <div>
+                    <span className="font-bold text-slate-200 group-hover:text-emerald-400 transition block">☕ 카페에서 텀블러/다회용 컵 사용하기</span>
+                    <span className="text-xs text-slate-500 font-medium">하루 평균 100g CO₂ 저감 효과</span>
+                  </div>
+                </label>
+
+                <label className="flex items-center gap-4 p-5 rounded-2xl bg-slate-950/60 border border-slate-800 hover:border-emerald-500/30 transition cursor-pointer select-none group">
+                  <input
+                    type="checkbox"
+                    checked={todayChecks.recycle}
+                    onChange={(e) => setTodayChecks({ ...todayChecks, recycle: e.target.checked })}
+                    className="w-6 h-6 rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-emerald-500 cursor-pointer"
+                  />
+                  <div>
+                    <span className="font-bold text-slate-200 group-hover:text-emerald-400 transition block">♻️ 비닐 라벨을 제거하고 압착하여 분리배출하기</span>
+                    <span className="text-xs text-slate-500 font-medium">재활용률 100% 상승 및 50g CO₂ 저감</span>
+                  </div>
+                </label>
+
+                <label className="flex items-center gap-4 p-5 rounded-2xl bg-slate-950/60 border border-slate-800 hover:border-emerald-500/30 transition cursor-pointer select-none group">
+                  <input
+                    type="checkbox"
+                    checked={todayChecks.ecoback}
+                    onChange={(e) => setTodayChecks({ ...todayChecks, ecoback: e.target.checked })}
+                    className="w-6 h-6 rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-emerald-500 cursor-pointer"
+                  />
+                  <div>
+                    <span className="font-bold text-slate-200 group-hover:text-emerald-400 transition block">👜 장볼 때 비닐봉투 대신 에코백 사용하기</span>
+                    <span className="text-xs text-slate-500 font-medium">비닐 생산 최소화 및 30g CO₂ 저감</span>
+                  </div>
+                </label>
+
+                <label className="flex items-center gap-4 p-5 rounded-2xl bg-slate-950/60 border border-slate-800 hover:border-emerald-500/30 transition cursor-pointer select-none group">
+                  <input
+                    type="checkbox"
+                    checked={todayChecks.cleanPlate}
+                    onChange={(e) => setTodayChecks({ ...todayChecks, cleanPlate: e.target.checked })}
+                    className="w-6 h-6 rounded bg-slate-900 border-slate-700 text-emerald-500 focus:ring-emerald-500 cursor-pointer"
+                  />
+                  <div>
+                    <span className="font-bold text-slate-200 group-hover:text-emerald-400 transition block">🍽️ 음식 남기지 않고 잔반 제로 실천하기</span>
+                    <span className="text-xs text-slate-500 font-medium">음식물 쓰레기 감소 및 120g CO₂ 저감</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            {/* 계산 결과 리포트 */}
+            <div className="lg:col-span-5 bg-gradient-to-b from-emerald-950/40 to-slate-950/80 border border-emerald-500/30 rounded-[32px] p-8 md:p-10 shadow-2xl text-center flex flex-col justify-between min-h-[360px]">
+              <div>
+                <span className="text-3xl mb-4 block animate-bounce">🌳</span>
+                <span className="text-xs text-emerald-400 font-black tracking-widest block mb-2">MY ECO SCORE</span>
+                <h3 className="text-2xl font-bold text-slate-100 mb-6">오늘 줄인 이산화탄소</h3>
+                
+                <div className="my-6">
+                  <span className="text-6xl font-black text-emerald-400 tracking-tight">{calculateSavedCarbon()}</span>
+                  <span className="text-xl font-bold text-slate-300"> g CO₂</span>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs text-slate-400 leading-relaxed mb-6 font-semibold">
+                  {calculateSavedCarbon() > 0 ? (
+                    `오늘 지켜낸 푸른 나무: 소나무 약 ${(calculateSavedCarbon() * 0.1).toFixed(1)}그루! 지금 즉시 실천한 내용을 사진으로 찍어 인스타 스토리에 업로드하고 푸짐한 리워드를 받아가세요!`
+                  ) : (
+                    '위의 친환경 행동을 하나 이상 체크하면 줄어든 탄소 감량 수치가 시각적으로 즉시 계산됩니다!'
+                  )}
+                </p>
+                {calculateSavedCarbon() > 0 && (
+                  <button
+                    onClick={() => handleCopyText(getCarbonCalculatorShareText(), '오늘 감량 결과')}
+                    className="block w-full py-4 mb-3 bg-slate-900 hover:bg-slate-800 border border-emerald-500/20 text-emerald-400 font-black rounded-2xl shadow-md transition text-sm md:text-base flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    🔗 오늘 감량 복사 (에타에 인증하기)
+                  </button>
+                )}
+                <a
+                  href="https://www.instagram.com/fp.zero/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-2xl shadow-lg transition text-sm md:text-base text-center"
+                >
+                  📸 오늘 행동 스토리 인증하고 핀볼 받기
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       {/* 리워드(상품) 섹션 */}
-      <section className="px-6 py-24 md:px-16 bg-slate-950">
+      <section className="px-6 py-24 md:px-16 bg-slate-900 border-y border-slate-800">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20">
             <span className="text-emerald-400 font-bold text-xs uppercase tracking-widest block mb-3">CHALLENGE REWARD</span>
@@ -533,8 +914,8 @@ ${activeUrl}
         </div>
       </section>
 
-      {/* 참여 방법 섹션 (비주얼 강화) */}
-      <section className="px-6 py-24 md:px-16 bg-slate-900 border-t border-slate-800">
+      {/* 참여 방법 섹션 */}
+      <section className="px-6 py-24 md:px-16 bg-slate-950">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20">
             <span className="text-emerald-400 font-bold text-xs uppercase tracking-widest block mb-3">HOW TO JOIN</span>
@@ -550,7 +931,7 @@ ${activeUrl}
             {steps.map((step, index) => (
               <div
                 key={index}
-                className="bg-slate-950 border border-slate-800 rounded-3xl p-8 shadow-xl relative hover:border-emerald-500/20 transition group overflow-hidden"
+                className="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-xl relative hover:border-emerald-500/20 transition group overflow-hidden"
               >
                 <div className="absolute top-0 right-0 p-8 text-8xl font-black text-slate-800/10 pointer-events-none group-hover:text-slate-800/25 transition">
                   {step.number}
@@ -564,145 +945,197 @@ ${activeUrl}
         </div>
       </section>
 
-      {/* 🚀 2단계: 나의 핀볼 당첨 확률 계산기 & 랭킹 조회 (스프레드시트 실시간 연동) */}
-      <section id="live-leaderboard" className="px-6 py-24 md:px-16 bg-slate-950 relative">
-        <div className="absolute bottom-[10%] left-[-10%] w-[35%] h-[35%] bg-emerald-950/20 rounded-full blur-[100px] pointer-events-none"></div>
-
+      {/* 🟢 올바른 인증 VS 🔴 미인정 visual 가이드 섹션 */}
+      <section className="px-6 py-24 md:px-16 bg-slate-900 border-y border-slate-800 relative">
         <div className="max-w-5xl mx-auto relative z-10">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold mb-4 uppercase tracking-widest">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
-              </span>
-              LIVE 실시간 통계 보드
-            </div>
+            <span className="text-emerald-400 font-bold text-xs uppercase tracking-widest block mb-3">CERTIFICATION GUIDE</span>
             <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
-              참여자 순위 및 당첨 확률 계산기
+              올바른 인증 VS 미인정 비주얼 비교
             </h2>
             <p className="text-slate-400 max-w-2xl mx-auto">
-              현재 참여 중인 인스타그램 아이디를 입력하여 실시간 내 순위와 **실제 핀볼 당첨 확률**을 1초 만에 확인해 보세요!
+              미인정 처리되어 핀볼권을 잃지 않도록 아래 O/X 예시 기준을 사전에 꼭 확인해 주세요!
             </p>
           </div>
 
-          {/* 실시간 라이브 요약 지표 */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto">
-            <div className="bg-slate-800/40 border border-slate-700/40 rounded-3xl p-6 text-center backdrop-blur-md shadow-lg">
-              <span className="text-xs text-slate-500 font-bold block mb-1">총 참가자 수</span>
-              <span className="text-4xl font-extrabold text-emerald-400">{loading ? '...' : `${stats.totalParticipants}명`}</span>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            
+            {/* O 올바른 인증 */}
+            <div className="bg-emerald-950/20 border border-emerald-500/20 rounded-[32px] p-8 shadow-2xl">
+              <h3 className="text-2xl font-black text-emerald-400 mb-6 flex items-center gap-2">
+                🟢 올바른 인증 사례 (Approved)
+              </h3>
+              
+              <div className="space-y-4">
+                <div className="bg-slate-900/80 rounded-2xl p-5 border border-slate-800">
+                  <h4 className="font-extrabold text-slate-100 text-sm mb-1">🥤 텀블러 사용 인증</h4>
+                  <p className="text-xs text-slate-400 leading-relaxed">카페에서 실제로 음료나 커피가 가득 담겨있고 사용 중인 정성 가득 텀블러 사진</p>
+                </div>
+                <div className="bg-slate-900/80 rounded-2xl p-5 border border-slate-800">
+                  <h4 className="font-extrabold text-slate-100 text-sm mb-1">♻️ 올바른 분리수거</h4>
+                  <p className="text-xs text-slate-400 leading-relaxed">플라스틱 페트병의 라벨을 깔끔하게 제거하고, 발로 밟아 압착하여 올바르게 분리배출함에 버리는 사진</p>
+                </div>
+                <div className="bg-slate-900/80 rounded-2xl p-5 border border-slate-800">
+                  <h4 className="font-extrabold text-slate-100 text-sm mb-1">👜 장바구니/에코백 사용</h4>
+                  <p className="text-xs text-slate-400 leading-relaxed">대형마트, 다이소, 편의점 등에서 비닐봉지 대신 챙겨간 에코백에 물품을 담는 실제 사용 사진</p>
+                </div>
+                <div className="bg-slate-900/80 rounded-2xl p-5 border border-slate-800">
+                  <h4 className="font-extrabold text-slate-100 text-sm mb-1">🍽️ 완전히 비워낸 그릇</h4>
+                  <p className="text-xs text-slate-400 leading-relaxed">음식물 쓰레기 감소를 증명하기 위해 찌꺼기 없이 완벽하게 비워낸 깨끗한 빈 그릇(잔반 제로) 사진</p>
+                </div>
+              </div>
             </div>
-            <div className="bg-slate-800/40 border border-slate-700/40 rounded-3xl p-6 text-center backdrop-blur-md shadow-lg">
-              <span className="text-xs text-slate-500 font-bold block mb-1">총 누적 인정 횟수 (핀볼수)</span>
-              <span className="text-4xl font-extrabold text-emerald-400">{loading ? '...' : `${stats.totalActions}개`}</span>
+
+            {/* X 미인정 사례 */}
+            <div className="bg-red-950/20 border border-red-500/20 rounded-[32px] p-8 shadow-2xl">
+              <h3 className="text-2xl font-black text-red-400 mb-6 flex items-center gap-2">
+                🔴 탈락/미인정 사례 (Rejected)
+              </h3>
+              
+              <div className="space-y-4">
+                <div className="bg-slate-900/80 rounded-2xl p-5 border border-slate-800">
+                  <h4 className="font-extrabold text-slate-100 text-sm mb-1">❌ 무늬만 다회용기</h4>
+                  <p className="text-xs text-slate-400 leading-relaxed">음료나 물이 없는 텅 빈 텀블러 셀카, 혹은 일회용 컵을 쓰면서 컵홀더만 다회용 가죽 홀더를 사용한 사진</p>
+                </div>
+                <div className="bg-slate-900/80 rounded-2xl p-5 border border-slate-800">
+                  <h4 className="font-extrabold text-slate-100 text-sm mb-1">❌ 불량 분리배출 사진</h4>
+                  <p className="text-xs text-slate-400 leading-relaxed">페트병의 비닐 라벨을 그대로 붙여두거나, 뚜껑을 제거하지 않은 경우, 택배용 테이프나 스티커가 덕지덕지 붙은 상자 배출 사진</p>
+                </div>
+                <div className="bg-slate-900/80 rounded-2xl p-5 border border-slate-800">
+                  <h4 className="font-extrabold text-slate-100 text-sm mb-1">❌ 단순 패션용 장바구니</h4>
+                  <p className="text-xs text-slate-400 leading-relaxed">장보기 활동과 전혀 무관하게, 일반 의류 패션 코디용으로 매치하여 야외나 집 안에서 에코백을 착용한 사진</p>
+                </div>
+                <div className="bg-slate-900/80 rounded-2xl p-5 border border-slate-800">
+                  <h4 className="font-extrabold text-slate-100 text-sm mb-1">❌ 잔반 가득한 빈 그릇</h4>
+                  <p className="text-xs text-slate-400 leading-relaxed">음식을 많이 남겨 그릇 바닥에 다량의 국물, 음식물 찌꺼기, 반찬 등이 뚜렷하게 잔류하고 있는 엉성한 잔반 사진</p>
+                </div>
+              </div>
             </div>
-            <div className="bg-slate-800/40 border border-slate-700/40 rounded-3xl p-6 text-center backdrop-blur-md shadow-lg col-span-2 md:col-span-1">
-              <span className="text-xs text-slate-500 font-bold block mb-1">마지막 자동 업데이트</span>
-              <span className="text-sm font-semibold text-emerald-400 block mt-2 break-all">{loading ? '가져오는 중...' : lastUpdated || '기록 없음'}</span>
-            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 🚀 3단계: 나의 핀볼 당첨 확률 계산기 & 랭킹 조회 (스프레드시트 실시간 연동) */}
+      <section id="live-leaderboard" className="px-6 py-24 md:px-16 bg-slate-950 relative">
+        <div className="max-w-5xl mx-auto relative z-10">
+          
+          {/* 실시간 모의 추첨기(시뮬레이터) 바로가기 히어로 배너 */}
+          <div className="bg-gradient-to-r from-emerald-950/60 to-slate-900 border-2 border-emerald-500/30 rounded-[40px] p-8 md:p-14 text-center shadow-2xl relative overflow-hidden mb-24 max-w-4xl mx-auto">
+            <div className="absolute top-0 right-0 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none -mr-24 -mt-24"></div>
+            <div className="text-6xl mb-6 animate-bounce">🎲</div>
+
+            <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight text-white leading-tight">
+              실시간 핀볼 룰렛 모의 추첨기
+            </h2>
+
+            <p className="text-sm md:text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto mb-10">
+              구글 시트에 등록된 **실제 실시간 전체 참여 데이터와 핀볼 개수(가중치)**를 연동하여 모의 추첨을 진행해 봅니다. 내 이름이 뽑힐 수 있는지 가상의 룰렛을 돌려보세요!
+            </p>
+
+            <button
+              onClick={handleMockDraw}
+              disabled={loading}
+              className="inline-flex px-10 py-5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-lg font-black hover:scale-105 transition shadow-xl shadow-emerald-500/20"
+            >
+              🎲 실시간 모의 추첨 시작하기
+            </button>
           </div>
 
-          {/* 🔍 실시간 당첨 확률 조회 영역 */}
-          <div className="bg-gradient-to-b from-slate-800/80 to-slate-900/80 border border-slate-700/60 rounded-[32px] p-8 md:p-10 shadow-2xl max-w-3xl mx-auto mb-16 backdrop-blur-md">
-            <h3 className="text-2xl font-bold mb-6 text-slate-100 text-center flex items-center justify-center gap-2">
-              🎯 나의 핀볼 당첨 확률은 몇 %일까?
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold mb-4 uppercase tracking-widest">
+              LEADERBOARD
+            </div>
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
+              참여자 순위 현황판
+            </h2>
+            <p className="text-slate-400 max-w-2xl mx-auto">
+              현재 참여자분들의 실시간 인증 순위입니다. 아이디의 중간 정보는 개인정보 보호를 위해 마스킹 처리되었습니다.
+            </p>
+          </div>
+
+          {/* 🔍 나의 실시간 확률 & 순위 간편 검색창 */}
+          <div className="max-w-2xl mx-auto bg-slate-900/60 border border-slate-800/80 rounded-[32px] p-6 md:p-8 shadow-2xl backdrop-blur-md mb-16 animate-fadeIn">
+            <h3 className="text-lg font-black text-slate-200 mb-4 flex items-center justify-center gap-2">
+              🔍 내 랭킹 & 당첨 확률 실시간 검색
             </h3>
-            
-            <form onSubmit={handleCalcProbability} className="flex flex-col sm:flex-row gap-4 mb-6">
+            <p className="text-xs text-slate-400 text-center mb-6 leading-relaxed">
+              본인의 인스타그램 아이디를 입력하여 내 현재 순위와 실시간 경품 당첨 확률을 바로 확인해보세요.
+            </p>
+
+            <form onSubmit={handleCalcProbability} className="flex flex-col sm:flex-row gap-3 mb-6">
               <input
                 type="text"
+                placeholder="예: @fp.zero 또는 fp.zero"
                 value={calcInput}
                 onChange={(e) => setCalcInput(e.target.value)}
-                placeholder="인스타그램 아이디 입력 (예: @fp.zero)"
-                className="flex-1 px-6 py-4 rounded-2xl bg-slate-950 border border-slate-700/80 focus:border-emerald-500 text-slate-200 placeholder:text-slate-600 focus:outline-none font-semibold transition"
+                className="flex-grow px-5 py-4 bg-slate-950/80 border border-slate-700/60 rounded-2xl text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm md:text-base font-semibold"
               />
               <button
                 type="submit"
-                disabled={loading}
-                className="px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-2xl transition disabled:opacity-50 tracking-wide"
+                className="px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-2xl transition shadow-lg shrink-0 text-sm md:text-base cursor-pointer"
               >
-                {loading ? '데이터 로딩 중...' : '확률 확인하기'}
+                검색하기
               </button>
             </form>
 
-            {/* 에러 상태 */}
-            {showCalcError && (
-              <div className="text-red-400 text-sm font-bold text-center bg-red-950/30 border border-red-900/40 rounded-2xl p-4 animate-shake">
-                ⚠️ 입력하신 인스타 아이디를 찾을 수 없습니다. 아이디를 정확히 입력했는지, 혹은 첫 인증 스토리가 확인되었는지 점검해 주세요!
+            {/* 검색 결과 표시 */}
+            {calcResult && (
+              <div className="bg-slate-950/80 border border-emerald-500/20 rounded-2xl p-6 md:p-8 animate-fadeIn text-center relative overflow-hidden">
+                <div className="absolute top-[-20%] left-[-20%] w-[50%] h-[50%] bg-emerald-900/10 rounded-full blur-[60px] pointer-events-none"></div>
+                
+                <span className="text-xs text-emerald-400 font-black tracking-widest block mb-2">MY CHALLENGE REPORT</span>
+                <h4 className="text-2xl font-black text-slate-100 mb-6 truncate">{calcResult.maskedUsername}</h4>
+                
+                <div className="grid grid-cols-3 gap-3 md:gap-4 mb-6">
+                  <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
+                    <span className="text-[10px] text-slate-500 font-bold block mb-1">현재 순위</span>
+                    <span className="text-xl md:text-2xl font-black text-slate-200">{calcResult.rank}위</span>
+                  </div>
+                  <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
+                    <span className="text-[10px] text-slate-500 font-bold block mb-1">획득 핀볼 (인증 수)</span>
+                    <span className="text-xl md:text-2xl font-black text-emerald-400">{calcResult.count}개</span>
+                  </div>
+                  <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
+                    <span className="text-[10px] text-slate-500 font-bold block mb-1">당첨 확률</span>
+                    <span className="text-xl md:text-2xl font-black text-teal-400">{calcResult.probability}%</span>
+                  </div>
+                </div>
+
+                {/* 1장 더 인증 시 시뮬레이션 배지 */}
+                <div className="bg-emerald-950/20 border border-emerald-500/30 rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-3 text-left">
+                  <div>
+                    <span className="text-[10px] text-emerald-400 font-black block tracking-wider mb-0.5">인증 촉진 시뮬레이션 🔥</span>
+                    <p className="text-xs text-slate-300 font-semibold leading-relaxed">
+                      오늘 스토리에 사진 1장을 더 업로드하여 승인되면?
+                    </p>
+                  </div>
+                  <div className="bg-emerald-500 text-slate-950 text-xs font-black px-3.5 py-2.5 rounded-lg text-center shrink-0">
+                    당첨 확률 {calcResult.nextProb}% 돌파! (+{calcResult.diff}%)
+                  </div>
+                </div>
               </div>
             )}
 
-            {/* 확률 계산 결과 화면 */}
-            {calcResult && (
-              <div className="bg-slate-950/70 border border-slate-800 rounded-2xl p-6 mt-6 animate-fadeIn">
-                <div className="text-center mb-6 pb-6 border-b border-slate-800">
-                  <span className="text-xs text-emerald-400 font-bold block mb-1">SEARCH ID: {calcResult.username}</span>
-                  <h4 className="text-3xl font-black text-slate-100">
-                    현재 순위: <span className="text-emerald-400">{calcResult.rank}위</span>
-                  </h4>
-                </div>
-                
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center text-sm md:text-base">
-                    <span className="text-slate-400 font-semibold">내 누적 인증 개수</span>
-                    <span className="text-slate-100 font-black">{calcResult.count}개 (핀볼 {calcResult.count}개)</span>
-                  </div>
-
-                  <div className="flex justify-between items-center text-sm md:text-base">
-                    <span className="text-slate-400 font-semibold">나의 당첨 확률</span>
-                    <span className="text-emerald-400 text-2xl font-black">{calcResult.probability}%</span>
-                  </div>
-
-                  <div className="w-full bg-slate-800 h-3 rounded-full overflow-hidden mt-2">
-                    <div 
-                      className="bg-gradient-to-r from-emerald-500 to-teal-400 h-full"
-                      style={{ width: `${Math.min(parseFloat(calcResult.probability) * 3, 100)}%` }}
-                    ></div>
-                  </div>
-
-                  <div className="bg-emerald-950/30 border border-emerald-900/40 rounded-xl p-4 mt-4 text-xs md:text-sm text-emerald-300 leading-relaxed text-center font-semibold">
-                    💡 인증을 <span className="underline">1개 더 획득하면</span> 내 핀볼 확률이 <span className="text-white text-base font-bold">{calcResult.nextProb}%</span>로 상승하여 약 <span className="text-white text-base font-bold">+{calcResult.diff}%p</span> 증가합니다!
-                  </div>
-                </div>
+            {/* 검색 결과 없음 예외 안내 */}
+            {showCalcError && (
+              <div className="bg-slate-950/80 border border-red-500/20 rounded-2xl p-6 animate-fadeIn text-center">
+                <span className="text-3xl mb-3 block">🚨</span>
+                <h4 className="text-lg font-black text-slate-200 mb-2">아직 인증 내역을 찾을 수 없습니다</h4>
+                <p className="text-xs text-slate-400 leading-relaxed max-w-md mx-auto mb-6">
+                  아이디 오타를 확인해 보시거나, 아직 첫 인증이 구글 시트에 반영되지 않았을 수 있습니다. (시트 업데이트는 실시간 수동 검토 후 진행됩니다.)
+                </p>
+                <a
+                  href="https://www.instagram.com/fp.zero/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-block px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black rounded-xl transition shadow-md"
+                >
+                  📸 지금 인스타에 참여 인증하러 가기
+                </a>
               </div>
             )}
           </div>
-
-          {/* 에러 상태 표시 */}
-          {error && (
-            <div className="bg-red-950/20 border border-red-900/40 rounded-3xl p-8 text-center max-w-2xl mx-auto mb-10">
-              <div className="text-4xl mb-3">⚠️</div>
-              <h3 className="text-xl font-bold text-red-400 mb-2">실시간 데이터를 가져오지 못했습니다</h3>
-              <p className="text-slate-400 mb-6">
-                구글 스프레드시트 업데이트 오류 또는 네트워크 장비 문제로 인해 순위를 표시할 수 없습니다. 원본 보기를 이용하여 데이터를 확인해 주세요.
-              </p>
-              <button
-                onClick={fetchLeaderboardData}
-                className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl font-semibold transition"
-              >
-                🔄 다시 불러오기
-              </button>
-            </div>
-          )}
-
-          {/* 테이블 로딩 */}
-          {loading && (
-            <div className="space-y-6 max-w-4xl mx-auto">
-              <div className="grid grid-cols-3 gap-4 h-48 items-end max-w-xl mx-auto mb-10">
-                <div className="bg-slate-800/40 animate-pulse rounded-2xl h-36 border border-slate-700/20"></div>
-                <div className="bg-slate-800 animate-pulse rounded-2xl h-44 border border-slate-700/20"></div>
-                <div className="bg-slate-800/40 animate-pulse rounded-2xl h-32 border border-slate-700/20"></div>
-              </div>
-              <div className="space-y-3">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex justify-between items-center animate-pulse">
-                    <div className="h-6 w-12 bg-slate-800 rounded-md"></div>
-                    <div className="h-6 w-32 bg-slate-800 rounded-md"></div>
-                    <div className="h-6 w-16 bg-slate-800 rounded-md"></div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
 
           {/* 실시간 포디움 및 랭킹 목록 */}
           {!loading && !error && leaderboard.length > 0 && (
@@ -817,140 +1250,8 @@ ${activeUrl}
         </div>
       </section>
 
-      {/* 📣 3단계: 바이럴 공유 & 에타/인스타 홍보 극대화 섹션 */}
-      <section className="px-6 py-24 md:px-16 bg-slate-900 border-y border-slate-800 relative">
-        <div className="absolute top-0 left-0 w-64 h-64 bg-teal-950/20 rounded-full blur-[100px] pointer-events-none"></div>
-        
-        <div className="max-w-5xl mx-auto relative z-10">
-          <div className="text-center mb-16">
-            <span className="text-emerald-400 font-bold text-xs uppercase tracking-widest block mb-3">VIRAL & SHARING</span>
-            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">
-              에타 & 인스타로 친구들과 함께해요!
-            </h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
-              친구들을 초대해 탄소 다이어트 챌린지를 알려주세요! 원클릭 공유와 멋진 인스타 템플릿이 준비되어 있습니다.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
-            
-            {/* 에브리타임 전용 홍보글 생성 카드 */}
-            <div className="bg-slate-950 border border-slate-800 rounded-[32px] p-8 md:p-10 shadow-2xl flex flex-col justify-between">
-              <div>
-                <span className="text-red-400 font-black text-xs uppercase tracking-widest block mb-3">Everytime Copy Box</span>
-                <h3 className="text-2xl font-bold mb-4 text-slate-100 flex items-center gap-2">
-                  🏫 에브리타임(에타)용 원클릭 홍보글
-                </h3>
-                <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                  에브리타임 게시판에 간편하게 공유할 수 있는 **이모지 맞춤형 게시물 내용**을 클릭 한 번으로 복사하여 자유롭게 홍보글을 올려보세요!
-                </p>
-                
-                {/* 시각적인 게시물 모형 디자인 */}
-                <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 text-xs text-slate-400 leading-relaxed font-mono select-none overflow-hidden max-h-[220px] relative">
-                  <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-slate-900 to-transparent"></div>
-                  <span className="text-emerald-400 font-bold block mb-2">🌱 [에타 화제의 챌린지] 커피 한 잔만 텀블러에 받아도 상품 쏟아짐!! 🎁</span>
-                  경산시 탄소중립 서포터즈 "퍼스트펭귄"이 진행하는 초간단 '탄소 다이어트 챌린지' 들어봤어??
-                  <br />귀찮은 절차 하나 없이 인스타 스토리에 인증샷 올리고 태그하면 참여 끝임 ㅋㅋㅋ
-                  <br /><br />🔥 1등 특혜: 리뉴 업사이클링 우산, 머그컵, 홈카페 유리컵, 에코백 중 상품 1순위 우선 선택!
-                  <br />🎲 핀볼 추첨 방식: 인증 개수가 많을수록 핀볼 개수 늘어나서 당첨 확률 떡상함!
-                </div>
-              </div>
-
-              <div className="mt-8">
-                <button
-                  onClick={copyPromoText}
-                  className="w-full px-8 py-5 bg-gradient-to-r from-red-500/20 to-red-600/20 border border-red-500/40 hover:bg-red-500 hover:text-slate-950 text-red-400 font-black rounded-2xl transition shadow-lg text-center flex items-center justify-center gap-2 group"
-                >
-                  🚀 에타 홍보글 클립보드에 복사하기 <span className="group-hover:translate-x-1 transition font-mono">→</span>
-                </button>
-              </div>
-            </div>
-
-            {/* 인스타그램 스토리 템플릿 다운로드 카드 */}
-            <div className="bg-slate-950 border border-slate-800 rounded-[32px] p-8 md:p-10 shadow-2xl flex flex-col justify-between">
-              <div>
-                <span className="text-emerald-400 font-black text-xs uppercase tracking-widest block mb-3">Instagram Story Template</span>
-                <h3 className="text-2xl font-bold mb-4 text-slate-100 flex items-center gap-2">
-                  📸 인스타 스토리 업로드용 공식 템플릿
-                </h3>
-                <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                  퍼스트펭귄의 **공식 인스타그램 템플릿 이미지**를 다운로드하여 나만의 멋진 탄소 다이어트 실천 사진을 올리고 태그해보세요!
-                </p>
-                
-                {/* 템플릿 이미지 썸네일 */}
-                <div className="relative group/thumb overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 flex justify-center items-center p-4 h-[220px]">
-                  <img
-                    src="/story_template.png"
-                    alt="Instagram Story Template Preview"
-                    className="h-full object-contain rounded shadow-lg group-hover/thumb:scale-105 transition duration-300"
-                  />
-                  <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover/thumb:opacity-100 transition flex items-center justify-center pointer-events-none">
-                    <span className="bg-slate-900 border border-slate-700 px-4 py-2 rounded-xl text-xs font-bold text-slate-200">템플릿 이미지</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-8">
-                <a
-                  href="/story_template.png"
-                  download="carbon_diet_story_template.png"
-                  className="w-full px-8 py-5 bg-gradient-to-r from-emerald-500/20 to-teal-600/20 border border-emerald-500/40 hover:bg-emerald-500 hover:text-slate-950 text-emerald-400 font-black rounded-2xl transition shadow-lg text-center flex items-center justify-center gap-2 group"
-                >
-                  📥 공식 인스타 스토리 템플릿 다운로드 <span className="group-hover:translate-x-1 transition font-mono">→</span>
-                </a>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* 주의사항 섹션 */}
-      <section className="px-6 py-24 md:px-16 bg-slate-950 border-b border-slate-800">
-        <div className="max-w-5xl mx-auto text-center">
-          <span className="text-red-400 font-bold text-xs uppercase tracking-widest block mb-3">NOTICE & WARNING</span>
-          <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-16">
-            꼭 확인하세요! 미인정 주의사항
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left max-w-4xl mx-auto">
-            <div className="bg-slate-900/60 rounded-3xl p-6 border border-slate-800 shadow-sm flex items-start gap-4 hover:border-red-500/30 transition">
-              <span className="text-3xl">🚶‍♂️</span>
-              <div>
-                <h4 className="font-bold text-lg text-slate-200 mb-1">단순 풍경 사진 제외</h4>
-                <p className="text-slate-400 text-xs leading-relaxed">단순히 길을 걷거나 거리를 찍어 올린 불분명한 걷기 인증은 미인정 처리됩니다.</p>
-              </div>
-            </div>
-
-            <div className="bg-slate-900/60 rounded-3xl p-6 border border-slate-800 shadow-sm flex items-start gap-4 hover:border-red-500/30 transition">
-              <span className="text-3xl">☕</span>
-              <div>
-                <h4 className="font-bold text-lg text-slate-200 mb-1">무늬만 다회용기 사용</h4>
-                <p className="text-slate-400 text-xs leading-relaxed">음료나 물이 없는 빈 텀블러 셀카, 혹은 일회용 컵 위에 홀더만 텀블러를 씌운 기만적 사용은 엄격히 걸러집니다.</p>
-              </div>
-            </div>
-
-            <div className="bg-slate-900/60 rounded-3xl p-6 border border-slate-800 shadow-sm flex items-start gap-4 hover:border-red-500/30 transition">
-              <span className="text-3xl">♻️</span>
-              <div>
-                <h4 className="font-bold text-lg text-slate-200 mb-1">불량 분리배출 사진</h4>
-                <p className="text-slate-400 text-xs leading-relaxed">페트병의 라벨을 떼지 않거나, 택배 상자에 부착된 스티커/테이프를 제거하지 않고 배출한 분리수거 사진은 미인정됩니다.</p>
-              </div>
-            </div>
-
-            <div className="bg-slate-900/60 rounded-3xl p-6 border border-slate-800 shadow-sm flex items-start gap-4 hover:border-red-500/30 transition">
-              <span className="text-3xl">🍽️</span>
-              <div>
-                <h4 className="font-bold text-lg text-slate-200 mb-1">잔반 제로 실패 사진</h4>
-                <p className="text-slate-400 text-xs leading-relaxed">다량의 밥알, 국물, 반찬 찌꺼기 등이 여전히 그릇 위에 선명하게 남아 있는 빈 그릇 인증 사진은 인정되지 않습니다.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* 푸터 마무리 */}
-      <section className="px-6 py-28 text-center bg-slate-900 relative">
+      <section className="px-6 py-28 text-center bg-slate-900 relative border-t border-slate-800">
         <div className="max-w-4xl mx-auto relative z-10">
           <div className="text-7xl mb-8 animate-bounce">🌱</div>
 
@@ -985,6 +1286,15 @@ ${activeUrl}
           </div>
         </div>
       </section>
+
+      {/* 📋 플로팅 Toast 알림 메시지 */}
+      {showToast && (
+        <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 animate-slideDown pointer-events-none">
+          <div className="bg-slate-950/90 border border-emerald-500/40 text-slate-200 text-xs md:text-sm font-black px-6 py-4 rounded-2xl shadow-2xl shadow-emerald-500/10 backdrop-blur-md flex items-center gap-2">
+            <span className="text-emerald-400">✨</span> {toastMessage}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
