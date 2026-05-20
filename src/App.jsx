@@ -30,6 +30,7 @@ export default function CarbonChallengeLandingPage() {
   // 📋 플로팅 Toast 알림 상태
   const [toastMessage, setToastMessage] = useState('');
   const [showToast, setShowToast] = useState(false);
+  const [activeGuideTab, setActiveGuideTab] = useState('ALL');
 
   // ⚡ 실시간 챌린저 롤링 티커 상태
   const [tickerIndex, setTickerIndex] = useState(0);
@@ -1165,7 +1166,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-12">
             <span className="text-emerald-400 font-bold text-xs uppercase tracking-widest block mb-3">CERTIFICATION GUIDE</span>
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500 bg-clip-text text-transparent">
               올바른 인증 VS 미인정 비주얼 비교
             </h2>
             <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
@@ -1174,7 +1175,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
           </div>
 
           {/* 💡 안심 배너 */}
-          <div className="bg-amber-950/20 border border-amber-500/20 rounded-3xl p-5 mb-12 text-xs md:text-sm text-amber-300 leading-relaxed flex items-start gap-3.5 max-w-3xl mx-auto shadow-lg backdrop-blur-sm">
+          <div className="bg-amber-950/20 border border-amber-500/20 rounded-3xl p-5 mb-10 text-xs md:text-sm text-amber-300 leading-relaxed flex items-start gap-3.5 max-w-3xl mx-auto shadow-lg backdrop-blur-sm">
             <span className="text-xl shrink-0">💡</span>
             <div>
               <strong className="font-extrabold text-amber-200 block mb-1 text-sm md:text-base">너무 걱정하지 마세요!</strong>
@@ -1182,106 +1183,415 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
             </div>
           </div>
 
-          {/* 카테고리별 1:1 비교 그리드 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
-            
-            {/* 카드 1: 텀블러 */}
-            <div className="bg-slate-950/40 border border-slate-800 rounded-[32px] p-6 shadow-xl hover:border-slate-700/50 transition duration-300 flex flex-col justify-between group">
-              <div className="mb-5 flex items-center justify-between border-b border-slate-850 pb-4">
-                <h3 className="text-base md:text-lg font-black text-slate-100 flex items-center gap-2">
-                  🥤 텀블러 & 다회용 컵 사용
-                </h3>
-                <span className="text-[10px] bg-slate-900 text-slate-400 font-black px-2 py-0.5 rounded-full border border-slate-800 uppercase tracking-wider">TUMBLER</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="bg-emerald-950/20 border border-emerald-500/10 p-4 rounded-2xl flex flex-col justify-between hover:border-emerald-500/20 transition">
-                  <div>
-                    <span className="text-xs font-black text-emerald-400 block mb-1.5 flex items-center gap-1">🟢 정석 인증 (Approved)</span>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">카페에서 실제로 음료나 커피가 가득 담겨있고 사용 중인 정성 가득 텀블러 사진</p>
-                  </div>
-                </div>
-                <div className="bg-red-950/10 border border-red-500/5 p-4 rounded-2xl flex flex-col justify-between hover:border-red-500/15 transition">
-                  <div>
-                    <span className="text-xs font-black text-red-400 block mb-1.5 flex items-center gap-1">🔴 단순 소지 (Reference)</span>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">음료나 물이 없는 텅 빈 텀블러 셀카, 혹은 일회용 컵을 쓰며 컵홀더만 가죽인 경우</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 카드 2: 분리배출 */}
-            <div className="bg-slate-950/40 border border-slate-800 rounded-[32px] p-6 shadow-xl hover:border-slate-700/50 transition duration-300 flex flex-col justify-between group">
-              <div className="mb-5 flex items-center justify-between border-b border-slate-850 pb-4">
-                <h3 className="text-base md:text-lg font-black text-slate-100 flex items-center gap-2">
-                  ♻️ 압착 라벨 제거 분리배출
-                </h3>
-                <span className="text-[10px] bg-slate-900 text-slate-400 font-black px-2 py-0.5 rounded-full border border-slate-800 uppercase tracking-wider">RECYCLE</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="bg-emerald-950/20 border border-emerald-500/10 p-4 rounded-2xl flex flex-col justify-between hover:border-emerald-500/20 transition">
-                  <div>
-                    <span className="text-xs font-black text-emerald-400 block mb-1.5 flex items-center gap-1">🟢 정석 인증 (Approved)</span>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">플라스틱 페트병의 라벨을 깔끔하게 제거하고, 발로 밟아 압착하여 올바르게 분리배출함에 버리는 사진</p>
-                  </div>
-                </div>
-                <div className="bg-red-950/10 border border-red-500/5 p-4 rounded-2xl flex flex-col justify-between hover:border-red-500/15 transition">
-                  <div>
-                    <span className="text-xs font-black text-red-400 block mb-1.5 flex items-center gap-1">🔴 불량 배출 (Reference)</span>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">페트병의 비닐 라벨을 그대로 붙여두거나, 뚜껑을 안 뗐거나, 택배용 테이프가 가득한 상자 배출 사진</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 카드 3: 장바구니/에코백 */}
-            <div className="bg-slate-950/40 border border-slate-800 rounded-[32px] p-6 shadow-xl hover:border-slate-700/50 transition duration-300 flex flex-col justify-between group">
-              <div className="mb-5 flex items-center justify-between border-b border-slate-850 pb-4">
-                <h3 className="text-base md:text-lg font-black text-slate-100 flex items-center gap-2">
-                  👜 장바구니 & 에코백 사용
-                </h3>
-                <span className="text-[10px] bg-slate-900 text-slate-400 font-black px-2 py-0.5 rounded-full border border-slate-800 uppercase tracking-wider">ECO BAG</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="bg-emerald-950/20 border border-emerald-500/10 p-4 rounded-2xl flex flex-col justify-between hover:border-emerald-500/20 transition">
-                  <div>
-                    <span className="text-xs font-black text-emerald-400 block mb-1.5 flex items-center gap-1">🟢 정석 인증 (Approved)</span>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">대형마트, 다이소, 편의점 등에서 비닐봉지 대신 챙겨간 에코백에 물품을 담는 실제 사용 사진</p>
-                  </div>
-                </div>
-                <div className="bg-red-950/10 border border-red-500/5 p-4 rounded-2xl flex flex-col justify-between hover:border-red-500/15 transition">
-                  <div>
-                    <span className="text-xs font-black text-red-400 block mb-1.5 flex items-center gap-1">🔴 단순 착용 (Reference)</span>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">장보기 활동과 전혀 무관하게, 일반 의류 패션 코디용으로 매치하여 야외나 집 안에서 에코백을 메고 찍은 사진</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 카드 4: 잔반 제로 */}
-            <div className="bg-slate-950/40 border border-slate-800 rounded-[32px] p-6 shadow-xl hover:border-slate-700/50 transition duration-300 flex flex-col justify-between group">
-              <div className="mb-5 flex items-center justify-between border-b border-slate-850 pb-4">
-                <h3 className="text-base md:text-lg font-black text-slate-100 flex items-center gap-2">
-                  🍽️ 깨끗하게 비운 잔반 제로
-                </h3>
-                <span className="text-[10px] bg-slate-900 text-slate-400 font-black px-2 py-0.5 rounded-full border border-slate-800 uppercase tracking-wider">CLEAN PLATE</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="bg-emerald-950/20 border border-emerald-500/10 p-4 rounded-2xl flex flex-col justify-between hover:border-emerald-500/20 transition">
-                  <div>
-                    <span className="text-xs font-black text-emerald-400 block mb-1.5 flex items-center gap-1">🟢 정석 인증 (Approved)</span>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">음식물 쓰레기 감소를 증명하기 위해 찌꺼기 없이 완벽하게 비워낸 깨끗한 빈 그릇(식사 완료) 사진</p>
-                  </div>
-                </div>
-                <div className="bg-red-950/10 border border-red-500/5 p-4 rounded-2xl flex flex-col justify-between hover:border-red-500/15 transition">
-                  <div>
-                    <span className="text-xs font-black text-red-400 block mb-1.5 flex items-center gap-1">🔴 음식 남김 (Reference)</span>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">음식을 많이 남겨 그릇 바닥에 다량의 국물, 음식물 찌꺼기, 반찬 등이 뚜렷하게 남은 엉성한 사진</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+          {/* 📱 카테고리 필터 탭 */}
+          <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3 mb-12 max-w-3xl mx-auto px-4">
+            {[
+              { id: 'ALL', label: '📱 전체 보기' },
+              { id: 'TUMBLER', label: '🥤 텀블러' },
+              { id: 'RECYCLE', label: '♻️ 분리배출' },
+              { id: 'ECOBAG', label: '👜 에코백' },
+              { id: 'CLEANPLATE', label: '🍽️ 잔반 제로' }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveGuideTab(tab.id)}
+                className={`px-4 py-2.5 rounded-full text-xs md:text-sm font-black tracking-tight transition duration-300 border backdrop-blur-sm cursor-pointer shadow-md ${
+                  activeGuideTab === tab.id
+                    ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 border-emerald-400 font-extrabold shadow-emerald-500/20 scale-105'
+                    : 'bg-slate-950/60 text-slate-400 border-slate-850 hover:text-slate-200 hover:border-slate-700'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
+
+          {/* 카테고리별 1:1 비교 그리드 */}
+          {(() => {
+            const guides = [
+              {
+                id: 'TUMBLER',
+                title: '🥤 텀블러 & 다회용 컵 사용',
+                tag: 'TUMBLER',
+                approvedTitle: '정석 인증 (Approved)',
+                approvedDesc: '카페에서 실제로 음료나 커피가 가득 담겨있고 사용 중인 정성 가득 텀블러 사진',
+                approvedDetails: [
+                  '실제 음료/커피가 가득 담겨있는 모습',
+                  '다회용 개인 텀블러 및 매장용 다회용 컵',
+                  '빨대나 뚜껑이 어우러져 실사용 중임을 증명'
+                ],
+                approvedSvg: (
+                  <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-emerald-400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="20" y1="170" x2="180" y2="170" stroke="#334155" strokeWidth="3" strokeLinecap="round" />
+                    <ellipse cx="100" cy="170" rx="40" ry="8" fill="#022c22" opacity="0.6"/>
+                    <path d="M75 50 L85 160 C86 166 90 170 96 170 L104 170 C110 170 114 166 115 160 L125 50 Z" fill="url(#tumbler-grad)" stroke="#10b981" strokeWidth="2.5"/>
+                    <path d="M78 80 L83 145 C84 150 88 154 94 154 L106 154 C112 154 116 150 117 145 L122 80 Z" fill="url(#coffee-grad)"/>
+                    <rect x="88" y="90" width="16" height="16" rx="3" fill="#ffffff" opacity="0.3" transform="rotate(15 96 98)"/>
+                    <rect x="98" y="110" width="14" height="14" rx="3" fill="#ffffff" opacity="0.4" transform="rotate(-10 105 117)"/>
+                    <line x1="110" y1="30" x2="95" y2="95" stroke="#34d399" strokeWidth="5" strokeLinecap="round"/>
+                    <ellipse cx="100" cy="50" rx="26" ry="6" fill="#0f766e" stroke="#10b981" strokeWidth="2"/>
+                    <rect x="94" y="44" width="12" height="6" rx="1" fill="#14b8a6"/>
+                    <path d="M50 60 L52 65 L57 67 L52 69 L50 74 L48 69 L43 67 L48 65 Z" fill="#34d399" opacity="0.8"/>
+                    <path d="M150 90 L151.5 94 L155 95.5 L151.5 97 L150 101 L148.5 97 L145 95.5 L148.5 94 Z" fill="#6ee7b7" opacity="0.8"/>
+                    <path d="M135 45 L136 48 L139 49 L136 50 L135 53 L134 50 L131 49 L134 48 Z" fill="#fbbf24" opacity="0.7"/>
+                    <defs>
+                      <linearGradient id="tumbler-grad" x1="100%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#0f766e" stopOpacity="0.4" />
+                        <stop offset="100%" stopColor="#115e59" stopOpacity="0.1" />
+                      </linearGradient>
+                      <linearGradient id="coffee-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#b45309" stopOpacity="0.85" />
+                        <stop offset="100%" stopColor="#78350f" stopOpacity="0.95" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                ),
+                refTitle: '단순 소지/기타 (Reference)',
+                refDesc: '음료나 물이 없는 텅 빈 텀블러 셀카, 혹은 일회용 컵을 쓰며 컵홀더만 가죽인 경우',
+                refDetails: [
+                  '텀블러 내부가 완전히 비어있는 사진',
+                  '일회용 플라스틱 컵 및 일회용 빨대 사용',
+                  '편의점 등에서 산 페트병 음료 그대로 사용'
+                ],
+                refSvg: (
+                  <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-rose-450" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="20" y1="170" x2="180" y2="170" stroke="#334155" strokeWidth="3" strokeLinecap="round" />
+                    <ellipse cx="100" cy="170" rx="35" ry="6" fill="#0f172a" opacity="0.8"/>
+                    <path d="M80 55 L88 160 C89 165 92 168 97 168 L103 168 C108 168 111 165 112 160 L120 55 Z" fill="url(#empty-grad)" stroke="#64748b" strokeWidth="2.5"/>
+                    <ellipse cx="100" cy="55" rx="21" ry="5" fill="#475569" stroke="#64748b" strokeWidth="2"/>
+                    <circle cx="100" cy="110" r="22" fill="#ef4444" fillOpacity="0.15" stroke="#ef4444" strokeWidth="1.5" strokeDasharray="3 3"/>
+                    <path d="M94 104 L106 116 M106 104 L94 116" stroke="#ef4444" strokeWidth="3" strokeLinecap="round"/>
+                    <text x="100" y="150" textAnchor="middle" fill="#64748b" fontSize="9" fontWeight="bold">텅 빈 상태 (Empty)</text>
+                    <defs>
+                      <linearGradient id="empty-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#334155" />
+                        <stop offset="100%" stopColor="#1e293b" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                ),
+                tip: '텀블러 속 음료가 살짝 보이거나 빨대를 꽂아 마시는 일상 스냅샷 형식으로 촬영하면 100% 한 번에 즉시 통과됩니다!'
+              },
+              {
+                id: 'RECYCLE',
+                title: '♻️ 압착 라벨 제거 분리배출',
+                tag: 'RECYCLE',
+                approvedTitle: '정석 인증 (Approved)',
+                approvedDesc: '플라스틱 페트병의 라벨을 깔끔하게 제거하고, 발로 밟아 압착하여 올바르게 분리배출함에 버리는 사진',
+                approvedDetails: [
+                  '비닐 라벨지가 흔적 없이 분리된 상태',
+                  '부피를 최대한 줄여 납작하게 압착한 모습',
+                  '분리수거함 및 재활용 현장에서의 수거 인증'
+                ],
+                approvedSvg: (
+                  <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-emerald-400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="20" y1="170" x2="180" y2="170" stroke="#334155" strokeWidth="3" strokeLinecap="round" />
+                    <ellipse cx="100" cy="165" rx="45" ry="6" fill="#022c22" opacity="0.5"/>
+                    <path d="M75 160 L78 140 L70 120 L80 100 L73 80 L88 65 L93 50 L107 50 L112 65 L127 80 L120 100 L130 120 L122 140 L125 160 Z" fill="url(#bottle-grad)" stroke="#10b981" strokeWidth="2.5" strokeLinejoin="round"/>
+                    <path d="M78 140 L122 140" stroke="#10b981" strokeWidth="1.5" strokeOpacity="0.4"/>
+                    <path d="M70 120 L130 120" stroke="#10b981" strokeWidth="1.5" strokeOpacity="0.4"/>
+                    <path d="M80 100 L120 100" stroke="#10b981" strokeWidth="1.5" strokeOpacity="0.4"/>
+                    <path d="M73 80 L127 80" stroke="#10b981" strokeWidth="1.5" strokeOpacity="0.4"/>
+                    <rect x="96" y="42" width="8" height="8" rx="1.5" fill="#3b82f6" opacity="0.9"/>
+                    <g transform="translate(130, 70) rotate(15)">
+                      <rect x="0" y="0" width="30" height="40" rx="4" fill="#10b981" fillOpacity="0.15" stroke="#10b981" strokeWidth="1.5"/>
+                      <text x="15" y="18" textAnchor="middle" fill="#34d399" fontSize="6" fontWeight="bold">LABEL</text>
+                      <path d="M8 28 L13 33 L22 23" stroke="#34d399" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </g>
+                    <path d="M125 75 Q135 60 145 65" stroke="#34d399" strokeWidth="1.5" strokeDasharray="3 3" strokeLinecap="round"/>
+                    <path d="M145 65 L140 64 M145 65 L144 70" stroke="#34d399" strokeWidth="1.5" strokeLinecap="round"/>
+                    <path d="M60 50 L61.5 53 L64 54.5 L61.5 56 L60 59 L58.5 56 L56 54.5 L58.5 53 Z" fill="#34d399"/>
+                    <defs>
+                      <linearGradient id="bottle-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#14b8a6" stopOpacity="0.25" />
+                        <stop offset="100%" stopColor="#059669" stopOpacity="0.05" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                ),
+                refTitle: '불량 배출/기타 (Reference)',
+                refDesc: '페트병의 비닐 라벨을 그대로 붙여두거나, 뚜껑을 안 뗐거나, 택배용 테이프가 가득한 상자 배출 사진',
+                refDetails: [
+                  '브랜드 비닐 라벨이 끈질기게 붙어있는 상태',
+                  '찌그러뜨리지 않고 부피가 가득한 물병 배출',
+                  '박스에 부착된 운송장 스티커/테이프 미제거'
+                ],
+                refSvg: (
+                  <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-rose-400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="20" y1="170" x2="180" y2="170" stroke="#334155" strokeWidth="3" strokeLinecap="round" />
+                    <ellipse cx="100" cy="165" rx="25" ry="5" fill="#0f172a" opacity="0.8"/>
+                    <path d="M85 60 L85 155 C85 160 89 164 94 164 L106 164 C111 164 115 160 115 155 L115 60 L108 50 L92 50 Z" fill="url(#ref-bottle-grad)" stroke="#64748b" strokeWidth="2.5"/>
+                    <rect x="94" y="42" width="12" height="8" rx="2" fill="#3b82f6"/>
+                    <rect x="85.5" y="85" width="29" height="35" fill="#ef4444" fillOpacity="0.8"/>
+                    <line x1="85.5" y1="85" x2="114.5" y2="85" stroke="#f87171" strokeWidth="1.5"/>
+                    <line x1="85.5" y1="120" x2="114.5" y2="120" stroke="#f87171" strokeWidth="1.5"/>
+                    <text x="100" y="106" textAnchor="middle" fill="#ffffff" fontSize="8" fontWeight="black" tracking="1">BRAND</text>
+                    <circle cx="100" cy="102" r="18" fill="#1e293b" fillOpacity="0.75" stroke="#ef4444" strokeWidth="2"/>
+                    <path d="M94 96 L106 108 M106 96 L94 108" stroke="#ef4444" strokeWidth="3" strokeLinecap="round"/>
+                    <defs>
+                      <linearGradient id="ref-bottle-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#475569" stopOpacity="0.5" />
+                        <stop offset="100%" stopColor="#1e293b" stopOpacity="0.2" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                ),
+                tip: '페트병 라벨을 뜯는 역동적인 순간이나, 꾹 밟아 슬림해진 재활용 병을 분리배출함에 넣는 장면을 찍어주시면 가뿐하게 한 방 인정 통과!'
+              },
+              {
+                id: 'ECOBAG',
+                title: '👜 장바구니 & 에코백 사용',
+                tag: 'ECO BAG',
+                approvedTitle: '정석 인증 (Approved)',
+                approvedDesc: '대형마트, 다이소, 편의점 등에서 비닐봉지 대신 챙겨간 에코백에 물품을 담는 실제 사용 사진',
+                approvedDetails: [
+                  '에코백 또는 쇼핑백 내부에 실구매 물품이 가득한 사진',
+                  '마트, 편의점, 상점 등 쇼핑 공간이 함께 식별됨',
+                  '일회용 비닐봉지 구매를 거부하고 장바구니 사용 증명'
+                ],
+                approvedSvg: (
+                  <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-emerald-400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="20" y1="170" x2="180" y2="170" stroke="#334155" strokeWidth="3" strokeLinecap="round" />
+                    <ellipse cx="100" cy="166" rx="42" ry="8" fill="#022c22" opacity="0.6"/>
+                    <rect x="74" y="30" width="16" height="60" rx="8" fill="#eab308" transform="rotate(-20 74 30)" stroke="#ca8a04" strokeWidth="1.5"/>
+                    <line x1="72" y1="45" x2="82" y2="38" stroke="#a16207" strokeWidth="2" strokeLinecap="round"/>
+                    <line x1="77" y1="60" x2="87" y2="53" stroke="#a16207" strokeWidth="2" strokeLinecap="round"/>
+                    <path d="M112 40 L124 85 L106 70 Z" fill="#f97316"/>
+                    <path d="M112 40 Q112 25 106 20 Q115 28 112 40" fill="#22c55e"/>
+                    <path d="M112 40 Q120 28 122 18 Q118 32 112 40" fill="#15803d"/>
+                    <path d="M85 55 C80 40, 95 35, 95 55 Z" fill="#22c55e" opacity="0.9"/>
+                    <path d="M98 60 C95 45, 110 40, 105 60 Z" fill="#15803d" opacity="0.95"/>
+                    <path d="M65 80 L135 80 L128 160 C127 164 123 167 119 167 L81 167 C77 167 73 164 72 160 Z" fill="url(#ecobag-grad)" stroke="#10b981" strokeWidth="2.5"/>
+                    <path d="M80 90 L80 150 M100 90 L100 150 M120 90 L120 150" stroke="#10b981" strokeWidth="1.5" strokeOpacity="0.2" strokeDasharray="4 4"/>
+                    <path d="M80 80 C80 50, 92 50, 92 80" stroke="#10b981" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+                    <path d="M108 80 C108 50, 120 50, 120 80" stroke="#10b981" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+                    <path d="M95 125 C95 118, 105 118, 105 125 C105 132, 95 132, 95 125 Z M100 120 L100 130" fill="#34d399" opacity="0.8"/>
+                    <path d="M50 90 L52 93 L55 94.5 L52 96 L50 99 L48 96 L45 94.5 L48 93 Z" fill="#34d399"/>
+                    <defs>
+                      <linearGradient id="ecobag-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#0f766e" stopOpacity="0.3" />
+                        <stop offset="100%" stopColor="#042f2e" stopOpacity="0.1" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                ),
+                refTitle: '단순 착용/기타 (Reference)',
+                refDesc: '장보기 활동과 전혀 무관하게, 일반 의류 패션 코디용으로 매치하여 야외나 집 안에서 에코백을 메고 찍은 사진',
+                refDetails: [
+                  '에코백 내부가 완전히 비어있는 일상 착용샷',
+                  '구매 이력이 입증되지 않는 카페/일상 데일리 백',
+                  '비닐봉투에 잔뜩 사고 어깨에 에코백만 멘 모순'
+                ],
+                refSvg: (
+                  <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-rose-450" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M100 35 C100 20, 110 20, 110 28 C110 35, 100 35, 100 45" stroke="#64748b" strokeWidth="2.5" strokeLinecap="round"/>
+                    <circle cx="100" cy="45" r="4" fill="#475569"/>
+                    <path d="M80 85 L120 85 L116 160 C116 163 113 165 110 165 L90 165 C87 165 84 163 84 160 Z" fill="url(#empty-bag-grad)" stroke="#64748b" strokeWidth="2.5"/>
+                    <path d="M90 85 L100 45 L95 85" stroke="#64748b" strokeWidth="2" fill="none"/>
+                    <path d="M105 85 L100 45 L110 85" stroke="#64748b" strokeWidth="2" fill="none"/>
+                    <line x1="88" y1="120" x2="112" y2="120" stroke="#475569" strokeWidth="2" strokeOpacity="0.5"/>
+                    <circle cx="100" cy="120" r="18" fill="#1e293b" fillOpacity="0.8" stroke="#ef4444" strokeWidth="2"/>
+                    <path d="M94 114 L106 126 M106 114 L94 126" stroke="#ef4444" strokeWidth="3" strokeLinecap="round"/>
+                    <text x="100" y="152" textAnchor="middle" fill="#64748b" fontSize="9" fontWeight="bold">내용물 없음 (Empty)</text>
+                    <defs>
+                      <linearGradient id="empty-bag-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#334155" />
+                        <stop offset="100%" stopColor="#1e293b" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                ),
+                tip: '에코백에 구매한 스낵, 식료품 등이 귀엽게 담긴 모습이나 편의점/다이소 계산대를 배경으로 담으면 한 번에 통과!'
+              },
+              {
+                id: 'CLEANPLATE',
+                title: '🍽️ 깨끗하게 비운 잔반 제로',
+                tag: 'CLEAN PLATE',
+                approvedTitle: '정석 인증 (Approved)',
+                approvedDesc: '음식물 쓰레기 감소를 증명하기 위해 찌꺼기 없이 완벽하게 비워낸 깨끗한 빈 그릇(식사 완료) 사진',
+                approvedDetails: [
+                  '음식을 흔적 없이 싹싹 비워낸 밥그릇/접시 사진',
+                  '식사 완료를 어필하기 위해 나란히 둔 숟가락/젓가락',
+                  '학식, 급식, 일반 가정식 및 배달음식 용기 모두 포함'
+                ],
+                approvedSvg: (
+                  <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-emerald-400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="75" fill="#1e293b" fillOpacity="0.3" stroke="#334155" strokeWidth="1" strokeDasharray="3 3"/>
+                    <circle cx="100" cy="100" r="62" fill="url(#plate-grad)" stroke="#10b981" strokeWidth="3"/>
+                    <circle cx="100" cy="100" r="46" fill="#0f172a" stroke="#10b981" strokeWidth="1.5" strokeOpacity="0.4"/>
+                    <path d="M60 60 L62 65 L67 67 L62 69 L60 74 L58 69 L53 67 L58 65 Z" fill="#fbbf24"/>
+                    <path d="M140 55 L141.5 59 L145 60.5 L141.5 62 L140 66 L138.5 62 L135 60.5 L138.5 59 Z" fill="#f59e0b"/>
+                    <path d="M135 130 L136.5 133 L140 134 L136.5 135 L135 138 L133.5 135 L130 134 L133.5 133 Z" fill="#34d399"/>
+                    <path d="M65 135 L66.5 138 L70 139 L66.5 140 L65 143 L63.5 140 L60 139 L63.5 138 Z" fill="#10b981"/>
+                    <g transform="translate(100, 100) rotate(45)">
+                      <g transform="translate(-10, -35)">
+                        <line x1="5" y1="10" x2="5" y2="55" stroke="#34d399" strokeWidth="3" strokeLinecap="round"/>
+                        <ellipse cx="5" cy="15" rx="8" ry="11" fill="#10b981" stroke="#34d399" strokeWidth="1.5"/>
+                      </g>
+                      <g transform="translate(5, -35) rotate(-90 5 15)">
+                        <line x1="5" y1="10" x2="5" y2="55" stroke="#34d399" strokeWidth="3" strokeLinecap="round"/>
+                        <path d="M-1 12 L11 12 L11 22 C11 25, -1 25, -1 22 Z" fill="#10b981" stroke="#34d399" strokeWidth="1.5"/>
+                        <line x1="1" y1="8" x2="1" y2="14" stroke="#34d399" strokeWidth="1.5"/>
+                        <line x1="5" y1="8" x2="5" y2="14" stroke="#34d399" strokeWidth="1.5"/>
+                        <line x1="9" y1="8" x2="9" y2="14" stroke="#34d399" strokeWidth="1.5"/>
+                      </g>
+                    </g>
+                    <defs>
+                      <linearGradient id="plate-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#1e293b" />
+                        <stop offset="50%" stopColor="#0f766e" stopOpacity="0.4" />
+                        <stop offset="100%" stopColor="#0f172a" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                ),
+                refTitle: '음식 남김/기타 (Reference)',
+                refDesc: '음식을 많이 남겨 그릇 바닥에 다량의 국물, 음식물 찌꺼기, 반찬 등이 뚜렷하게 남은 엉성한 사진',
+                refDetails: [
+                  '밥이나 핵심 반찬 찌꺼기가 과하게 흩어진 상태',
+                  '식사 전의 풍요로운 사진을 완료인 척 인증함',
+                  '버려질 국물이 너무 많이 남아있는 비주얼'
+                ],
+                refSvg: (
+                  <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-rose-400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="75" fill="#1e293b" fillOpacity="0.3" stroke="#334155" strokeWidth="1" strokeDasharray="3 3"/>
+                    <circle cx="100" cy="100" r="62" fill="url(#ref-plate-grad)" stroke="#475569" strokeWidth="3"/>
+                    <circle cx="100" cy="100" r="46" fill="#0f172a" stroke="#475569" strokeWidth="1.5" strokeOpacity="0.4"/>
+                    <path d="M70 90 Q85 80 90 95 Q95 110 75 110 Q60 100 70 90 Z" fill="#ef4444" fillOpacity="0.4"/>
+                    <path d="M120 110 Q130 95 135 110 Q140 125 125 125 Q110 120 120 110 Z" fill="#ef4444" fillOpacity="0.3"/>
+                    <g transform="translate(100, 95) rotate(-15)">
+                      <rect x="-15" y="-3" width="30" height="6" rx="3" fill="#e2e8f0" stroke="#94a3b8" strokeWidth="1.5"/>
+                      <circle cx="-15" cy="-3" r="5" fill="#e2e8f0" stroke="#94a3b8" strokeWidth="1.5"/>
+                      <circle cx="-15" cy="3" r="5" fill="#e2e8f0" stroke="#94a3b8" strokeWidth="1.5"/>
+                      <circle cx="15" cy="-3" r="5" fill="#e2e8f0" stroke="#94a3b8" strokeWidth="1.5"/>
+                      <circle cx="15" cy="3" r="5" fill="#e2e8f0" stroke="#94a3b8" strokeWidth="1.5"/>
+                      <path d="M-6 -4 L8 -4 L5 4 L-5 4 Z" fill="#b91c1c" fillOpacity="0.85"/>
+                    </g>
+                    <ellipse cx="85" cy="115" rx="3" ry="5" fill="#f8fafc" transform="rotate(30 85 115)"/>
+                    <ellipse cx="90" cy="120" rx="3" ry="5" fill="#f8fafc" transform="rotate(-40 90 120)"/>
+                    <ellipse cx="115" cy="85" rx="3" ry="5" fill="#f8fafc" transform="rotate(15 115 85)"/>
+                    <circle cx="100" cy="100" r="22" fill="#1e293b" fillOpacity="0.85" stroke="#ef4444" strokeWidth="2"/>
+                    <path d="M94 94 L106 106 M106 94 L94 106" stroke="#ef4444" strokeWidth="3" strokeLinecap="round"/>
+                    <text x="100" y="152" textAnchor="middle" fill="#64748b" fontSize="9" fontWeight="bold">음식물 잔반 다량 (Leftovers)</text>
+                    <defs>
+                      <linearGradient id="ref-plate-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#334155" />
+                        <stop offset="100%" stopColor="#1e293b" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                ),
+                tip: '약간의 고추장 소스나 국물 정도는 너그럽게 참작해 드립니다! 밥알과 건더기 위주로 깔끔하게 싹 비운 뒤 그릇 바닥이 환하게 찍히도록 사진을 남기면 단번에 패스!'
+              }
+            ];
+
+            const filteredGuides = activeGuideTab === 'ALL'
+              ? guides
+              : guides.filter(g => g.id === activeGuideTab);
+
+            return (
+              <div className={`grid grid-cols-1 gap-8 md:gap-10 ${
+                activeGuideTab === 'ALL' ? 'lg:grid-cols-2' : 'max-w-4xl mx-auto'
+              }`}>
+                {filteredGuides.map((guide) => (
+                  <div
+                    key={guide.id}
+                    className="bg-slate-950/40 border border-slate-800 rounded-[32px] p-6 md:p-8 shadow-2xl hover:border-slate-700/60 transition duration-500 flex flex-col justify-between group relative overflow-hidden backdrop-blur-md"
+                  >
+                    {/* Decorative side accent light */}
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full filter blur-xl group-hover:bg-emerald-500/10 transition duration-500" />
+                    
+                    <div>
+                      {/* 카드 헤더 */}
+                      <div className="mb-6 flex items-center justify-between border-b border-slate-850 pb-4">
+                        <h3 className="text-lg md:text-xl font-black text-slate-100 flex items-center gap-2">
+                          {guide.title}
+                        </h3>
+                        <span className="text-[10px] bg-slate-900 text-slate-400 font-extrabold px-2.5 py-1 rounded-full border border-slate-800 uppercase tracking-widest">
+                          {guide.tag}
+                        </span>
+                      </div>
+
+                      {/* 1:1 비교 섹션 */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
+                        
+                        {/* 정석 인증 (Approved) */}
+                        <div className="bg-emerald-950/15 border border-emerald-500/15 rounded-2xl p-5 hover:border-emerald-500/30 transition duration-300 relative overflow-hidden group/item flex flex-col justify-between">
+                          <div>
+                            {/* SVG mockup box */}
+                            <div className="w-full h-36 bg-slate-900/60 rounded-xl mb-4 flex items-center justify-center relative border border-emerald-500/10 group-hover/item:border-emerald-500/20 transition overflow-hidden">
+                              <span className="absolute top-2.5 left-2.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[9px] font-black px-2.5 py-0.5 rounded-full tracking-wider shadow-inner">
+                                🟢 APPROVED
+                              </span>
+                              {guide.approvedSvg}
+                            </div>
+                            <span className="text-xs font-black text-emerald-400 block mb-2 flex items-center gap-1.5 uppercase tracking-wide">
+                              {guide.approvedTitle}
+                            </span>
+                            <p className="text-[11px] text-slate-400 leading-relaxed mb-4 font-medium">
+                              {guide.approvedDesc}
+                            </p>
+                          </div>
+                          
+                          <div className="border-t border-emerald-500/10 pt-3">
+                            <ul className="space-y-1.5">
+                              {guide.approvedDetails.map((detail, idx) => (
+                                <li key={idx} className="text-[10px] text-slate-500 group-hover/item:text-slate-400 transition flex items-start gap-1.5 leading-relaxed font-semibold">
+                                  <span className="text-emerald-400 font-bold shrink-0">✓</span>
+                                  <span>{detail}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+
+                        {/* 미인정/참고 (Reference) */}
+                        <div className="bg-rose-950/5 border border-rose-500/10 rounded-2xl p-5 hover:border-rose-500/20 transition duration-300 relative overflow-hidden group/item flex flex-col justify-between">
+                          <div>
+                            {/* SVG mockup box */}
+                            <div className="w-full h-36 bg-slate-900/40 rounded-xl mb-4 flex items-center justify-center relative border border-rose-500/5 group-hover/item:border-rose-500/15 transition overflow-hidden">
+                              <span className="absolute top-2.5 left-2.5 bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[9px] font-black px-2.5 py-0.5 rounded-full tracking-wider shadow-inner">
+                                🔴 REFERENCE
+                              </span>
+                              {guide.refSvg}
+                            </div>
+                            <span className="text-xs font-black text-rose-450 block mb-2 flex items-center gap-1.5 uppercase tracking-wide">
+                              {guide.refTitle}
+                            </span>
+                            <p className="text-[11px] text-slate-400 leading-relaxed mb-4 font-medium">
+                              {guide.refDesc}
+                            </p>
+                          </div>
+
+                          <div className="border-t border-rose-500/10 pt-3">
+                            <ul className="space-y-1.5">
+                              {guide.refDetails.map((detail, idx) => (
+                                <li key={idx} className="text-[10px] text-slate-500 group-hover/item:text-slate-400 transition flex items-start gap-1.5 leading-relaxed font-semibold">
+                                  <span className="text-rose-400/80 font-bold shrink-0">✗</span>
+                                  <span>{detail}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    {/* 심사 꿀팁 */}
+                    <div className="mt-2 bg-slate-900/60 border border-slate-850 rounded-2xl p-4 flex items-start gap-3 text-xs text-slate-400 group-hover:border-slate-800 transition duration-300">
+                      <span className="text-amber-400 text-lg shrink-0">💡</span>
+                      <p className="leading-relaxed font-medium">
+                        <span className="text-amber-300 font-black">심사 프리패스 Tip: </span>
+                        {guide.tip}
+                      </p>
+                    </div>
+
+                  </div>
+                ))}
+              </div>
+            );
+          })()}
         </div>
       </section>
 
