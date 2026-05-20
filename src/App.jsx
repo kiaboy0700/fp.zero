@@ -493,13 +493,17 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
             </div>
           </div>
 
-          {/* B. 핵심 참여 동기 부여 미니 배지 (세로공간 극소화) */}
-          <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-2 text-[11px] md:text-xs text-slate-400 bg-slate-900/40 border border-slate-850 py-2.5 px-4 rounded-xl shadow-inner">
-            <span className="flex items-center gap-1.5 font-bold"><span className="text-emerald-400 text-sm">🎁</span> 총 7명 무조건 선정</span>
-            <span className="text-slate-850 hidden md:inline">|</span>
-            <span className="flex items-center gap-1.5 font-bold"><span className="text-emerald-400 text-sm">🎲</span> 1장만 올려도 공정한 핀볼 확률</span>
-            <span className="text-slate-850 hidden md:inline">|</span>
-            <span className="flex items-center gap-1.5 font-bold"><span className="text-emerald-400 text-sm">🔥</span> 언제 참여해도 즉시 역전 가능</span>
+          {/* B. 핵심 참여 동기 부여 미니 배지 (완벽한 중앙 정렬 및 프리미엄 글래스모피즘 캡슐형 디자인) */}
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
+            <div className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-slate-900/60 border border-emerald-500/20 text-slate-200 text-xs md:text-sm font-extrabold shadow-lg hover:border-emerald-500/40 transition duration-300 backdrop-blur-md">
+              <span className="text-emerald-400 text-base">🎁</span> 총 7명 무조건 선정
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-slate-900/60 border border-teal-500/20 text-slate-200 text-xs md:text-sm font-extrabold shadow-lg hover:border-teal-500/40 transition duration-300 backdrop-blur-md">
+              <span className="text-teal-400 text-base">🎲</span> 1장만 올려도 공정한 핀볼 확률
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-slate-900/60 border border-emerald-500/20 text-slate-200 text-xs md:text-sm font-extrabold shadow-lg hover:border-emerald-500/40 transition duration-300 backdrop-blur-md">
+              <span className="text-emerald-400 text-base">🔥</span> 언제 참여해도 즉시 역전 가능
+            </div>
           </div>
 
           {/* C. ⚡ 단 10초 만에 끝나는 참여 프로세스 (최상단 하이라이트 전면 배치) */}
