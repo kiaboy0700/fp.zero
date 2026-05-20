@@ -590,17 +590,44 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
           </div>
 
           {/* 🌈 4대 미션 외 올 프리패스 초대박 꿀팁 안내 배너 */}
-          <div className="bg-gradient-to-r from-emerald-950/30 via-slate-900/60 to-emerald-950/30 border border-emerald-500/25 rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-4 hover:border-emerald-500/40 transition duration-300 relative overflow-hidden shadow-[0_4px_20px_rgba(16,185,129,0.08)]">
+          <div className="bg-gradient-to-r from-emerald-950/30 via-slate-900/60 to-emerald-950/30 border border-emerald-500/25 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center gap-4 sm:gap-5 hover:border-emerald-500/40 transition duration-300 relative overflow-hidden shadow-[0_4px_20px_rgba(16,185,129,0.08)]">
             <div className="absolute top-[-50%] right-[-10%] w-[120px] h-[120px] bg-emerald-500/5 rounded-full blur-[20px] pointer-events-none"></div>
             <span className="text-3xl sm:text-4xl bg-emerald-500/10 p-3 rounded-2xl shrink-0">🌈</span>
-            <div className="text-center sm:text-left space-y-1">
-              <strong className="text-xs md:text-sm font-extrabold text-emerald-300 flex items-center justify-center sm:justify-start gap-1.5">
-                4대 대표 미션이 아니어도 왠만하면 무조건 100% 승인!
-                <span className="bg-emerald-500/20 text-emerald-400 text-[9px] font-black px-1.5 py-0.5 rounded-full border border-emerald-500/30">안심 프리패스 꿀팁</span>
-              </strong>
-              <p className="text-slate-350 text-[11px] md:text-xs leading-relaxed font-medium">
-                대중교통 이용 🚌, 안 쓰는 플러그 뽑기 🔌, 엘리베이터 대신 계단 이용 🪜, 불필요한 이메일함 비우기 📧, 영수증 안 받기 🧾 등 <span className="text-emerald-400 font-extrabold bg-emerald-950/60 px-1 py-0.5 rounded">탄소중립과 조금이라도 연관된 사소한 행동</span>이라면 무엇이든 올려주세요! 지구를 생각하는 예쁜 행동 그 자체만으로 **묻지도 따지지도 않고 다 인정**해 드리니 가볍게 동참해 주세요! 💚
+            <div className="text-center sm:text-left space-y-2 flex-1">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 justify-center sm:justify-start">
+                <strong className="text-sm sm:text-base font-black text-emerald-300">
+                  4대 대표 미션이 아니어도 왠만하면 무조건 100% 승인!
+                </strong>
+                <span className="self-center bg-emerald-500/20 text-emerald-400 text-[9px] font-black px-2 py-0.5 rounded-full border border-emerald-500/30 whitespace-nowrap">
+                  안심 프리패스 꿀팁
+                </span>
+              </div>
+              
+              <p className="text-slate-350 text-[11px] md:text-xs font-semibold leading-relaxed">
+                탄소중립과 조금이라도 연관된 사소한 행동은 <span className="text-emerald-400 font-extrabold underline decoration-emerald-500/40 decoration-2 underline-offset-2">전부 인정</span>해 드립니다! 지구를 생각하는 마음만 있다면 무엇이든 가볍게 올려주세요 💚
               </p>
+
+              {/* 사소한 행동 예시 칩 */}
+              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 pt-0.5">
+                <span className="bg-slate-800/80 border border-slate-700/60 text-slate-300 text-[10px] sm:text-xs px-2 py-0.5 rounded-lg font-bold flex items-center gap-1 shadow-sm">
+                  🚌 대중교통 이용
+                </span>
+                <span className="bg-slate-800/80 border border-slate-700/60 text-slate-300 text-[10px] sm:text-xs px-2 py-0.5 rounded-lg font-bold flex items-center gap-1 shadow-sm">
+                  🔌 플러그 뽑기
+                </span>
+                <span className="bg-slate-800/80 border border-slate-700/60 text-slate-300 text-[10px] sm:text-xs px-2 py-0.5 rounded-lg font-bold flex items-center gap-1 shadow-sm">
+                  🪜 계단 이용
+                </span>
+                <span className="bg-slate-800/80 border border-slate-700/60 text-slate-300 text-[10px] sm:text-xs px-2 py-0.5 rounded-lg font-bold flex items-center gap-1 shadow-sm">
+                  📧 메일함 비우기
+                </span>
+                <span className="bg-slate-800/80 border border-slate-700/60 text-slate-300 text-[10px] sm:text-xs px-2 py-0.5 rounded-lg font-bold flex items-center gap-1 shadow-sm">
+                  🧾 영수증 안 받기
+                </span>
+                <span className="bg-emerald-950/80 border border-emerald-500/30 text-emerald-300 text-[10px] sm:text-xs px-2.5 py-0.5 rounded-lg font-black flex items-center gap-1 shadow-sm animate-pulse">
+                  ✨ 무엇이든 OK!
+                </span>
+              </div>
             </div>
           </div>
 
