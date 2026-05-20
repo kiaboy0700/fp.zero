@@ -590,6 +590,21 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
             </div>
           </div>
 
+          {/* 🌈 4대 미션 외 올 프리패스 초대박 꿀팁 안내 배너 */}
+          <div className="bg-gradient-to-r from-emerald-950/30 via-slate-900/60 to-emerald-950/30 border border-emerald-500/25 rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-4 hover:border-emerald-500/40 transition duration-300 relative overflow-hidden shadow-[0_4px_20px_rgba(16,185,129,0.08)]">
+            <div className="absolute top-[-50%] right-[-10%] w-[120px] h-[120px] bg-emerald-500/5 rounded-full blur-[20px] pointer-events-none"></div>
+            <span className="text-3xl sm:text-4xl bg-emerald-500/10 p-3 rounded-2xl shrink-0 animate-bounce">🌈</span>
+            <div className="text-center sm:text-left space-y-1">
+              <strong className="text-xs md:text-sm font-extrabold text-emerald-300 flex items-center justify-center sm:justify-start gap-1.5">
+                4대 대표 미션이 아니어도 왠만하면 무조건 100% 승인!
+                <span className="bg-emerald-500/20 text-emerald-400 text-[9px] font-black px-1.5 py-0.5 rounded-full border border-emerald-500/30">안심 프리패스 꿀팁</span>
+              </strong>
+              <p className="text-slate-350 text-[11px] md:text-xs leading-relaxed font-medium">
+                대중교통 이용 🚌, 안 쓰는 플러그 뽑기 🔌, 엘리베이터 대신 계단 이용 🪜, 불필요한 이메일함 비우기 📧, 영수증 안 받기 🧾 등 <span className="text-emerald-400 font-extrabold bg-emerald-950/60 px-1 py-0.5 rounded">탄소중립과 조금이라도 연관된 사소한 행동</span>이라면 무엇이든 올려주세요! 지구를 생각하는 예쁜 행동 그 자체만으로 **묻지도 따지지도 않고 다 인정**해 드리니 가볍게 동참해 주세요! 💚
+              </p>
+            </div>
+          </div>
+
           {/* E. 🎁 챌린저 감성 리워드 라인업 (상단 미니 배치) */}
           <div className="space-y-2.5 pt-2">
             <h4 className="text-xs font-black text-slate-400 flex flex-wrap items-center justify-center md:justify-start gap-2">
@@ -1217,12 +1232,24 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
             </p>
           </div>
 
-          {/* 💡 안심 배너 */}
-          <div className="bg-emerald-950/20 border border-emerald-500/20 rounded-3xl p-5 mb-10 text-xs md:text-sm text-emerald-300 leading-relaxed flex items-start gap-3.5 max-w-3xl mx-auto shadow-lg backdrop-blur-sm">
-            <span className="text-xl shrink-0">✨</span>
-            <div>
-              <strong className="font-extrabold text-emerald-250 block mb-1 text-sm md:text-base">불투명한 텀블러도 무조건 100% 프리패스 인정!</strong>
-              텀블러 속 음료가 보이지 않거나 비어 있어도 전혀 상관없어요. 일회용 컵 대신 개인 텀블러를 곁에 두고 지구를 아껴주는 예쁜 행동 그 자체만으로 무조건 즉시 통과됩니다! 🥤
+          {/* 💡 2열 통합 안심 배너 (텀블러 프리패스 & 그 외 모든 실천 프리패스) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto mb-12">
+            {/* 1) 텀블러 안심 프리패스 */}
+            <div className="bg-emerald-950/25 border border-emerald-500/20 rounded-3xl p-5 text-xs md:text-sm text-emerald-300 leading-relaxed flex items-start gap-3.5 shadow-lg backdrop-blur-sm hover:border-emerald-500/35 transition duration-300">
+              <span className="text-2xl shrink-0">🥤</span>
+              <div>
+                <strong className="font-extrabold text-emerald-250 block mb-1.5 text-sm md:text-base">불투명한 텀블러도 무조건 100% 인정!</strong>
+                텀블러 속 내용물이 보이지 않거나 비어 있어도 전혀 상관없어요. 일회용 컵을 쓰지 않고 텀블러를 곁에 두고 인증샷을 찍는 예쁜 실천 그 자체만으로 묻지도 따지지도 않고 무조건 패스!
+              </div>
+            </div>
+
+            {/* 2) 친환경 종합 안심 프리패스 */}
+            <div className="bg-emerald-950/25 border border-emerald-500/20 rounded-3xl p-5 text-xs md:text-sm text-emerald-300 leading-relaxed flex items-start gap-3.5 shadow-lg backdrop-blur-sm hover:border-emerald-500/35 transition duration-300">
+              <span className="text-2xl shrink-0">🌈</span>
+              <div>
+                <strong className="font-extrabold text-emerald-250 block mb-1.5 text-sm md:text-base">그 외 탄소중립 실천은 왠만하면 다 패스!</strong>
+                4대 대표 인증 미션 외에도 대중교통 이용, 장바구니 사용, 미사용 코드 해제, 이메일함 정리 등 **'이거 환경에 좋겠는데?' 싶은 모든 예쁜 행동**을 찍어 올리시면 무조건 다 기분 좋게 통과시켜 드립니다! 💚
+              </div>
             </div>
           </div>
 
