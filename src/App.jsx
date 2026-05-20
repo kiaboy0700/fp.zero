@@ -488,7 +488,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
             </a>
 
             <a
-              href="#live-search"
+              href="#live-leaderboard"
               className="w-full sm:w-auto px-10 py-5 rounded-2xl bg-slate-800/80 border border-slate-700 hover:bg-slate-700 text-slate-200 text-lg font-bold transition shadow-md hover:-translate-y-1 active:translate-y-0 text-center"
             >
               🏆 내 실시간 확률 & 순위 조회
@@ -550,102 +550,276 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
         </div>
       </section>
 
-      {/* 🔍 나의 실시간 순위 & 당첨 확률 검색기 섹션 */}
-      <section id="live-search" className="px-6 py-20 md:px-16 bg-slate-950 relative border-b border-slate-800/80">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-950/15 rounded-full blur-[100px] pointer-events-none"></div>
-        
-        <div className="max-w-3xl mx-auto relative z-10">
-          <div className="text-center mb-10">
-            <span className="text-emerald-400 font-bold text-xs uppercase tracking-widest block mb-3">INSTANT SEARCH</span>
-            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">
-              내 실시간 순위 & 당첨 확률 확인
+      {/* 🏆 [실시간 통합 랭킹 & 확률 센터] (스프레드시트 실시간 연동 + 내 순위 및 당첨 확률 검색기) */}
+      <section id="live-leaderboard" className="px-6 py-24 md:px-16 bg-slate-950 relative border-b border-slate-800/85">
+        <div className="absolute top-[-10%] left-[-10%] w-[45%] h-[45%] bg-emerald-950/15 rounded-full blur-[110px] pointer-events-none"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[35%] h-[35%] bg-teal-950/10 rounded-full blur-[90px] pointer-events-none"></div>
+
+        <div className="max-w-6xl mx-auto relative z-10">
+          
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold mb-4 uppercase tracking-widest animate-pulse">
+              🏆 REAL-TIME LEADERBOARD & PROBABILITY
+            </div>
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-teal-300">
+              실시간 통합 랭킹 & 확률 센터
             </h2>
-            <p className="text-slate-400">
-              인스타그램 아이디를 입력하여 내 현재 순위와 실시간 경품 당첨 확률을 바로 확인해보세요.
+            <p className="text-slate-400 max-w-2xl mx-auto leading-relaxed text-sm md:text-base">
+              본인의 인스타그램 아이디를 검색하여 실시간 순위와 당첨 확률을 즉시 확인하고, <br className="hidden md:inline"/>
+              전체 참여자분들의 실시간 인증 순위 및 포디움 현황과 비교해 보세요!
             </p>
           </div>
 
-          {/* 🔍 나의 실시간 확률 & 순위 간편 검색창 */}
-          <div className="max-w-2xl mx-auto bg-slate-900/60 border border-slate-800/80 rounded-[32px] p-6 md:p-8 shadow-2xl backdrop-blur-md animate-fadeIn">
-            <h3 className="text-lg font-black text-slate-200 mb-4 flex items-center justify-center gap-2">
-              🔍 내 랭킹 & 당첨 확률 실시간 검색
-            </h3>
-            <p className="text-xs text-slate-400 text-center mb-6 leading-relaxed">
-              본인의 인스타그램 아이디를 입력하여 내 현재 순위와 실시간 경품 당첨 확률을 바로 확인해보세요.
-            </p>
-
-            <form onSubmit={handleCalcProbability} className="flex flex-col sm:flex-row gap-3 mb-6">
-              <input
-                type="text"
-                placeholder="예: @fp.zero 또는 fp.zero"
-                value={calcInput}
-                onChange={(e) => setCalcInput(e.target.value)}
-                className="flex-grow px-5 py-4 bg-slate-950/80 border border-slate-700/60 rounded-2xl text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm md:text-base font-semibold"
-              />
-              <button
-                type="submit"
-                className="px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-2xl transition shadow-lg shrink-0 text-sm md:text-base cursor-pointer"
-              >
-                검색하기
-              </button>
-            </form>
-
-            {/* 검색 결과 표시 */}
-            {calcResult && (
-              <div className="bg-slate-950/80 border border-emerald-500/20 rounded-2xl p-6 md:p-8 animate-fadeIn text-center relative overflow-hidden">
-                <div className="absolute top-[-20%] left-[-20%] w-[50%] h-[50%] bg-emerald-900/10 rounded-full blur-[60px] pointer-events-none"></div>
+          <div className="space-y-10">
+            {/* 실시간 대시보드 그리드: 검색기 + 포디움 */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              
+              {/* 왼쪽: 내 실시간 검색 및 확률 계산기 */}
+              <div className="lg:col-span-5 bg-slate-900/80 border border-slate-800/80 rounded-[32px] p-6 md:p-8 shadow-2xl backdrop-blur-md relative overflow-hidden group hover:border-emerald-500/20 transition duration-300 min-h-[380px] flex flex-col justify-between">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none"></div>
                 
-                <span className="text-xs text-emerald-400 font-black tracking-widest block mb-2">MY CHALLENGE REPORT</span>
-                <h4 className="text-2xl font-black text-slate-100 mb-6 truncate">{calcResult.maskedUsername}</h4>
-                
-                <div className="grid grid-cols-3 gap-3 md:gap-4 mb-6">
-                  <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
-                    <span className="text-[10px] text-slate-500 font-bold block mb-1">현재 순위</span>
-                    <span className="text-xl md:text-2xl font-black text-slate-200">{calcResult.rank}위</span>
-                  </div>
-                  <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
-                    <span className="text-[10px] text-slate-500 font-bold block mb-1">획득 핀볼 (인증 수)</span>
-                    <span className="text-xl md:text-2xl font-black text-emerald-400">{calcResult.count}개</span>
-                  </div>
-                  <div className="bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
-                    <span className="text-[10px] text-slate-500 font-bold block mb-1">당첨 확률</span>
-                    <span className="text-xl md:text-2xl font-black text-teal-400">{calcResult.probability}%</span>
-                  </div>
+                <div>
+                  <h3 className="text-xl font-black text-slate-100 mb-2 flex items-center gap-2">
+                    🔍 내 당첨 확률 & 순위 조회
+                  </h3>
+                  <p className="text-xs text-slate-400 mb-6 leading-relaxed">
+                    인스타 아이디를 입력하시면 현재 획득한 핀볼 수와 실시간 추첨 당첨 확률을 계산합니다.
+                  </p>
+
+                  <form onSubmit={handleCalcProbability} className="flex gap-2.5 mb-6">
+                    <input
+                      type="text"
+                      placeholder="@username 또는 username"
+                      value={calcInput}
+                      onChange={(e) => setCalcInput(e.target.value)}
+                      className="flex-grow px-4 py-3.5 bg-slate-950/80 border border-slate-700/60 rounded-xl text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm font-semibold placeholder-slate-600 transition"
+                    />
+                    <button
+                      type="submit"
+                      className="px-5 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-xl transition shadow-lg shrink-0 text-sm cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+                    >
+                      조회
+                    </button>
+                  </form>
                 </div>
 
-                {/* 1장 더 인증 시 시뮬레이션 배지 */}
-                <div className="bg-emerald-950/20 border border-emerald-500/30 rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-3 text-left">
-                  <div>
-                    <span className="text-[10px] text-emerald-400 font-black block tracking-wider mb-0.5">인증 촉진 시뮬레이션 🔥</span>
-                    <p className="text-xs text-slate-300 font-semibold leading-relaxed">
-                      오늘 스토리에 사진 1장을 더 업로드하여 승인되면?
+                {/* 검색 결과 표시 */}
+                {calcResult && (
+                  <div className="bg-slate-950/90 border border-emerald-500/30 rounded-2xl p-5 md:p-6 animate-fadeIn text-center relative overflow-hidden shadow-inner">
+                    <div className="absolute top-[-20%] left-[-20%] w-[50%] h-[50%] bg-emerald-900/10 rounded-full blur-[60px] pointer-events-none"></div>
+                    
+                    <span className="text-[10px] text-emerald-400 font-black tracking-widest block mb-1">MY LIVE STATS</span>
+                    <h4 className="text-lg font-black text-slate-100 mb-4 truncate">{calcResult.maskedUsername}</h4>
+                    
+                    <div className="grid grid-cols-3 gap-2.5 mb-5">
+                      <div className="bg-slate-900/90 border border-slate-800/80 p-3 rounded-xl flex flex-col justify-center">
+                        <span className="text-[9px] text-slate-500 font-bold block mb-0.5">내 순위</span>
+                        <span className="text-lg font-black text-slate-200">{calcResult.rank}위</span>
+                      </div>
+                      <div className="bg-slate-900/90 border border-slate-800/80 p-3 rounded-xl flex flex-col justify-center">
+                        <span className="text-[9px] text-slate-500 font-bold block mb-0.5">보유 핀볼</span>
+                        <span className="text-lg font-black text-emerald-400">{calcResult.count}개</span>
+                      </div>
+                      <div className="bg-slate-900/90 border border-slate-800/80 p-3 rounded-xl flex flex-col justify-center">
+                        <span className="text-[9px] text-slate-500 font-bold block mb-0.5">당첨 확률</span>
+                        <span className="text-lg font-black text-teal-400">{calcResult.probability}%</span>
+                      </div>
+                    </div>
+
+                    {/* 확률 비주얼 게이지 바 */}
+                    <div className="mb-5 bg-slate-900/60 border border-slate-800/80 rounded-xl p-3.5 text-left">
+                      <div className="flex justify-between items-center mb-1.5">
+                        <span className="text-[10px] text-slate-400 font-black">실시간 당첨 점유율</span>
+                        <span className="text-xs text-teal-400 font-black">{calcResult.probability}%</span>
+                      </div>
+                      <div className="w-full bg-slate-850 h-2.5 rounded-full overflow-hidden border border-slate-800/80 relative">
+                        {/* 현재 확률 바 */}
+                        <div
+                          className="absolute top-0 left-0 bg-gradient-to-r from-teal-500 to-emerald-400 h-full rounded-full transition-all duration-1000 shadow-[0_0_8px_rgba(20,184,166,0.4)]"
+                          style={{ width: `${Math.min(parseFloat(calcResult.probability) * 5, 100)}%` }} // 저인증 참가자를 위해 살짝 스케일링하여 visual 차이 제공
+                        ></div>
+                      </div>
+                    </div>
+
+                    {/* 1장 더 인증 시 시뮬레이션 배지 */}
+                    <div className="bg-emerald-950/30 border border-emerald-500/20 rounded-xl p-3.5 flex flex-col gap-2 text-left">
+                      <div>
+                        <span className="text-[9px] text-emerald-400 font-black block tracking-wider mb-0.5">NEXT CHALLENGE PREVIEW 🔥</span>
+                        <p className="text-xs text-slate-300 font-semibold leading-relaxed">
+                          오늘 스토리 인증을 <b>1개 추가</b>하면?
+                        </p>
+                      </div>
+                      <div className="w-full bg-emerald-500 text-slate-950 text-xs font-black py-2 rounded-lg text-center shrink-0 shadow-md">
+                        당첨 확률 {calcResult.nextProb}% 로 상승! (+{calcResult.diff}%)
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* 검색 결과 없음 예외 안내 */}
+                {showCalcError && (
+                  <div className="bg-slate-950/90 border border-red-500/20 rounded-2xl p-5 animate-fadeIn text-center shadow-inner">
+                    <span className="text-2xl mb-2 block">🚨</span>
+                    <h4 className="text-sm font-black text-slate-200 mb-1">인증 내역이 아직 반영되지 않았습니다</h4>
+                    <p className="text-[11px] text-slate-400 leading-relaxed max-w-md mx-auto mb-4">
+                      아이디 오타를 확인해 보시거나, 아직 첫 인증이 구글 시트에 반영되지 않았을 수 있습니다. (시트 업데이트는 실시간 수동 검토 후 진행됩니다.)
                     </p>
+                    <a
+                      href="https://www.instagram.com/fp.zero/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-block px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black rounded-lg transition shadow-md hover:scale-[1.02]"
+                    >
+                      📸 지금 인스타 스토리 인증하기
+                    </a>
                   </div>
-                  <div className="bg-emerald-500 text-slate-950 text-xs font-black px-3.5 py-2.5 rounded-lg text-center shrink-0">
-                    당첨 확률 {calcResult.nextProb}% 돌파! (+{calcResult.diff}%)
+                )}
+              </div>
+
+              {/* 오른쪽: TOP 3 포디움 명예의 전당 */}
+              <div className="lg:col-span-7 h-full flex flex-col">
+                {!loading && !error && leaderboard.length > 0 && (
+                  <div className="bg-slate-900/40 border border-slate-800/80 rounded-[32px] p-6 shadow-2xl backdrop-blur-sm flex-grow flex flex-col justify-center min-h-[380px]">
+                    <h3 className="text-xl font-black text-slate-100 mb-6 text-center flex items-center justify-center gap-2">
+                      👑 명예의 전당 TOP 3
+                    </h3>
+                    
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-end justify-center gap-4 max-w-xl mx-auto w-full">
+                      
+                      {/* 2등 실버 포디움 */}
+                      {topThree[1] && (
+                        <div className="order-2 sm:order-1 flex-1 bg-gradient-to-b from-slate-800/40 to-slate-900/60 border border-slate-700/50 rounded-2xl p-4 shadow-lg hover:scale-[1.02] hover:-translate-y-1 transition duration-300 text-center relative overflow-hidden flex flex-col justify-between min-h-[190px]">
+                          <div className="absolute top-0 right-0 left-0 bg-slate-750 py-1 text-[9px] font-black text-slate-300 tracking-wider uppercase">2nd Place</div>
+                          <div className="text-3xl mt-5 mb-1.5">🥈</div>
+                          <h4 className="text-sm font-bold truncate text-slate-100">{topThree[1].username}</h4>
+                          <div className="my-1">
+                            <span className="text-2xl font-extrabold text-emerald-400">{topThree[1].count}</span>
+                            <span className="text-xs text-slate-400">회 인증</span>
+                          </div>
+                          <p className="text-[9px] text-slate-500 font-medium">최초: {topThree[1].date?.split(' ')[0] || ''}</p>
+                        </div>
+                      )}
+
+                      {/* 1등 골드 포디움 */}
+                      {topThree[0] && (
+                        <div className="order-1 sm:order-2 flex-1 bg-gradient-to-b from-emerald-950/30 to-slate-900/80 border-2 border-emerald-500/60 rounded-3xl p-5 shadow-2xl hover:scale-[1.04] hover:-translate-y-1.5 transition duration-300 text-center relative overflow-hidden flex flex-col justify-between min-h-[230px] ring-4 ring-emerald-500/10">
+                          <div className="absolute top-0 right-0 left-0 bg-emerald-500/20 py-1 text-[10px] font-black text-emerald-300 tracking-wider uppercase">LEADER</div>
+                          <div className="text-4xl mt-5 mb-1.5">👑 🥇</div>
+                          <h4 className="text-base font-black truncate text-slate-100">{topThree[0].username}</h4>
+                          <div className="my-1">
+                            <span className="text-3xl font-black text-emerald-400">{topThree[0].count}</span>
+                            <span className="text-xs text-emerald-200 font-bold">회 인증</span>
+                          </div>
+                          <p className="text-[9px] text-emerald-500/70 font-semibold">최초: {topThree[0].date?.split(' ')[0] || ''}</p>
+                        </div>
+                      )}
+
+                      {/* 3등 브론즈 포디움 */}
+                      {topThree[2] && (
+                        <div className="order-3 sm:order-3 flex-1 bg-gradient-to-b from-slate-800/40 to-slate-900/60 border border-slate-700/50 rounded-2xl p-4 shadow-lg hover:scale-[1.02] hover:-translate-y-1 transition duration-300 text-center relative overflow-hidden flex flex-col justify-between min-h-[180px]">
+                          <div className="absolute top-0 right-0 left-0 bg-amber-950/20 py-1 text-[9px] font-black text-amber-300 tracking-wider uppercase">3rd Place</div>
+                          <div className="text-3xl mt-5 mb-1.5">🥉</div>
+                          <h4 className="text-sm font-bold truncate text-slate-100">{topThree[2].username}</h4>
+                          <div className="my-1">
+                            <span className="text-2xl font-extrabold text-emerald-400">{topThree[2].count}</span>
+                            <span className="text-xs text-slate-400">회 인증</span>
+                          </div>
+                          <p className="text-[9px] text-slate-500 font-medium">최초: {topThree[2].date?.split(' ')[0] || ''}</p>
+                        </div>
+                      )}
+                    </div>
                   </div>
+                )}
+                
+                {/* 랭킹 로딩 중 스켈레톤 */}
+                {loading && (
+                  <div className="bg-slate-900/40 border border-slate-800/80 rounded-[32px] p-6 shadow-2xl backdrop-blur-sm flex-grow flex flex-col justify-center items-center min-h-[380px]">
+                    <div className="inline-block w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+                    <p className="text-slate-400 text-sm font-semibold">명예의 전당 정보 로딩 중...</p>
+                  </div>
+                )}
+
+                {/* 랭킹 로딩 에러 */}
+                {error && (
+                  <div className="bg-red-950/10 border border-red-500/20 rounded-[32px] p-6 shadow-2xl backdrop-blur-sm flex-grow flex flex-col justify-center items-center min-h-[380px]">
+                    <span className="text-3xl mb-3 block">🚨</span>
+                    <h3 className="text-base font-bold text-slate-200 mb-2">동기화 실패</h3>
+                    <button
+                      onClick={fetchLeaderboardData}
+                      className="px-4 py-2 bg-red-500 hover:bg-red-400 text-slate-950 text-xs font-black rounded-lg transition"
+                    >
+                      다시 불러오기
+                    </button>
+                  </div>
+                )}
+              </div>
+
+            </div>
+
+            {/* 하단: 4등 이하 순위 리스트 및 컨트롤러 */}
+            {!loading && !error && leaderboard.length > 0 && (
+              <div className="space-y-6">
+                {/* 4등 이하 순위 리스트 */}
+                {restOfLeaderboard.length > 0 && (
+                  <div className="bg-slate-900/60 border border-slate-800/80 rounded-[32px] overflow-hidden shadow-xl max-w-6xl mx-auto">
+                    <div className="bg-slate-950/80 px-6 py-4 grid grid-cols-12 text-xs font-black text-slate-500 uppercase tracking-widest text-center border-b border-slate-800/60">
+                      <div className="col-span-2">순위</div>
+                      <div className="col-span-6 text-left pl-6">인스타그램 아이디</div>
+                      <div className="col-span-4">인정(O) 개수</div>
+                    </div>
+                    <div className="divide-y divide-slate-800/50 max-h-[360px] overflow-y-auto custom-scrollbar">
+                      {restOfLeaderboard.map((item, index) => (
+                        <div
+                          key={index}
+                          className="px-6 py-3.5 grid grid-cols-12 items-center text-center hover:bg-slate-850/30 transition group"
+                        >
+                          <div className="col-span-2 text-base font-black text-slate-500 group-hover:text-slate-300 transition">
+                            {item.rank}
+                          </div>
+                          <div className="col-span-6 text-left pl-6 font-bold text-slate-300 group-hover:text-emerald-400 transition truncate text-sm">
+                            {item.username}
+                          </div>
+                          <div className="col-span-4 font-black">
+                            <span className="px-3 py-1.5 bg-emerald-950/60 border border-emerald-800/40 text-emerald-400 rounded-full text-xs font-black shadow-inner">
+                              {item.count}개
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* 컨트롤러 버튼 */}
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-xl mx-auto pt-4">
+                  <button
+                    onClick={fetchLeaderboardData}
+                    disabled={loading}
+                    className="w-full sm:w-auto px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-2xl transition disabled:opacity-50 flex items-center justify-center gap-2 shadow-lg cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    🔄 실시간 정보 동기화
+                  </button>
+
+                  <a
+                    href="https://docs.google.com/spreadsheets/d/18Pdxzr_LVyCUF3ck1KbyjAYsv3CK5yXQCVjbXb2SZGA/edit?gid=1270585109#gid=1270585109"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-full sm:w-auto px-8 py-4 bg-slate-800 border border-slate-700 hover:bg-slate-700 text-slate-200 font-bold rounded-2xl text-center shadow-md transition hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    📊 구글 시트 원본 보드 보기
+                  </a>
                 </div>
               </div>
             )}
 
-            {/* 검색 결과 없음 예외 안내 */}
-            {showCalcError && (
-              <div className="bg-slate-950/80 border border-red-500/20 rounded-2xl p-6 animate-fadeIn text-center">
-                <span className="text-3xl mb-3 block">🚨</span>
-                <h4 className="text-lg font-black text-slate-200 mb-2">아직 인증 내역을 찾을 수 없습니다</h4>
-                <p className="text-xs text-slate-400 leading-relaxed max-w-md mx-auto mb-6">
-                  아이디 오타를 확인해 보시거나, 아직 첫 인증이 구글 시트에 반영되지 않았을 수 있습니다. (시트 업데이트는 실시간 수동 검토 후 진행됩니다.)
-                </p>
-                <a
-                  href="https://www.instagram.com/fp.zero/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-block px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black rounded-xl transition shadow-md"
-                >
-                  📸 지금 인스타에 참여 인증하러 가기
-                </a>
+            {!loading && !error && leaderboard.length === 0 && (
+              <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-12 text-center max-w-md mx-auto">
+                <div className="text-6xl mb-4">🏁</div>
+                <h3 className="text-xl font-bold text-slate-200 mb-2">아직 인증 참가자가 없습니다</h3>
+                <p className="text-slate-500 mb-6">첫 스토리 인증샷을 업로드하고 1위를 차지해 보세요!</p>
               </div>
             )}
+
           </div>
         </div>
       </section>
@@ -1019,134 +1193,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
         </div>
       </section>
 
-      {/* 🏆 실시간 참여자 순위 현황판 섹션 (스프레드시트 실시간 연동) */}
-      <section id="live-leaderboard" className="px-6 py-24 md:px-16 bg-slate-950 relative">
-        <div className="max-w-5xl mx-auto relative z-10">
-          
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold mb-4 uppercase tracking-widest">
-              LEADERBOARD
-            </div>
-            <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">
-              참여자 순위 현황판
-            </h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
-              현재 참여자분들의 실시간 인증 순위입니다. 아이디의 중간 정보는 개인정보 보호를 위해 마스킹 처리되었습니다.
-            </p>
-          </div>
 
-          {/* 실시간 포디움 및 랭킹 목록 */}
-          {!loading && !error && leaderboard.length > 0 && (
-            <div className="max-w-4xl mx-auto space-y-12">
-              
-              {/* TOP 3 포디움 */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-end justify-center gap-6 max-w-2xl mx-auto">
-                
-                {/* 2등 실버 포디움 */}
-                {topThree[1] && (
-                  <div className="order-2 sm:order-1 flex-1 bg-gradient-to-b from-slate-800/60 to-slate-900/60 border-2 border-slate-700/60 rounded-3xl p-6 shadow-xl hover:scale-[1.03] transition duration-300 text-center relative overflow-hidden flex flex-col justify-between min-h-[220px]">
-                    <div className="absolute top-0 right-0 left-0 bg-slate-700/20 py-1.5 text-[10px] font-black text-slate-300 tracking-widest uppercase">2nd Place</div>
-                    <div className="text-4xl mt-6 mb-2">🥈</div>
-                    <h4 className="text-xl font-bold truncate text-slate-100">{topThree[1].username}</h4>
-                    <div>
-                      <span className="text-3xl font-extrabold text-emerald-400">{topThree[1].count}</span>
-                      <span className="text-sm text-slate-400"> 개의 인증</span>
-                    </div>
-                    <p className="text-[10px] text-slate-500 mt-2 font-medium">최초인증: {topThree[1].date?.split(' ')[0] || ''}</p>
-                  </div>
-                )}
-
-                {/* 1등 골드 포디움 */}
-                {topThree[0] && (
-                  <div className="order-1 sm:order-2 flex-1 bg-gradient-to-b from-emerald-950/40 to-slate-900/80 border-2 border-emerald-500 rounded-[32px] p-8 shadow-2xl hover:scale-[1.05] transition duration-300 text-center relative overflow-hidden flex flex-col justify-between min-h-[270px] ring-8 ring-emerald-500/10">
-                    <div className="absolute top-0 right-0 left-0 bg-emerald-500/20 py-1.5 text-xs font-black text-emerald-300 tracking-widest uppercase">LEADER</div>
-                    <div className="text-5xl mt-6 mb-2">👑 🥇</div>
-                    <h4 className="text-2xl font-black truncate text-slate-100">{topThree[0].username}</h4>
-                    <div>
-                      <span className="text-4xl font-black text-emerald-400">{topThree[0].count}</span>
-                      <span className="text-sm text-emerald-200 font-bold"> 개의 인증</span>
-                    </div>
-                    <p className="text-[10px] text-emerald-500/70 mt-2 font-semibold">최초인증: {topThree[0].date?.split(' ')[0] || ''}</p>
-                  </div>
-                )}
-
-                {/* 3등 브론즈 포디움 */}
-                {topThree[2] && (
-                  <div className="order-3 sm:order-3 flex-1 bg-gradient-to-b from-slate-800/60 to-slate-900/60 border-2 border-slate-700/60 rounded-3xl p-6 shadow-xl hover:scale-[1.03] transition duration-300 text-center relative overflow-hidden flex flex-col justify-between min-h-[200px]">
-                    <div className="absolute top-0 right-0 left-0 bg-orange-950/20 py-1.5 text-[10px] font-black text-orange-300 tracking-widest uppercase">3rd Place</div>
-                    <div className="text-4xl mt-6 mb-2">🥉</div>
-                    <h4 className="text-xl font-bold truncate text-slate-100">{topThree[2].username}</h4>
-                    <div>
-                      <span className="text-3xl font-extrabold text-emerald-400">{topThree[2].count}</span>
-                      <span className="text-sm text-slate-400"> 개의 인증</span>
-                    </div>
-                    <p className="text-[10px] text-slate-500 mt-2 font-medium">최초인증: {topThree[2].date?.split(' ')[0] || ''}</p>
-                  </div>
-                )}
-
-              </div>
-
-              {/* 4등 이하 순위 리스트 */}
-              {restOfLeaderboard.length > 0 && (
-                <div className="bg-slate-900/60 border border-slate-800 rounded-3xl overflow-hidden shadow-xl max-w-3xl mx-auto">
-                  <div className="bg-slate-950 px-6 py-4 grid grid-cols-12 text-xs font-black text-slate-500 uppercase tracking-widest text-center border-b border-slate-800">
-                    <div className="col-span-2">순위</div>
-                    <div className="col-span-6 text-left pl-6">인스타그램 아이디</div>
-                    <div className="col-span-4">인정(O) 개수</div>
-                  </div>
-                  <div className="divide-y divide-slate-800/50">
-                    {restOfLeaderboard.map((item, index) => (
-                      <div
-                        key={index}
-                        className="px-6 py-4 grid grid-cols-12 items-center text-center hover:bg-slate-800/20 transition group"
-                      >
-                        <div className="col-span-2 text-lg font-black text-slate-600 group-hover:text-slate-300 transition">
-                          {item.rank}
-                        </div>
-                        <div className="col-span-6 text-left pl-6 font-bold text-slate-300 truncate">
-                          {item.username}
-                        </div>
-                        <div className="col-span-4 font-black">
-                          <span className="px-3.5 py-1.5 bg-emerald-950/60 border border-emerald-800/40 text-emerald-400 rounded-full text-xs font-black shadow-inner">
-                            {item.count}개
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-
-          {!loading && !error && leaderboard.length === 0 && (
-            <div className="bg-slate-900/50 border border-slate-800 rounded-3xl p-12 text-center max-w-md mx-auto">
-              <div className="text-6xl mb-4">🏁</div>
-              <h3 className="text-xl font-bold text-slate-200 mb-2">아직 인증 참가자가 없습니다</h3>
-              <p className="text-slate-500 mb-6">첫 스토리 인증샷을 업로드하고 1위를 차지해 보세요!</p>
-            </div>
-          )}
-
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-12">
-            <button
-              onClick={fetchLeaderboardData}
-              disabled={loading}
-              className="w-full sm:w-auto px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-2xl transition disabled:opacity-50 flex items-center justify-center gap-2 shadow-lg"
-            >
-              🔄 실시간 정보 동기화
-            </button>
-
-            <a
-              href="https://docs.google.com/spreadsheets/d/18Pdxzr_LVyCUF3ck1KbyjAYsv3CK5yXQCVjbXb2SZGA/edit?gid=1270585109#gid=1270585109"
-              target="_blank"
-              rel="noreferrer"
-              className="w-full sm:w-auto px-8 py-4 bg-slate-800 border border-slate-700 hover:bg-slate-700 text-slate-200 font-bold rounded-2xl text-center shadow-md transition"
-            >
-              📊 구글 시트 원본 보드 보기
-            </a>
-          </div>
-        </div>
-      </section>
 
       {/* 푸터 마무리 */}
       <section className="px-6 py-28 text-center bg-slate-900 relative border-t border-slate-800">
