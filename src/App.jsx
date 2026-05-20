@@ -37,9 +37,9 @@ export default function CarbonChallengeLandingPage() {
     { id: 'home', label: '🏠 홈', mobileLabel: '홈' },
     { id: 'live-leaderboard', label: '🏆 실시간 랭킹', mobileLabel: '랭킹' },
     { id: 'carbon-test', label: '🧠 탄소 테스트', mobileLabel: '테스트' },
-    { id: 'carbon-calculator', label: '🥗 체크리스트', mobileLabel: '감량' },
+    { id: 'carbon-calculator', label: '🥗 탄소 계산기', mobileLabel: '계산기' },
     { id: 'challenge-reward', label: '🎁 상품', mobileLabel: '상품' },
-    { id: 'certification-guide', label: '🥤 인증 가이드', mobileLabel: '인증' }
+    { id: 'certification-guide', label: '🥤 인증 가이드', mobileLabel: '가이드' }
   ];
   const [activeSection, setActiveSection] = useState('home');
 
