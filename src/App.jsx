@@ -42,8 +42,6 @@ export default function CarbonChallengeLandingPage() {
     { id: 'certification-guide', label: '🥤 인증 가이드' }
   ];
   const [activeSection, setActiveSection] = useState('home');
-  const [sidebarPosition, setSidebarPosition] = useState('right'); // 'left' | 'right'
-  const [isCollapsed, setIsCollapsed] = useState(false); // 퀵네비 기본 상시 노출 여부 (false = 펼침 상태)
 
   // 📍 스크롤 위치 감지 및 내비게이션 활성화 훅 (IntersectionObserver)
   useEffect(() => {
@@ -1696,48 +1694,17 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
         </div>
       </section>
 
-      {/* 📍 사이드 플로팅 퀵 내비게이션 바 (Floating Sidebar Menu) */}
-      <aside 
-        className={`fixed top-1/2 -translate-y-1/2 z-50 hidden sm:flex flex-col gap-4 bg-slate-950/90 border border-slate-800/90 backdrop-blur-lg py-5 px-3 rounded-[32px] shadow-2xl hover:border-emerald-500/30 transition-all duration-500 ease-out group overflow-hidden ${
-          sidebarPosition === 'right' ? 'right-3 md:right-6' : 'left-3 md:left-6'
-        } ${
-          isCollapsed ? 'w-14 hover:w-48' : 'w-48'
-        }`}
-      >
-        {/* 🔄 상단 제어 헤더 (위치 토글 및 접기/펼치기 옵션 스위치) */}
-        <div className="flex items-center justify-between border-b border-slate-850/60 pb-2 mb-1 w-full overflow-hidden shrink-0">
-          <span className={`text-[9px] font-black text-slate-500 tracking-wider select-none uppercase pl-2 transition-opacity duration-300 ${
-            isCollapsed ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'
-          }`}>
-            Quick Nav
+      {/* 📍 좌측 고정식 프리미엄 사이드 내비게이션 바 (Left Fixed Sidebar Menu) */}
+      <aside className="fixed left-3 md:left-6 top-1/2 -translate-y-1/2 z-50 hidden sm:flex flex-col gap-4 bg-slate-950/90 border border-slate-800/90 backdrop-blur-lg py-5 px-3 rounded-[28px] shadow-2xl w-44 hover:border-emerald-500/30 transition-all duration-300">
+        {/* 🧭 상단 타이틀 라벨 */}
+        <div className="border-b border-slate-850/60 pb-2 mb-1 w-full overflow-hidden shrink-0 flex items-center justify-center">
+          <span className="text-[10px] font-black text-emerald-400 tracking-widest select-none uppercase pl-1 flex items-center gap-1">
+            🌱 Eco Navigation
           </span>
-          <div className="flex items-center gap-1.5 shrink-0 pl-1 ml-auto">
-            {/* 좌우 위치 토글 */}
-            <button
-              onClick={() => setSidebarPosition(prev => prev === 'right' ? 'left' : 'right')}
-              title={sidebarPosition === 'right' ? "왼쪽으로 이동" : "오른쪽으로 이동"}
-              className="flex items-center justify-center w-6 h-6 rounded-full bg-slate-900/80 hover:bg-emerald-500/20 text-slate-400 hover:text-emerald-450 border border-slate-800/80 transition duration-300 cursor-pointer hover:rotate-180 shrink-0"
-            >
-              <span className="text-[10px] font-bold">⇄</span>
-            </button>
-
-            {/* 접기/펼치기 토글 */}
-            <button
-              onClick={() => setIsCollapsed(!isCollapsed)}
-              title={isCollapsed ? "상시 펼치기 고정" : "미니멀하게 접어두기"}
-              className="flex items-center justify-center w-6 h-6 rounded-full bg-slate-900/80 hover:bg-emerald-500/20 text-slate-400 hover:text-emerald-450 border border-slate-800/80 transition duration-300 cursor-pointer shrink-0"
-            >
-              <span className="text-[10px] font-black leading-none">
-                {isCollapsed 
-                  ? (sidebarPosition === 'right' ? '◀' : '▶') 
-                  : (sidebarPosition === 'right' ? '▶' : '◀')}
-              </span>
-            </button>
-          </div>
         </div>
 
         {/* 🔗 내비게이션 메뉴 목록 */}
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2.5">
           {sections.map((sec) => {
             const icon = sec.label.split(' ')[0];
             const name = sec.label.split(' ').slice(1).join(' ');
@@ -1750,10 +1717,10 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                   document.getElementById(sec.id)?.scrollIntoView({ behavior: 'smooth' });
                   setActiveSection(sec.id);
                 }}
-                className={`relative flex items-center gap-3 w-full h-10 px-2 rounded-2xl transition duration-300 cursor-pointer overflow-hidden ${
+                className={`relative flex items-center gap-3 w-full h-10 px-3 rounded-xl transition duration-300 cursor-pointer overflow-hidden ${
                   isSelfActive 
                     ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]' 
-                    : 'text-slate-450 hover:text-slate-200 hover:bg-slate-900/60 border border-transparent'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60 border border-transparent'
                 }`}
               >
                 {/* 활성 상태 숨쉬는 네온 도트 */}
@@ -1762,19 +1729,15 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                 )}
 
                 {/* 이모지 아이콘 영역 */}
-                <span className={`text-base flex items-center justify-center w-6 shrink-0 transition-transform duration-300 ${
-                  isSelfActive ? 'scale-110 filter drop-shadow-[0_0_4px_rgba(52,211,153,0.6)]' : 'opacity-65'
+                <span className={`text-base flex items-center justify-center w-5 shrink-0 transition-transform duration-300 ${
+                  isSelfActive ? 'scale-110 filter drop-shadow-[0_0_4px_rgba(52,211,153,0.6)]' : 'opacity-60'
                 }`}>
                   {icon}
                 </span>
 
-                {/* 슬라이딩 텍스트 라벨 (상시 노출 및 접힌 상태 호버 동기화) */}
-                <span className={`text-[11px] font-black tracking-tight transition-all duration-350 whitespace-nowrap overflow-hidden select-none ${
+                {/* 텍스트 라벨 (상시 100% 노출) */}
+                <span className={`text-[11px] font-black tracking-tight whitespace-nowrap select-none ${
                   isSelfActive ? 'text-emerald-400 font-extrabold' : 'text-slate-400'
-                } ${
-                  isCollapsed 
-                    ? 'opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0' 
-                    : 'opacity-100 translate-x-0'
                 }`}>
                   {name}
                 </span>
