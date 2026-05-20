@@ -34,12 +34,12 @@ export default function CarbonChallengeLandingPage() {
 
   // 📍 사이드 퀵 내비게이션 바 섹션 정보 및 활성 상태
   const sections = [
-    { id: 'home', label: '🏠 홈/가이드' },
-    { id: 'live-leaderboard', label: '🏆 실시간 랭킹' },
-    { id: 'carbon-test', label: '🧠 탄소 퀴즈' },
-    { id: 'carbon-calculator', label: '🥗 탄소 계산기' },
-    { id: 'challenge-reward', label: '🎁 챌린지 상품' },
-    { id: 'certification-guide', label: '🥤 인증 가이드' }
+    { id: 'home', label: '🏠 홈', mobileLabel: '홈' },
+    { id: 'live-leaderboard', label: '🏆 실시간 랭킹', mobileLabel: '랭킹' },
+    { id: 'carbon-test', label: '🧠 탄소 테스트', mobileLabel: '테스트' },
+    { id: 'carbon-calculator', label: '🥗 체크리스트', mobileLabel: '체크' },
+    { id: 'challenge-reward', label: '🎁 상품', mobileLabel: '상품' },
+    { id: 'certification-guide', label: '🥤 인증 가이드', mobileLabel: '인증' }
   ];
   const [activeSection, setActiveSection] = useState('home');
 
@@ -1779,7 +1779,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
             <span className={`text-[8px] font-extrabold tracking-tight transition duration-300 ${
               activeSection === sec.id ? 'text-emerald-400 font-black' : 'text-slate-500'
             }`}>
-              {sec.label.split(' ')[1].split('/')[0]}
+              {sec.mobileLabel}
             </span>
             {activeSection === sec.id && (
               <span className="absolute bottom-[-2px] w-4 h-0.5 bg-emerald-400 rounded-full" />
