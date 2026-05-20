@@ -1299,12 +1299,11 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                 id: 'TUMBLER',
                 title: '🥤 텀블러 & 다회용 컵 사용',
                 tag: 'TUMBLER',
-                approvedTitle: '100% 프리패스 인정! (Approved)',
-                approvedDesc: '불투명한 텀블러, 보온병, 머그컵도 내부 음료 걱정 없이 대환영! 환경을 생각하는 예쁜 마음만 있다면 무조건 인정!',
+                approvedTitle: '100% 승인 (Approved)',
+                approvedDesc: '불투명 텀블러, 보온병, 머그컵 모두 환영! 내용물이 보이지 않아도 실천 자체로 승인됩니다.',
                 approvedDetails: [
-                  '불투명 텀블러, 보온병, 빨대컵 등 내부가 안 보여도 무조건 인정!',
-                  '강의실, 집, 카페, 책상 위에 텀블러가 놓인 일상 사진',
-                  '다회용 텀블러나 매장 내 머그컵/유리잔을 사용하는 모든 인증'
+                  '보온병, 빨대컵 등 내부가 안 보여도 인정',
+                  '일상 공간(집, 카페, 학교) 속 텀블러 사용'
                 ],
                 approvedSvg: (
                   <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-emerald-400" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1323,12 +1322,12 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                     </defs>
                   </svg>
                 ),
-                refTitle: '요것만 살짝 피해주세요! (Avoid)',
-                refDesc: '탄소 다이어트를 위해 플라스틱 일회용 컵이나 페트병 대신 텀블러를 사용해 주세요!',
+                refTitle: '이것만 피해주세요 (Avoid)',
+                refDesc: '일회용 플라스틱컵 사용이나 단순 구매 음료 사진은 승인이 어렵습니다.',
                 refDetails: [
-                  '일반 편의점/카페 일회용 플라스틱 컵이나 빨대 사용',
-                  '편의점에서 방금 구매한 시판 페트병 음료 그대로 인증',
-                  '본인이 직접 사용하지 않고 타인의 사진을 도용한 경우'
+                  '매장용·편의점 일회용 플라스틱/종이 컵',
+                  '편의점에서 단순 구매한 페트병 음료',
+                  '웹 이미지 도용 및 타인의 사진 재사용'
                 ],
                 refSvg: (
                   <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-rose-450" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1347,18 +1346,17 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                     </defs>
                   </svg>
                 ),
-                tip: '불투명한 텀블러도 당연히 100% 인정! 음료 유무나 텀블러 내부 걱정은 전혀 안 하셔도 돼요. 텀블러를 곁에 두고 환경을 생각하는 예쁜 행동 그 자체만으로 무조건 통과입니다!'
+                tip: '텀블러 속 음료가 안 보여도 무조건 100% 승인! 환경을 아끼는 실천 행동이면 충분합니다. 💚'
               },
               {
                 id: 'RECYCLE',
                 title: '♻️ 압착 라벨 제거 분리배출',
                 tag: 'RECYCLE',
-                approvedTitle: '100% 프리패스 인정! (Approved)',
-                approvedDesc: '라벨만 떼고 꾹 밟으면 끝! 분리수거함 앞이 아니더라도 책상이나 방 안에서 찍어도 대환영!',
+                approvedTitle: '100% 승인 (Approved)',
+                approvedDesc: '라벨을 떼고 꾹 눌러 배출하면 끝! 방이나 책상 위 등 어디서나 인증 가능합니다.',
                 approvedDetails: [
-                  '비닐 라벨을 분리하고 손이나 발로 가볍게 찌그러뜨린 상태',
-                  '내 책상, 강의실, 동아리방 등 일상 공간에서의 가벼운 배출 준비 인증',
-                  '페트병 라벨을 떼는 예쁜 순간을 담은 사진'
+                  '비닐 라벨을 분리하고 납작하게 압착한 페트병',
+                  '분리배출을 완료한 가벼운 모습'
                 ],
                 approvedSvg: (
                   <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-emerald-400" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1386,12 +1384,12 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                     </defs>
                   </svg>
                 ),
-                refTitle: '요것만 살짝 피해주세요! (Avoid)',
-                refDesc: '다음 분리수거 하실 분들을 위해 라벨을 떼지 않거나 쓰레기를 그대로 넣어 버리는 행위는 삼가해 주세요!',
+                refTitle: '이것만 피해주세요 (Avoid)',
+                refDesc: '라벨이 붙어 있거나 부피를 줄이지 않은 배출은 제외됩니다.',
                 refDetails: [
-                  '브랜드 비닐 라벨이 끈질기게 붙어있는 상태',
-                  '찌그러뜨리지 않고 부피가 가득한 물병 배출',
-                  '박스에 부착된 운송장 스티커/테이프 미제거'
+                  '브랜드 비닐 라벨이 그대로 붙어있는 페트병',
+                  '부피 축소 없이 원형 그대로 배출',
+                  '택배 상자 송장이나 테이프 미제거'
                 ],
                 refSvg: (
                   <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-rose-400" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1413,18 +1411,17 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                     </defs>
                   </svg>
                 ),
-                tip: '페트병 라벨을 뜯는 역동적인 순간이나, 꾹 밟아 슬림해진 재활용 병을 분리배출함에 넣는 장면을 찍어주시면 가뿐하게 한 방 인정 통과!'
+                tip: '라벨을 떼는 손길이나 찌그러진 병을 분리수거함에 넣는 간단한 모습 모두 통과!'
               },
               {
                 id: 'ECOBAG',
                 title: '👜 장바구니 & 에코백 사용',
                 tag: 'ECO BAG',
-                approvedTitle: '100% 프리패스 인정! (Approved)',
-                approvedDesc: '마트나 편의점에서 비닐봉지 대신 에코백/장바구니를 지참한 모습! 내용물이 비어 있어도 대환영!',
+                approvedTitle: '100% 승인 (Approved)',
+                approvedDesc: '마트나 편의점에서 일회용 비닐 대신 에코백/장바구니를 사용해 주세요. 가방이 비어 있어도 통과!',
                 approvedDetails: [
-                  '에코백/장바구니 안에 과자 한 봉지, 음료 하나만 있어도 당연히 인정!',
-                  '꼭 물건을 담지 않았더라도 마트/편의점에서 가방을 들고 있는 사진',
-                  '등교길이나 외출 시 에코백을 착용한 다정한 모습'
+                  '에코백/장바구니 속에 소량의 물건을 담은 모습',
+                  '등교나 외출 시 에코백을 메고 있는 일상 샷'
                 ],
                 approvedSvg: (
                   <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-emerald-400" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1452,12 +1449,11 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                     </defs>
                   </svg>
                 ),
-                refTitle: '요것만 살짝 피해주세요! (Avoid)',
-                refDesc: '탄소 배출을 줄이기 위한 에코백/장바구니 챌린지 취지에 맞지 않는 일회용품 사용은 지양해 주세요!',
+                refTitle: '이것만 피해주세요 (Avoid)',
+                refDesc: '친환경 실천 취지와 무관한 일회용품 사용은 제외됩니다.',
                 refDetails: [
-                  '에코백은 아예 없고 일회용 비닐봉투만 잔뜩 가득한 사진',
-                  '본인의 가방이 아니거나 인터넷 쇼핑몰의 에코백 상세페이지 캡처본',
-                  '타인의 사진을 무단 도용하여 올린 경우'
+                  '에코백 없이 일회용 비닐봉투만 단독 인증',
+                  '타인의 에코백 사진을 무단 복제하여 제출'
                 ],
                 refSvg: (
                   <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-rose-450" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1478,18 +1474,18 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                     </defs>
                   </svg>
                 ),
-                tip: '장바구니 안에 값비싼 물건이나 무거운 장거리가 들어있지 않아도 돼요! 일회용 비닐봉투를 거부하고 에코백을 지참한 실천 의지만 있다면 언제나 100% 승인입니다!'
+                tip: '장바구니가 비어 있어도 무방합니다. 일회용 비닐봉투를 거절한 흔적이면 충분해요!'
               },
               {
                 id: 'CLEANPLATE',
                 title: '🍽️ 깨끗하게 비운 잔반 제로',
                 tag: 'CLEAN PLATE',
-                approvedTitle: '100% 프리패스 인정! (Approved)',
-                approvedDesc: '남김없이 기분 좋게 다 비워낸 그릇! 약간의 소스나 국물, 과일 씨앗, 뼈다귀 등은 당연히 너그럽게 통과!',
+                approvedTitle: '100% 승인 (Approved)',
+                approvedDesc: '기분 좋게 다 비워낸 그릇! 약간의 소스나 국물, 과일 씨앗, 뼈 등은 당연히 참작됩니다.',
                 approvedDetails: [
-                  '식사를 다 마친 뒤의 깨끗해진 밥그릇, 접시, 혹은 급식 식판',
-                  '다 먹은 그릇 바닥에 소량의 양념, 파, 고추장 소스가 묻어있어도 100% 오케이!',
-                  '학식, 동아리 모임 식사, 배달 용기, 가정식 모두 완전 환영!'
+                  '식사 후 깨끗하게 비운 접시, 밥그릇, 급식 식판',
+                  '그릇 바닥에 약간의 소스나 고추장이 묻은 상태',
+                  '학식, 배달 용기, 집밥 등 모든 식판/식기 환영'
                 ],
                 approvedSvg: (
                   <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-emerald-400" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1522,12 +1518,12 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                     </defs>
                   </svg>
                 ),
-                refTitle: '요것만 살짝 피해주세요! (Avoid)',
-                refDesc: '잔반 제로 캠페인을 통해 음식물 쓰레기를 줄이는 취지에 함께 동참해 주세요!',
+                refTitle: '이것만 피해주세요 (Avoid)',
+                refDesc: '음식 쓰레기를 줄이는 취지이므로, 주메뉴를 대량 남긴 컷은 피해 주세요.',
                 refDetails: [
-                  '밥이나 주메뉴(고기, 면 등)를 그대로 대량 남긴 상태의 사진',
-                  '식사 전의 수북하게 잘 차려진 음식 사진만 올리고 다 먹었다고 주장하는 경우',
-                  '타인의 다 먹은 그릇 사진을 무단 복제하여 제출한 사진'
+                  '밥이나 주메뉴(고기, 면 등)를 대량 남긴 사진',
+                  '식사 전 가득 담긴 음식 사진만 업로드한 경우',
+                  '타인의 다 먹은 그릇 사진 도용'
                 ],
                 refSvg: (
                   <svg viewBox="0 0 200 200" className="w-full h-full max-h-[110px] mx-auto text-rose-400" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1558,7 +1554,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                     </defs>
                   </svg>
                 ),
-                tip: '양념 소스나 깍두기 국물 한 방울, 혹은 발라낸 고기 뼈 때문에 걱정하지 마세요! 남김없이 맛있게 먹으려고 노력한 흔적만 보여도 100% 즉시 승인됩니다!'
+                tip: '약간의 양념 흔적이나 고기 뼈 등은 걱정 마세요! 비우려고 노력한 흔적만 보이면 즉시 승인됩니다.'
               }
             ];
 
