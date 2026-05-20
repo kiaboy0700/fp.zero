@@ -546,6 +546,33 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
             </div>
           </div>
 
+          {/* E. 🎁 챌린저 감성 리워드 라인업 (상단 미니 배치) */}
+          <div className="space-y-2.5 pt-2">
+            <h4 className="text-xs font-black text-slate-400 flex items-center justify-center md:justify-start gap-2">
+              <span className="text-[9px] text-emerald-400 font-black px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 tracking-wider">REWARDS</span>
+              이번 주 챌린저에게 쏟아지는 감성 친환경 굿즈 라인업 🎁
+            </h4>
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+              {products.map((p, idx) => (
+                <a
+                  key={idx}
+                  href={p.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="bg-slate-900/40 border border-slate-800/80 hover:border-emerald-500/30 p-2.5 rounded-xl flex items-center gap-2.5 hover:scale-[1.02] transition group"
+                >
+                  <span className="text-2xl group-hover:scale-110 transition shrink-0">{p.emoji}</span>
+                  <div className="min-w-0 flex-1">
+                    <span className="text-[9px] text-slate-500 font-bold block leading-none mb-0.5">{p.winner} 추첨</span>
+                    <span className="text-[11px] font-black text-slate-300 group-hover:text-emerald-400 transition truncate block leading-tight" title={p.name}>
+                      {p.name}
+                    </span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+
           {/* D. 🌍 챌린저 공동 목표 실시간 탄소 감량 현황판 (초슬림 & 초경량화) */}
           <div className="bg-slate-950/60 backdrop-blur-md border border-emerald-500/20 rounded-2xl p-4 md:p-5 shadow-xl animate-fadeIn">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-3">
