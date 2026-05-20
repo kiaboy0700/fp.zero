@@ -43,6 +43,7 @@ export default function CarbonChallengeLandingPage() {
   ];
   const [activeSection, setActiveSection] = useState('home');
   const [sidebarPosition, setSidebarPosition] = useState('right'); // 'left' | 'right'
+  const [isCollapsed, setIsCollapsed] = useState(false); // 퀵네비 기본 상시 노출 여부 (false = 펼침 상태)
 
   // 📍 스크롤 위치 감지 및 내비게이션 활성화 훅 (IntersectionObserver)
   useEffect(() => {
@@ -1697,22 +1698,42 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
 
       {/* 📍 사이드 플로팅 퀵 내비게이션 바 (Floating Sidebar Menu) */}
       <aside 
-        className={`fixed top-1/2 -translate-y-1/2 z-50 hidden sm:flex flex-col gap-4 bg-slate-950/90 border border-slate-800/90 backdrop-blur-lg py-5 px-3 rounded-[32px] shadow-2xl hover:border-emerald-500/30 transition-all duration-500 ease-out group w-14 hover:w-48 overflow-hidden ${
+        className={`fixed top-1/2 -translate-y-1/2 z-50 hidden sm:flex flex-col gap-4 bg-slate-950/90 border border-slate-800/90 backdrop-blur-lg py-5 px-3 rounded-[32px] shadow-2xl hover:border-emerald-500/30 transition-all duration-500 ease-out group overflow-hidden ${
           sidebarPosition === 'right' ? 'right-3 md:right-6' : 'left-3 md:left-6'
+        } ${
+          isCollapsed ? 'w-14 hover:w-48' : 'w-48'
         }`}
       >
-        {/* 🔄 좌/우 위치 토글 버튼 */}
-        <div className="flex items-center justify-between border-b border-slate-850/60 pb-2 mb-1 w-full overflow-hidden">
-          <span className="text-[9px] font-black text-slate-500 tracking-wider select-none uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300 pl-2">
+        {/* 🔄 상단 제어 헤더 (위치 토글 및 접기/펼치기 옵션 스위치) */}
+        <div className="flex items-center justify-between border-b border-slate-850/60 pb-2 mb-1 w-full overflow-hidden shrink-0">
+          <span className={`text-[9px] font-black text-slate-500 tracking-wider select-none uppercase pl-2 transition-opacity duration-300 ${
+            isCollapsed ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'
+          }`}>
             Quick Nav
           </span>
-          <button
-            onClick={() => setSidebarPosition(prev => prev === 'right' ? 'left' : 'right')}
-            title={sidebarPosition === 'right' ? "왼쪽으로 이동" : "오른쪽으로 이동"}
-            className="flex items-center justify-center w-7 h-7 rounded-full bg-slate-900/80 hover:bg-emerald-500/20 text-slate-400 hover:text-emerald-450 border border-slate-800/80 transition duration-300 cursor-pointer hover:rotate-180 shrink-0"
-          >
-            <span className="text-xs font-bold">⇄</span>
-          </button>
+          <div className="flex items-center gap-1.5 shrink-0 pl-1 ml-auto">
+            {/* 좌우 위치 토글 */}
+            <button
+              onClick={() => setSidebarPosition(prev => prev === 'right' ? 'left' : 'right')}
+              title={sidebarPosition === 'right' ? "왼쪽으로 이동" : "오른쪽으로 이동"}
+              className="flex items-center justify-center w-6 h-6 rounded-full bg-slate-900/80 hover:bg-emerald-500/20 text-slate-400 hover:text-emerald-450 border border-slate-800/80 transition duration-300 cursor-pointer hover:rotate-180 shrink-0"
+            >
+              <span className="text-[10px] font-bold">⇄</span>
+            </button>
+
+            {/* 접기/펼치기 토글 */}
+            <button
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              title={isCollapsed ? "상시 펼치기 고정" : "미니멀하게 접어두기"}
+              className="flex items-center justify-center w-6 h-6 rounded-full bg-slate-900/80 hover:bg-emerald-500/20 text-slate-400 hover:text-emerald-450 border border-slate-800/80 transition duration-300 cursor-pointer shrink-0"
+            >
+              <span className="text-[10px] font-black leading-none">
+                {isCollapsed 
+                  ? (sidebarPosition === 'right' ? '◀' : '▶') 
+                  : (sidebarPosition === 'right' ? '▶' : '◀')}
+              </span>
+            </button>
+          </div>
         </div>
 
         {/* 🔗 내비게이션 메뉴 목록 */}
@@ -1747,9 +1768,13 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                   {icon}
                 </span>
 
-                {/* 슬라이딩 텍스트 라벨 (호버 시 자연스럽게 펼쳐짐) */}
-                <span className={`text-[11px] font-black tracking-tight transition-all duration-300 whitespace-nowrap overflow-hidden select-none opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 ${
+                {/* 슬라이딩 텍스트 라벨 (상시 노출 및 접힌 상태 호버 동기화) */}
+                <span className={`text-[11px] font-black tracking-tight transition-all duration-350 whitespace-nowrap overflow-hidden select-none ${
                   isSelfActive ? 'text-emerald-400 font-extrabold' : 'text-slate-400'
+                } ${
+                  isCollapsed 
+                    ? 'opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0' 
+                    : 'opacity-100 translate-x-0'
                 }`}>
                   {name}
                 </span>
