@@ -681,10 +681,10 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
             <div className="relative w-full bg-slate-800 h-4.5 rounded-full overflow-hidden border border-slate-700/50">
               <div
                 className="absolute top-0 left-0 bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(16,185,129,0.4)]"
-                style={{ width: `${Math.min(((stats.totalActions * 100) / 50000) * 100, 100)}%` }}
+                style={{ width: `${Math.min(((stats.totalActions * 100) / 5000) * 100, 100)}%` }}
               ></div>
               <span className="absolute inset-0 flex items-center justify-center text-[9px] md:text-[10px] font-black text-white drop-shadow-md">
-                {(stats.totalActions * 100).toLocaleString()}g / 50,000g CO₂ 저감 ({Math.min(((stats.totalActions * 100) / 50000) * 100, 100).toFixed(1)}%)
+                {(stats.totalActions * 100).toLocaleString()}g / 5,000g CO₂ 저감 ({Math.min(((stats.totalActions * 100) / 5000) * 100, 100).toFixed(1)}%)
               </span>
             </div>
             
