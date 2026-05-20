@@ -727,7 +727,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                             <span className="text-2xl font-extrabold text-emerald-400">{topThree[1].count}</span>
                             <span className="text-xs text-slate-400">회 인증</span>
                           </div>
-                          <p className="text-[9px] text-slate-500 font-medium">최초: {topThree[1].date?.split(' ')[0] || ''}</p>
+                          <p className="text-[9px] text-slate-500 font-medium">최초: {topThree[1].date || ''}</p>
                         </div>
                       )}
 
@@ -741,7 +741,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                             <span className="text-3xl font-black text-emerald-400">{topThree[0].count}</span>
                             <span className="text-xs text-emerald-200 font-bold">회 인증</span>
                           </div>
-                          <p className="text-[9px] text-emerald-500/70 font-semibold">최초: {topThree[0].date?.split(' ')[0] || ''}</p>
+                          <p className="text-[9px] text-emerald-500/70 font-semibold">최초: {topThree[0].date || ''}</p>
                         </div>
                       )}
 
@@ -755,7 +755,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                             <span className="text-2xl font-extrabold text-emerald-400">{topThree[2].count}</span>
                             <span className="text-xs text-slate-400">회 인증</span>
                           </div>
-                          <p className="text-[9px] text-slate-500 font-medium">최초: {topThree[2].date?.split(' ')[0] || ''}</p>
+                          <p className="text-[9px] text-slate-500 font-medium">최초: {topThree[2].date || ''}</p>
                         </div>
                       )}
                     </div>
