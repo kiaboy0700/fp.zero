@@ -548,9 +548,12 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
 
           {/* E. 🎁 챌린저 감성 리워드 라인업 (상단 미니 배치) */}
           <div className="space-y-2.5 pt-2">
-            <h4 className="text-xs font-black text-slate-400 flex items-center justify-center md:justify-start gap-2">
+            <h4 className="text-xs font-black text-slate-400 flex flex-wrap items-center justify-center md:justify-start gap-2">
               <span className="text-[9px] text-emerald-400 font-black px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 tracking-wider">REWARDS</span>
               이번 주 챌린저에게 쏟아지는 감성 친환경 굿즈 라인업 🎁
+              <span className="text-[9px] text-amber-400 font-extrabold bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-full mt-1 md:mt-0">
+                ⚡ 1등 특전: 추첨 제외 & 원하는 굿즈 1종 우선 선택·선점권!
+              </span>
             </h4>
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
               {products.map((p, idx) => (
@@ -738,9 +741,12 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
               <div className="lg:col-span-7 h-full flex flex-col">
                 {!loading && !error && leaderboard.length > 0 && (
                   <div className="bg-slate-900/40 border border-slate-800/80 rounded-[32px] p-6 shadow-2xl backdrop-blur-sm flex-grow flex flex-col justify-center min-h-[380px]">
-                    <h3 className="text-xl font-black text-slate-100 mb-6 text-center flex items-center justify-center gap-2">
+                    <h3 className="text-xl font-black text-slate-100 mb-1.5 text-center flex items-center justify-center gap-2">
                       👑 명예의 전당 TOP 3
                     </h3>
+                    <p className="text-[10px] text-emerald-400 font-black text-center mb-6 max-w-sm mx-auto leading-relaxed bg-emerald-500/10 border border-emerald-500/20 py-1 px-3.5 rounded-full inline-block self-center">
+                      ⚡ 1등 독점 혜택: 추첨 제외 & 원하는 상품 1종 우선 선택·선점권! 🎁
+                    </p>
                     
                     <div className="flex flex-col sm:flex-row items-stretch sm:items-end justify-center gap-4 max-w-xl mx-auto w-full">
                       
@@ -760,7 +766,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
 
                       {/* 1등 골드 포디움 */}
                       {topThree[0] && (
-                        <div className="order-1 sm:order-2 flex-1 bg-gradient-to-b from-emerald-950/30 to-slate-900/80 border-2 border-emerald-500/60 rounded-3xl p-5 shadow-2xl hover:scale-[1.04] hover:-translate-y-1.5 transition duration-300 text-center relative overflow-hidden flex flex-col justify-between min-h-[230px] ring-4 ring-emerald-500/10">
+                        <div className="order-1 sm:order-2 flex-1 bg-gradient-to-b from-emerald-950/30 to-slate-900/80 border-2 border-emerald-500/60 rounded-3xl p-5 shadow-2xl hover:scale-[1.04] hover:-translate-y-1.5 transition duration-300 text-center relative overflow-hidden flex flex-col justify-between min-h-[250px] ring-4 ring-emerald-500/10">
                           <div className="absolute top-0 right-0 left-0 bg-emerald-500/20 py-1 text-[10px] font-black text-emerald-300 tracking-wider uppercase">LEADER</div>
                           <div className="text-4xl mt-5 mb-1.5">👑 🥇</div>
                           <h4 className="text-base font-black truncate text-slate-100">{topThree[0].username}</h4>
@@ -768,7 +774,10 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
                             <span className="text-3xl font-black text-emerald-400">{topThree[0].count}</span>
                             <span className="text-xs text-emerald-200 font-bold">회 인증</span>
                           </div>
-                          <p className="text-[9px] text-emerald-500/70 font-semibold">최초: {topThree[0].date || ''}</p>
+                          <p className="text-[9px] text-emerald-500/70 font-semibold mb-2">최초: {topThree[0].date || ''}</p>
+                          <span className="text-[9px] text-emerald-300 font-bold bg-emerald-500/20 py-1 px-2 rounded-lg leading-normal block">
+                            🎁 원하는 상품 1종 선점권 (추첨 제외)
+                          </span>
                         </div>
                       )}
 
@@ -1117,7 +1126,7 @@ ${todayChecks.tumbler ? '☕ 텀블러/다회용 컵 사용 (+100g)\n' : ''}${to
               가장 탐나는 역대급 친환경 라인업
             </h2>
             <p className="text-slate-400 mt-4 max-w-2xl mx-auto">
-              경산시 탄소중립지원센터 퍼스트펭귄 팀이 엄선한, 일상의 감성을 더해줄 하이엔드 업사이클링 및 제로웨이스트 상품들입니다.
+              경산시 탄소중립지원센터 퍼스트펭귄 팀이 엄선한, 일상의 감성을 더해줄 하이엔드 업사이클링 및 제로웨이스트 상품들입니다. <span className="text-amber-400 font-extrabold block mt-2 text-xs md:text-sm">🔥 1등 특전: 명예의 전당 1위 달성자는 모든 추첨에서 제외되며, 위 상품 라인업 중 원하는 굿즈 1종을 최우선으로 선점하여 받아가실 수 있습니다!</span>
             </p>
           </div>
 
